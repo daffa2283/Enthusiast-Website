@@ -11,6 +11,7 @@
                 <li><a href="{{ route('home') }}">Home</a></li>
                 <li><a href="{{ route('products') }}">Products</a></li>
                 <li><a href="{{ route('about') }}">About</a></li>
+                <li><a href="{{ route('checkout.track') }}">Track Order</a></li>
             </ul>
         </div>
 
@@ -60,6 +61,7 @@
             <li><a href="{{ route('home') }}">Home</a></li>
             <li><a href="{{ route('products') }}">Products</a></li>
             <li><a href="{{ route('about') }}">About</a></li>
+            <li><a href="{{ route('checkout.track') }}">Track Order</a></li>
         </ul>
         <div class="mobile-search-container">
             <form action="{{ route('search') }}" method="GET" class="mobile-search-form">
@@ -484,7 +486,7 @@
 /* Responsive Design */
 @media (max-width: 1200px) {
     .nav-links {
-        gap: 2.5rem;
+        gap: 2rem;
     }
     
     .search-container {
@@ -494,7 +496,7 @@
 
 @media (max-width: 1024px) {
     .nav-links {
-        gap: 2rem;
+        gap: 1.5rem;
     }
     
     .search-container {
@@ -508,7 +510,7 @@
 
 @media (max-width: 900px) {
     .nav-links {
-        gap: 1.5rem;
+        gap: 1.2rem;
     }
     
     .nav-links a {
@@ -626,7 +628,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         container.innerHTML = suggestions.map(product => `
             <div class="search-suggestion" onclick="window.location.href='{{ route('products') }}?search=${encodeURIComponent(product.name)}'">
-                <img src="{{ asset('storage/' . $product->image) }}" alt="${product.name}" class="suggestion-image">
+                <img src="${product.image}" alt="${product.name}" class="suggestion-image">
                 <div class="suggestion-details">
                     <div class="suggestion-name">${product.name}</div>
                     <div class="suggestion-price">${product.formatted_price}</div>

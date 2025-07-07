@@ -14,6 +14,7 @@ class Product extends Model
         'description',
         'price',
         'image',
+        'back_image',  // Tambahkan ini
         'category',
         'stock',
         'is_active',
@@ -63,5 +64,14 @@ class Product extends Model
             return asset('storage/' . $this->image);
         }
         return asset('images/default-product.jpg');
+    }
+
+    // Tambahkan accessor untuk URL gambar belakang
+    public function getBackImageUrlAttribute()
+    {
+        if ($this->back_image) {
+            return asset('storage/' . $this->back_image);
+        }
+        return $this->image_url; // Gunakan gambar depan jika tidak ada gambar belakang
     }
 }

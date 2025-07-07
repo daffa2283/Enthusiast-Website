@@ -193,4 +193,10 @@ class HomeController extends Controller
             'message' => 'Product removed from cart successfully!'
         ]);
     }
+
+    public function productDetail($id)
+    {
+        $product = Product::findOrFail($id);
+        return view('product-detail', compact('product'));
+    }
 }

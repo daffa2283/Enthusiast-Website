@@ -29,6 +29,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/script.js') }}"></script>
+    <!-- Di bagian bawah file, sebelum penutup tag body -->
     @stack('scripts')
-</body>
-</html>
+    </body>
+    </html>

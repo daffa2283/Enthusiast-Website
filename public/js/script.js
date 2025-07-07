@@ -40,3 +40,15 @@ document.addEventListener('DOMContentLoaded', function() {
         cartCounter.textContent = cartCount;
     }
 });
+
+// Quick View functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const quickViewButtons = document.querySelectorAll('.quick-view');
+    
+    quickViewButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const productId = this.dataset.productId;
+            window.location.href = `/product/${productId}`;
+        });
+    });
+});

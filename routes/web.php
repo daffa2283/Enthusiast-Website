@@ -40,3 +40,6 @@ Route::get('/track-order', [CheckoutController::class, 'trackOrder'])->name('che
 // Cart functionality
 Route::post('/cart/add', [HomeController::class, 'addToCart'])->name('cart.add');
 Route::post('/cart/remove', [HomeController::class, 'removeFromCart'])->name('cart.remove');
+
+// Product detail page
+Route::get('/product/{id}', [HomeController::class, 'productDetail'])->name('product.detail');

@@ -92,6 +92,7 @@ class ProductResource extends Resource
                 Forms\Components\Section::make('Product Image')
                     ->schema([
                         FileUpload::make('image')
+                            ->label('Front Image')
                             ->image()
                             ->directory('products')
                             ->visibility('public')
@@ -101,8 +102,22 @@ class ProductResource extends Resource
                                 '4:3',
                                 '16:9',
                             ])
-                            ->columnSpanFull(),
-                    ]),
+                            ->columnSpan(1),
+                            
+                        FileUpload::make('back_image')
+                            ->label('Back Image')
+                            ->image()
+                            ->directory('products')
+                            ->visibility('public')
+                            ->imageEditor()
+                            ->imageEditorAspectRatios([
+                                '1:1',
+                                '4:3',
+                                '16:9',
+                            ])
+                            ->columnSpan(1),
+                    ])
+                    ->columns(2),
             ]);
     }
 
@@ -110,10 +125,6 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
-                ImageColumn::make('image')
-                    ->size(60)
-                    ->square(),
-                
                 TextColumn::make('name')
                     ->searchable()
                     ->sortable()
