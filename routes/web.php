@@ -61,20 +61,3 @@ Route::middleware('auth')->group(function () {
 
 // Authentication routes
 require __DIR__.'/auth.php';
-=======
-// Product quick view
-Route::get('/product/quick-view/{id}', [HomeController::class, 'quickView'])->name('product.quick-view');
-
-// Dashboard (protected route)
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth'])->name('dashboard');
-
-// Profile routes (protected)
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-// Authentication routes
-require __DIR__.'/auth.php';
->>>>>>> 83dd016 (feat: Add comprehensive authentication system and enhanced user experience)
