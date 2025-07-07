@@ -47,6 +47,58 @@
                 </div>
             </a>
 
+            <!-- User Authentication -->
+            @auth
+                <div class="user-menu">
+                    <button class="user-menu-toggle" id="userMenuToggle">
+                        <div class="user-avatar">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                        </div>
+                        <span class="user-name">{{ auth()->check() ? auth()->user()->name : 'User' }}</span>
+                        <svg class="dropdown-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6,9 12,15 18,9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="user-dropdown" id="userDropdown">
+                        <a href="{{ route('profile.edit') }}" class="dropdown-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            Profile
+                        </a>
+                        <a href="{{ route('dashboard') }}" class="dropdown-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="9" y1="9" x2="15" y2="15"></line>
+                                <line x1="15" y1="9" x2="9" y2="15"></line>
+                            </svg>
+                            Dashboard
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <form method="POST" action="{{ route('logout') }}" class="dropdown-form">
+                            @csrf
+                            <button type="submit" class="dropdown-item logout-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                    <polyline points="16,17 21,12 16,7"></polyline>
+                                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                                </svg>
+                                Logout
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            @else
+                <div class="auth-links">
+                    <a href="{{ route('login') }}" class="auth-link login-link">Login</a>
+                    <a href="{{ route('register') }}" class="auth-link register-link">Register</a>
+                </div>
+            @endauth
+
             <button class="mobile-menu-toggle" id="mobileMenuToggle">
                 <span></span>
                 <span></span>
@@ -63,6 +115,35 @@
             <li><a href="{{ route('about') }}">About</a></li>
             <li><a href="{{ route('checkout.track') }}">Track Order</a></li>
         </ul>
+        
+        <!-- Mobile Authentication -->
+        @auth
+            <div class="mobile-user-section">
+                <div class="mobile-user-info">
+                    <div class="mobile-user-avatar">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </div>
+                    <span class="mobile-user-name">{{ auth()->check() ? auth()->user()->name : 'User' }}</span>
+                </div>
+                <div class="mobile-user-links">
+                    <a href="{{ route('profile.edit') }}" class="mobile-auth-link">Profile</a>
+                    <a href="{{ route('dashboard') }}" class="mobile-auth-link">Dashboard</a>
+                    <form method="POST" action="{{ route('logout') }}" class="mobile-logout-form">
+                        @csrf
+                        <button type="submit" class="mobile-auth-link logout-btn">Logout</button>
+                    </form>
+                </div>
+            </div>
+        @else
+            <div class="mobile-auth-section">
+                <a href="{{ route('login') }}" class="mobile-auth-link">Login</a>
+                <a href="{{ route('register') }}" class="mobile-auth-link">Register</a>
+            </div>
+        @endauth
+        
         <div class="mobile-search-container">
             <form action="{{ route('search') }}" method="GET" class="mobile-search-form">
                 <div class="mobile-search-wrapper">
@@ -370,6 +451,165 @@
     }
 }
 
+/* Authentication Styles */
+.auth-links {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.auth-link {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.login-link {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.3);
+}
+
+.login-link:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: #FF3B3F;
+    color: #FF3B3F;
+}
+
+.register-link {
+    background: linear-gradient(135deg, #FF3B3F, #e63946);
+    border: 1px solid #FF3B3F;
+}
+
+.register-link:hover {
+    background: linear-gradient(135deg, #e63946, #d62d20);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 59, 63, 0.3);
+}
+
+/* User Menu Styles */
+.user-menu {
+    position: relative;
+}
+
+.user-menu-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 12px;
+    padding: 8px 12px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+}
+
+.user-menu-toggle:hover {
+    background: rgba(255,255,255,0.15);
+    border-color: #FF3B3F;
+}
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #FF3B3F, #e63946);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.user-name {
+    font-weight: 500;
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.dropdown-arrow {
+    transition: transform 0.3s ease;
+}
+
+.user-menu-toggle.active .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+.user-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    min-width: 200px;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+}
+
+.user-dropdown.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    color: #1a1a1a;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s ease;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+}
+
+.dropdown-item:hover {
+    background: #f8f9fa;
+}
+
+.dropdown-item:first-child {
+    border-radius: 12px 12px 0 0;
+}
+
+.dropdown-item:last-child {
+    border-radius: 0 0 12px 12px;
+}
+
+.dropdown-divider {
+    height: 1px;
+    background: #e5e5e5;
+    margin: 8px 0;
+}
+
+.dropdown-form {
+    margin: 0;
+}
+
+.logout-btn {
+    color: #dc2626 !important;
+}
+
+.logout-btn:hover {
+    background: #fef2f2 !important;
+}
+
 /* Mobile Menu Toggle */
 .mobile-menu-toggle {
     display: none;
@@ -439,6 +679,75 @@
     color: #FF3B3F;
 }
 
+/* Mobile Authentication Styles */
+.mobile-auth-section,
+.mobile-user-section {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 1rem;
+    margin-top: 1rem;
+}
+
+.mobile-user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    margin-bottom: 1rem;
+}
+
+.mobile-user-avatar {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #FF3B3F, #e63946);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.mobile-user-name {
+    color: white;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.mobile-user-links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.mobile-auth-link {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 16px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    transition: color 0.3s ease;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    width: 100%;
+}
+
+.mobile-auth-link:hover {
+    color: #FF3B3F;
+}
+
+.mobile-logout-form {
+    margin: 0;
+}
+
+.mobile-auth-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
 .mobile-search-container {
     margin-top: 1rem;
 }
@@ -506,6 +815,19 @@
     .nav-links a {
         font-size: 15px;
     }
+    
+    .user-name {
+        display: none;
+    }
+    
+    .auth-links {
+        gap: 0.5rem;
+    }
+    
+    .auth-link {
+        padding: 6px 12px;
+        font-size: 13px;
+    }
 }
 
 @media (max-width: 900px) {
@@ -532,6 +854,11 @@
     }
     
     .search-container {
+        display: none;
+    }
+    
+    .auth-links,
+    .user-menu {
         display: none;
     }
     
@@ -572,6 +899,26 @@ document.addEventListener('DOMContentLoaded', function() {
         mobileMenuToggle.addEventListener('click', function() {
             mobileMenu.classList.toggle('active');
             mobileMenuToggle.classList.toggle('active');
+        });
+    }
+    
+    // User menu functionality
+    const userMenuToggle = document.getElementById('userMenuToggle');
+    const userDropdown = document.getElementById('userDropdown');
+    
+    if (userMenuToggle && userDropdown) {
+        userMenuToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            userDropdown.classList.toggle('show');
+            userMenuToggle.classList.toggle('active');
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!userMenuToggle.contains(e.target) && !userDropdown.contains(e.target)) {
+                userDropdown.classList.remove('show');
+                userMenuToggle.classList.remove('active');
+            }
         });
     }
     
@@ -643,11 +990,13 @@ document.addEventListener('DOMContentLoaded', function() {
     setupSearchSuggestions(searchInput, searchSuggestions);
     
     // Close mobile menu when clicking on links
-    const mobileNavLinks = document.querySelectorAll('.mobile-nav-links a');
+    const mobileNavLinks = document.querySelectorAll('.mobile-nav-links a, .mobile-auth-link');
     mobileNavLinks.forEach(link => {
         link.addEventListener('click', function() {
-            mobileMenu.classList.remove('active');
-            mobileMenuToggle.classList.remove('active');
+            if (this.type !== 'submit') { // Don't close for logout button
+                mobileMenu.classList.remove('active');
+                mobileMenuToggle.classList.remove('active');
+            }
         });
     });
 });

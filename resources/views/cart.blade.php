@@ -446,9 +446,15 @@
                         <span class="total-value">Rp. {{ number_format($total, 0, ',', '.') }}</span>
                     </div>
                     
-                    <a href="{{ route('checkout.index') }}" class="checkout-btn" style="text-decoration: none; display: block; text-align: center;">
-                        Proceed to Checkout
-                    </a>
+                    @auth
+                        <a href="{{ route('checkout.index') }}" class="checkout-btn" style="text-decoration: none; display: block; text-align: center;">
+                            Proceed to Checkout
+                        </a>
+                    @else
+                        <a href="{{ route('login') }}" class="checkout-btn" style="text-decoration: none; display: block; text-align: center; opacity: 0.6; pointer-events: auto; cursor: not-allowed;">
+                            Login to Checkout
+                        </a>
+                    @endauth
                     
                     <div class="continue-shopping">
                         <a href="{{ route('products') }}">← Continue Shopping</a>

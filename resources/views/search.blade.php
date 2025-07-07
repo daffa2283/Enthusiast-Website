@@ -327,10 +327,17 @@
                         <div class="product-details">
                             <h3 class="product-name">{{ $product->name }}</h3>
                             <p class="product-price">{{ $product->formatted_price }}</p>
-                            <button class="add-to-cart" data-product-id="{{ $product->id }}">
-                                <span>Add to Cart</span>
-                                <svg viewBox="0 0 12 12"><path d="M10.7 3.3c-.4-.4-1-.4-1.4 0L5 7.6 1.7 4.3c-.4-.4-1-.4-1.4 0s-.4 1 0 1.4l4 4c.2.2.5.3.7.3s.5-.1.7-.3l5-5c.4-.4.4-1 0-1.4z"/></svg>
-                            </button>
+                            @auth
+                                <button class="add-to-cart" data-product-id="{{ $product->id }}">
+                                    <span>Add to Cart</span>
+                                    <svg viewBox="0 0 12 12"><path d="M10.7 3.3c-.4-.4-1-.4-1.4 0L5 7.6 1.7 4.3c-.4-.4-1-.4-1.4 0s-.4 1 0 1.4l4 4c.2.2.5.3.7.3s.5-.1.7-.3l5-5c.4-.4.4-1 0-1.4z"/></svg>
+                                </button>
+                            @else
+                                <a href="{{ route('login') }}" class="add-to-cart" style="opacity:0.6; pointer-events:auto; cursor:not-allowed; display:inline-flex; align-items:center; justify-content:center;">
+                                    <span>Add to Cart</span>
+                                    <svg viewBox="0 0 12 12"><path d="M10.7 3.3c-.4-.4-1-.4-1.4 0L5 7.6 1.7 4.3c-.4-.4-1-.4-1.4 0s-.4 1 0 1.4l4 4c.2.2.5.3.7.3s.5-.1.7-.3l5-5c.4-.4.4-1 0-1.4z"/></svg>
+                                </a>
+                            @endauth
                         </div>
                     </div>
                 @endforeach

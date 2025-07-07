@@ -69,6 +69,7 @@ class CheckoutController extends Controller
             
             // Create order
             $order = Order::create([
+                'user_id' => auth()->check() ? auth()->id() : null, // Link to user if logged in
                 'customer_name' => $request->customer_name,
                 'customer_email' => $request->customer_email,
                 'customer_phone' => $request->customer_phone,

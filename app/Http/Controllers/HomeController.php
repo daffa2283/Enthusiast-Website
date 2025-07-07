@@ -199,4 +199,189 @@ class HomeController extends Controller
         $product = Product::findOrFail($id);
         return view('product-detail', compact('product'));
     }
+    
+    public function quickView($id)
+    {
+        $product = Product::find($id);
+        
+        if (!$product) {
+            // Return default product data for demo purposes
+            $product = (object) [
+                'id' => $id,
+                'name' => $this->getDefaultProductName($id),
+                'description' => $this->getDefaultProductDescription($id),
+                'price' => $this->getDefaultProductPrice($id),
+                'formatted_price' => $this->getDefaultProductFormattedPrice($id),
+                'image' => $this->getDefaultProductImage($id),
+                'category' => 'Clothing',
+                'stock' => 10,
+                'size' => 'S, M, L, XL',
+                'color' => 'Black, White, Gray'
+            ];
+        }
+        
+        return response()->json([
+            'success' => true,
+            'product' => [
+                'id' => $product->id,
+                'name' => $product->name,
+                'description' => $product->description ?? $this->getDefaultProductDescription($product->id),
+                'price' => $product->price ?? $this->getDefaultProductPrice($product->id),
+                'formatted_price' => $product->formatted_price ?? $this->getDefaultProductFormattedPrice($product->id),
+                'image' => $product->image ? asset('storage/' . $product->image) : $this->getDefaultProductImage($product->id),
+                'category' => $product->category ?? 'Clothing',
+                'stock' => $product->stock ?? 10,
+                'size' => $product->size ?? 'S, M, L, XL',
+                'color' => $product->color ?? 'Black, White, Gray'
+            ]
+        ]);
+    }
+    
+    private function getDefaultProductName($id)
+    {
+        $names = [
+            1 => 'Essential Crewneck',
+            2 => 'Premium Hoodie',
+            3 => 'Classic Tee',
+            4 => 'Street Hoodie'
+        ];
+        
+        return $names[$id] ?? 'Product ' . $id;
+    }
+    
+    private function getDefaultProductDescription($id)
+    {
+        $descriptions = [
+            1 => 'A comfortable and stylish crewneck perfect for everyday wear. Made from premium cotton blend for ultimate comfort.',
+            2 => 'Premium quality hoodie with soft fleece lining. Perfect for casual outings and staying cozy.',
+            3 => 'Classic t-shirt with modern fit. Essential piece for any wardrobe. Comfortable and versatile.',
+            4 => 'Street-style hoodie with urban design. Perfect for expressing your unique style.'
+        ];
+        
+        return $descriptions[$id] ?? 'High-quality product with excellent craftsmanship and attention to detail.';
+    }
+    
+    private function getDefaultProductPrice($id)
+    {
+        $prices = [
+            1 => 399000,
+            2 => 599000,
+            3 => 299000,
+            4 => 699000
+        ];
+        
+        return $prices[$id] ?? 399000;
+    }
+    
+    private function getDefaultProductFormattedPrice($id)
+    {
+        $price = $this->getDefaultProductPrice($id);
+        return 'Rp. ' . number_format($price, 0, ',', '.');
+    }
+    
+    private function getDefaultProductImage($id)
+    {
+        $images = [
+            1 => asset('images/MOCKUP DEPAN.jpeg.jpg'),
+            2 => asset('images/MOCKUP DEPAN11.jpeg.jpg'),
+            3 => asset('images/MOCKUP DEPAN.jpeg.jpg'),
+            4 => asset('images/MOCKUP DEPAN11.jpeg.jpg')
+        ];
+        
+        return $images[$id] ?? asset('images/MOCKUP DEPAN.jpeg.jpg');
+>>>>>>> 83dd016 (feat: Add comprehensive authentication system and enhanced user experience)
+    }
+=======
+    
+    public function quickView($id)
+    {
+        $product = Product::find($id);
+        
+        if (!$product) {
+            // Return default product data for demo purposes
+            $product = (object) [
+                'id' => $id,
+                'name' => $this->getDefaultProductName($id),
+                'description' => $this->getDefaultProductDescription($id),
+                'price' => $this->getDefaultProductPrice($id),
+                'formatted_price' => $this->getDefaultProductFormattedPrice($id),
+                'image' => $this->getDefaultProductImage($id),
+                'category' => 'Clothing',
+                'stock' => 10,
+                'size' => 'S, M, L, XL',
+                'color' => 'Black, White, Gray'
+            ];
+        }
+        
+        return response()->json([
+            'success' => true,
+            'product' => [
+                'id' => $product->id,
+                'name' => $product->name,
+                'description' => $product->description ?? $this->getDefaultProductDescription($product->id),
+                'price' => $product->price ?? $this->getDefaultProductPrice($product->id),
+                'formatted_price' => $product->formatted_price ?? $this->getDefaultProductFormattedPrice($product->id),
+                'image' => $product->image ? asset('storage/' . $product->image) : $this->getDefaultProductImage($product->id),
+                'category' => $product->category ?? 'Clothing',
+                'stock' => $product->stock ?? 10,
+                'size' => $product->size ?? 'S, M, L, XL',
+                'color' => $product->color ?? 'Black, White, Gray'
+            ]
+        ]);
+    }
+    
+    private function getDefaultProductName($id)
+    {
+        $names = [
+            1 => 'Essential Crewneck',
+            2 => 'Premium Hoodie',
+            3 => 'Classic Tee',
+            4 => 'Street Hoodie'
+        ];
+        
+        return $names[$id] ?? 'Product ' . $id;
+    }
+    
+    private function getDefaultProductDescription($id)
+    {
+        $descriptions = [
+            1 => 'A comfortable and stylish crewneck perfect for everyday wear. Made from premium cotton blend for ultimate comfort.',
+            2 => 'Premium quality hoodie with soft fleece lining. Perfect for casual outings and staying cozy.',
+            3 => 'Classic t-shirt with modern fit. Essential piece for any wardrobe. Comfortable and versatile.',
+            4 => 'Street-style hoodie with urban design. Perfect for expressing your unique style.'
+        ];
+        
+        return $descriptions[$id] ?? 'High-quality product with excellent craftsmanship and attention to detail.';
+    }
+    
+    private function getDefaultProductPrice($id)
+    {
+        $prices = [
+            1 => 399000,
+            2 => 599000,
+            3 => 299000,
+            4 => 699000
+        ];
+        
+        return $prices[$id] ?? 399000;
+    }
+    
+    private function getDefaultProductFormattedPrice($id)
+    {
+        $price = $this->getDefaultProductPrice($id);
+        return 'Rp. ' . number_format($price, 0, ',', '.');
+    }
+    
+    private function getDefaultProductImage($id)
+    {
+        $images = [
+            1 => asset('images/MOCKUP DEPAN.jpeg.jpg'),
+            2 => asset('images/MOCKUP DEPAN11.jpeg.jpg'),
+            3 => asset('images/MOCKUP DEPAN.jpeg.jpg'),
+            4 => asset('images/MOCKUP DEPAN11.jpeg.jpg')
+        ];
+        
+        return $images[$id] ?? asset('images/MOCKUP DEPAN.jpeg.jpg');
+>>>>>>> 83dd016 (feat: Add comprehensive authentication system and enhanced user experience)
+    }
 }
