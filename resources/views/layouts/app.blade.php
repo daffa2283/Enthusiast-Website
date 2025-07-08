@@ -29,6 +29,13 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/script.js') }}"></script>
+<<<<<<< HEAD
     @stack('scripts')
 </body>
 </html>
+=======
+    <!-- Di bagian bawah file, sebelum penutup tag body -->
+    @stack('scripts')
+    </body>
+    </html>
+>>>>>>> 82222bc52ccb8b3cd430cfa57b880d708a18ee3d

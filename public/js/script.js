@@ -39,4 +39,19 @@ document.addEventListener('DOMContentLoaded', function() {
         cartCount++;
         cartCounter.textContent = cartCount;
     }
+<<<<<<< HEAD
+=======
+});
+
+// Quick View functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const quickViewButtons = document.querySelectorAll('.quick-view');
+    
+    quickViewButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const productId = this.dataset.productId;
+            window.location.href = `/product/${productId}`;
+        });
+    });
+>>>>>>> 82222bc52ccb8b3cd430cfa57b880d708a18ee3d
 });

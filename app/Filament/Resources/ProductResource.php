@@ -28,13 +28,9 @@ class ProductResource extends Resource
     protected static ?string $model = Product::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-cube';
-
     protected static ?string $navigationLabel = 'Products';
-
     protected static ?string $modelLabel = 'Product';
-
     protected static ?string $pluralModelLabel = 'Products';
-
     protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
@@ -47,17 +43,17 @@ class ProductResource extends Resource
                             ->required()
                             ->maxLength(255)
                             ->columnSpan(2),
-                        
+
                         Textarea::make('description')
                             ->rows(4)
                             ->columnSpan(2),
-                        
+
                         TextInput::make('price')
                             ->required()
                             ->numeric()
                             ->prefix('Rp')
                             ->step(1000),
-                        
+
                         TextInput::make('stock')
                             ->required()
                             ->numeric()
@@ -75,14 +71,14 @@ class ProductResource extends Resource
                                 'accessories' => 'Accessories',
                             ])
                             ->required(),
-                        
+
                         TextInput::make('size')
                             ->placeholder('S,M,L,XL')
                             ->helperText('Separate sizes with commas'),
-                        
+
                         TextInput::make('color')
                             ->maxLength(255),
-                        
+
                         Toggle::make('is_active')
                             ->label('Active')
                             ->default(true),
@@ -92,6 +88,7 @@ class ProductResource extends Resource
                 Forms\Components\Section::make('Product Image')
                     ->schema([
                         FileUpload::make('image')
+                            ->label('Front Image')
                             ->image()
                             ->directory('products')
                             ->visibility('public')
@@ -101,8 +98,22 @@ class ProductResource extends Resource
                                 '4:3',
                                 '16:9',
                             ])
-                            ->columnSpanFull(),
-                    ]),
+                            ->columnSpan(1),
+
+                        FileUpload::make('back_image')
+                            ->label('Back Image')
+                            ->image()
+                            ->directory('products')
+                            ->visibility('public')
+                            ->imageEditor()
+                            ->imageEditorAspectRatios([
+                                '1:1',
+                                '4:3',
+                                '16:9',
+                            ])
+                            ->columnSpan(1),
+                    ])
+                    ->columns(2),
             ]);
     }
 
@@ -113,12 +124,12 @@ class ProductResource extends Resource
                 ImageColumn::make('image')
                     ->size(60)
                     ->square(),
-                
+
                 TextColumn::make('name')
                     ->searchable()
                     ->sortable()
                     ->weight('bold'),
-                
+
                 TextColumn::make('category')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
@@ -129,19 +140,19 @@ class ProductResource extends Resource
                         default => 'gray',
                     })
                     ->sortable(),
-                
+
                 TextColumn::make('price')
                     ->money('IDR')
                     ->sortable(),
-                
+
                 TextColumn::make('stock')
                     ->numeric()
                     ->sortable()
                     ->color(fn (int $state): string => $state < 10 ? 'danger' : 'success'),
-                
+
                 BooleanColumn::make('is_active')
                     ->label('Active'),
-                
+
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -155,14 +166,14 @@ class ProductResource extends Resource
                         'sweatshirt' => 'Sweatshirt',
                         'accessories' => 'Accessories',
                     ]),
-                
+
                 TernaryFilter::make('is_active')
                     ->label('Active Status')
                     ->boolean()
                     ->trueLabel('Active products')
                     ->falseLabel('Inactive products')
                     ->native(false),
-                
+
                 Tables\Filters\Filter::make('low_stock')
                     ->query(fn (Builder $query): Builder => $query->where('stock', '<', 10))
                     ->label('Low Stock (< 10)'),
@@ -192,14 +203,14 @@ class ProductResource extends Resource
             ])
             ->defaultSort('created_at', 'desc');
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -207,5 +218,5 @@ class ProductResource extends Resource
             'create' => Pages\CreateProduct::route('/create'),
             'edit' => Pages\EditProduct::route('/{record}/edit'),
         ];
-    }    
+    }
 }

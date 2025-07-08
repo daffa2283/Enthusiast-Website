@@ -1,5 +1,9 @@
 // components
+<<<<<<< HEAD
 import Logo from '@/components/layout/Logo';
+=======
+import Logo from '../../../components/layout/Logo';
+>>>>>>> 82222bc52ccb8b3cd430cfa57b880d708a18ee3d
 
 const HomeVideo = () => {
   return (
@@ -17,6 +21,10 @@ const HomeVideo = () => {
       </video>
       <Logo size="lg" className="absolute bottom-4 right-4 md:bottom-8 md:right-8" />
     </div>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 82222bc52ccb8b3cd430cfa57b880d708a18ee3d
   );
 };
 

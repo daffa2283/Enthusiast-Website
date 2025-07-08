@@ -5,8 +5,13 @@
 @section('content')
 <section class="about" id="about" style="margin-top: 100px; min-height: 70vh;">
     <div class="container">
+<<<<<<< HEAD
         <h2>About Enthusias</h2>
         <p>Enthusias is more than just a clothing brand. We're a movement — a reflection of passion, resistance, and love transformed into a statement. Each piece in our collection tells a story of boldness, creativity, and identity. Join us and wear what you believe in.</p>
+=======
+        <h2>About EnthusiastVerse</h2>
+        <p>Enthusiast is more than just a clothing brand. We're a movement — a reflection of passion, resistance, and love transformed into a statement. Each piece in our collection tells a story of boldness, creativity, and identity. Join us and wear what you believe in.</p>
+>>>>>>> 82222bc52ccb8b3cd430cfa57b880d708a18ee3d
         
         <div style="margin-top: 3rem;">
             <h3 style="font-size: 1.8rem; margin-bottom: 1rem; color: var(--primary-color);">Our Mission</h3>

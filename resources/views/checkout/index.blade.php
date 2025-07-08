@@ -543,7 +543,11 @@
                 <div class="order-items">
                     @foreach($cart as $id => $details)
                         <div class="order-item">
+<<<<<<< HEAD
                             <img src="{{ asset($details['image'] ?? 'images/MOCKUP DEPAN.jpeg.jpg') }}" 
+=======
+                            <img src="{{ asset('storage/' .$details['image'] ?? 'images/MOCKUP DEPAN.jpeg.jpg') }}" 
+>>>>>>> 82222bc52ccb8b3cd430cfa57b880d708a18ee3d
                                  alt="{{ $details['name'] }}" 
                                  class="item-image">
                             <div class="item-details">

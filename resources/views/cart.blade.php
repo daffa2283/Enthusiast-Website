@@ -368,7 +368,11 @@
                 <div class="cart-items">
                     @foreach(session('cart') as $id => $details)
                         <div class="cart-item" data-item-id="{{ $id }}">
+<<<<<<< HEAD
                             <img src="{{ asset($details['image'] ?? 'images/MOCKUP DEPAN.jpeg.jpg') }}" 
+=======
+                            <img src="{{ asset('storage/' .$details['image'] ?? 'images/MOCKUP DEPAN.jpeg.jpg') }}" 
+>>>>>>> 82222bc52ccb8b3cd430cfa57b880d708a18ee3d
                                  alt="{{ $details['name'] }}" 
                                  class="item-image">
                             
@@ -446,9 +450,21 @@
                         <span class="total-value">Rp. {{ number_format($total, 0, ',', '.') }}</span>
                     </div>
                     
+<<<<<<< HEAD
                     <a href="{{ route('checkout.index') }}" class="checkout-btn" style="text-decoration: none; display: block; text-align: center;">
                         Proceed to Checkout
                     </a>
+=======
+                    @auth
+                        <a href="{{ route('checkout.index') }}" class="checkout-btn" style="text-decoration: none; display: block; text-align: center;">
+                            Proceed to Checkout
+                        </a>
+                    @else
+                        <a href="{{ route('login') }}" class="checkout-btn" style="text-decoration: none; display: block; text-align: center; opacity: 0.6; pointer-events: auto; cursor: not-allowed;">
+                            Login to Checkout
+                        </a>
+                    @endauth
+>>>>>>> 82222bc52ccb8b3cd430cfa57b880d708a18ee3d
                     
                     <div class="continue-shopping">
                         <a href="{{ route('products') }}">← Continue Shopping</a>
