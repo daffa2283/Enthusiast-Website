@@ -39,6 +39,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
     Route::post('/cart/add', [HomeController::class, 'addToCart'])->name('cart.add');
     Route::post('/cart/remove', [HomeController::class, 'removeFromCart'])->name('cart.remove');
+    Route::get('/cart/count', [HomeController::class, 'getCartCount'])->name('cart.count');
 });
 
 // Checkout success and tracking
@@ -60,6 +61,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+
 
 // Authentication routes
 require __DIR__.'/auth.php';

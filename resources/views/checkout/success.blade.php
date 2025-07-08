@@ -169,6 +169,36 @@
     line-height: 1.4;
 }
 
+.item-attributes {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.attribute-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 15px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border: 1px solid;
+}
+
+.size-badge {
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+    color: #1565c0;
+    border-color: #90caf9;
+}
+
+.color-badge {
+    background: linear-gradient(135deg, #f3e5f5, #e1bee7);
+    color: #7b1fa2;
+    border-color: #ce93d8;
+}
+
 .item-quantity {
     color: #666;
     font-size: 0.9rem;
@@ -303,6 +333,18 @@
     color: white;
 }
 
+.btn-whatsapp {
+    background: linear-gradient(135deg, #25D366, #128C7E);
+    color: white;
+}
+
+.btn-whatsapp:hover {
+    background: linear-gradient(135deg, #128C7E, #25D366);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(37, 211, 102, 0.3);
+    color: white;
+}
+
 .payment-info {
     background: #fff3cd;
     border: 1px solid #ffeaa7;
@@ -343,6 +385,32 @@
     color: #0066cc;
     font-size: 0.9rem;
     line-height: 1.5;
+}
+
+.wa-confirm-card {
+    background: #e7fbe9;
+    border: 2px solid #25D366;
+    border-radius: 12px;
+    padding: 2rem;
+    margin: 2rem 0;
+    text-align: center;
+}
+
+.wa-confirm-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #128C7E;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.wa-confirm-text {
+    color: #128C7E;
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
 }
 
 /* Responsive Design */
@@ -453,15 +521,21 @@
                     </div>
                     @foreach($order->orderItems as $item)
                         <div class="order-item">
-<<<<<<< HEAD
-                            <img src="{{ asset($item->product->image ?? 'images/MOCKUP DEPAN.jpeg.jpg') }}" 
-=======
-                            <img src="{{ asset('storage/' .$item->product->image ?? 'images/MOCKUP DEPAN.jpeg.jpg') }}" 
->>>>>>> 82222bc52ccb8b3cd430cfa57b880d708a18ee3d
+                            <img src="{{ $item->product && $item->product->image ? asset('storage/' . $item->product->image) : asset('images/MOCKUP DEPAN.jpeg.jpg') }}" 
                                  alt="{{ $item->product_name }}" 
                                  class="item-image">
                             <div class="item-details">
                                 <div class="item-name">{{ $item->product_name }}</div>
+                                @if($item->size || $item->color)
+                                    <div class="item-attributes">
+                                        @if($item->size)
+                                            <span class="attribute-badge size-badge">Size: {{ $item->size }}</span>
+                                        @endif
+                                        @if($item->color)
+                                            <span class="attribute-badge color-badge">Color: {{ $item->color }}</span>
+                                        @endif
+                                    </div>
+                                @endif
                                 <div class="item-quantity">Qty: {{ $item->quantity }}</div>
                             </div>
                             <div class="item-price">
@@ -501,31 +575,27 @@
                     </div>
                 </div>
             </div>
-<<<<<<< HEAD
-            
-=======
 
-            <div class="wa-confirm-card" style="background: #e7fbe9; border: 2px solid #25D366; border-radius: 12px; padding: 2rem; margin: 2rem 0; text-align: center;">
-                <div style="font-size: 1.2rem; font-weight: 600; color: #128C7E; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+            <div class="wa-confirm-card">
+                <div class="wa-confirm-title">
                     <svg width="24" height="24" viewBox="0 0 32 32" fill="currentColor">
                         <path d="M16 3C9.373 3 4 8.373 4 15c0 2.637.844 5.086 2.438 7.188L4 29l7.031-2.375C13.086 27.156 14.52 27.5 16 27.5c6.627 0 12-5.373 12-12S22.627 3 16 3zm0 22c-1.313 0-2.594-.219-3.813-.656l-.273-.094-4.188 1.406 1.406-4.094-.094-.281C6.844 19.094 6 17.094 6 15c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10zm5.406-7.594c-.297-.148-1.758-.867-2.031-.969-.273-.102-.469-.148-.664.148-.195.297-.758.969-.93 1.164-.172.195-.344.219-.641.07-.297-.148-1.258-.463-2.398-1.477-.887-.789-1.484-1.766-1.656-2.062-.172-.297-.018-.457.13-.605.133-.133.297-.344.445-.516.148-.172.195-.297.297-.492.102-.195.051-.367-.025-.516-.078-.148-.664-1.602-.91-2.195-.24-.578-.484-.5-.664-.508-.172-.008-.367-.01-.562-.01-.195 0-.516.074-.789.367-.273.297-1.04 1.016-1.04 2.477 0 1.461 1.065 2.875 1.213 3.07.148.195 2.098 3.203 5.086 4.367.711.305 1.266.488 1.699.625.715.227 1.367.195 1.883.117.574-.086 1.758-.719 2.008-1.414.25-.695.25-1.289.176-1.414-.074-.125-.27-.195-.566-.344z"/>
                     </svg>
                     Konfirmasi Pesanan via WhatsApp
                 </div>
-                <div style="color: #128C7E; font-size: 1rem; margin-bottom: 1.5rem;">
+                <div class="wa-confirm-text">
                     Konfirmasi pesanan Anda melalui WhatsApp untuk mempercepat proses pengiriman.<br>
                     Klik tombol di bawah ini untuk chat admin dan sebutkan nomor order Anda.<br>
                     <b>Order #{{ $order->order_number }}</b>
                 </div>
-                <a href="https://wa.me/6281234567890?text=Halo%2C%20saya%20sudah%20melakukan%20order%20dengan%20nomor%20{{ $order->order_number }}" target="_blank" class="btn" style="background: linear-gradient(135deg, #25D366, #128C7E); color: white;">
+                <a href="https://wa.me/6287843997805?text=Halo%2C%20saya%20sudah%20melakukan%20order%20dengan%20nomor%20{{ $order->order_number }}" target="_blank" class="btn btn-whatsapp">
                     <svg width="20" height="20" viewBox="0 0 32 32" fill="currentColor">
                         <path d="M16 3C9.373 3 4 8.373 4 15c0 2.637.844 5.086 2.438 7.188L4 29l7.031-2.375C13.086 27.156 14.52 27.5 16 27.5c6.627 0 12-5.373 12-12S22.627 3 16 3zm0 22c-1.313 0-2.594-.219-3.813-.656l-.273-.094-4.188 1.406 1.406-4.094-.094-.281C6.844 19.094 6 17.094 6 15c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10zm5.406-7.594c-.297-.148-1.758-.867-2.031-.969-.273-.102-.469-.148-.664.148-.195.297-.758.969-.93 1.164-.172.195-.344.219-.641.07-.297-.148-1.258-.463-2.398-1.477-.887-.789-1.484-1.766-1.656-2.062-.172-.297-.018-.457.13-.605.133-.133.297-.344.445-.516.148-.172.195-.297.297-.492.102-.195.051-.367-.025-.516-.078-.148-.664-1.602-.91-2.195-.24-.578-.484-.5-.664-.508-.172-.008-.367-.01-.562-.01-.195 0-.516.074-.789.367-.273.297-1.04 1.016-1.04 2.477 0 1.461 1.065 2.875 1.213 3.07.148.195 2.098 3.203 5.086 4.367.711.305 1.266.488 1.699.625.715.227 1.367.195 1.883.117.574-.086 1.758-.719 2.008-1.414.25-.695.25-1.289.176-1.414-.074-.125-.27-.195-.566-.344z"/>
                     </svg>
                     Konfirmasi via WhatsApp
                 </a>
             </div>
-
->>>>>>> 82222bc52ccb8b3cd430cfa57b880d708a18ee3d
+            
             @if($order->payment_method === 'bank_transfer')
                 <div class="payment-info">
                     <div class="payment-title">💳 Payment Instructions</div>
@@ -566,15 +636,6 @@
                     </svg>
                     Continue Shopping
                 </a>
-<<<<<<< HEAD
-=======
-                <a href="https://wa.me/6281234567890?text=Halo%2C%20saya%20sudah%20melakukan%20order%20dengan%20nomor%20{{ $order->order_number }}" target="_blank" class="btn" style="background: linear-gradient(135deg, #25D366, #128C7E); color: white;">
-                    <svg width="20" height="20" viewBox="0 0 32 32" fill="currentColor">
-                        <path d="M16 3C9.373 3 4 8.373 4 15c0 2.637.844 5.086 2.438 7.188L4 29l7.031-2.375C13.086 27.156 14.52 27.5 16 27.5c6.627 0 12-5.373 12-12S22.627 3 16 3zm0 22c-1.313 0-2.594-.219-3.813-.656l-.273-.094-4.188 1.406 1.406-4.094-.094-.281C6.844 19.094 6 17.094 6 15c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10zm5.406-7.594c-.297-.148-1.758-.867-2.031-.969-.273-.102-.469-.148-.664.148-.195.297-.758.969-.93 1.164-.172.195-.344.219-.641.07-.297-.148-1.258-.463-2.398-1.477-.887-.789-1.484-1.766-1.656-2.062-.172-.297-.018-.457.13-.605.133-.133.297-.344.445-.516.148-.172.195-.297.297-.492.102-.195.051-.367-.025-.516-.078-.148-.664-1.602-.91-2.195-.24-.578-.484-.5-.664-.508-.172-.008-.367-.01-.562-.01-.195 0-.516.074-.789.367-.273.297-1.04 1.016-1.04 2.477 0 1.461 1.065 2.875 1.213 3.07.148.195 2.098 3.203 5.086 4.367.711.305 1.266.488 1.699.625.715.227 1.367.195 1.883.117.574-.086 1.758-.719 2.008-1.414.25-.695.25-1.289.176-1.414-.074-.125-.27-.195-.566-.344z"/>
-                    </svg>
-                    WhatsApp
-                </a>
->>>>>>> 82222bc52ccb8b3cd430cfa57b880d708a18ee3d
             </div>
         </div>
     </div>

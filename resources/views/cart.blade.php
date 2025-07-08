@@ -95,6 +95,50 @@
     margin-bottom: 0.5rem;
 }
 
+.item-attributes {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.attribute-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    color: #495057;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border: 1px solid #dee2e6;
+    transition: all 0.2s ease;
+}
+
+.attribute-badge svg {
+    width: 12px;
+    height: 12px;
+    opacity: 0.7;
+}
+
+.size-badge {
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+    color: #1565c0;
+    border-color: #90caf9;
+}
+
+.color-badge {
+    background: linear-gradient(135deg, #f3e5f5, #e1bee7);
+    color: #7b1fa2;
+    border-color: #ce93d8;
+}
+
+.attribute-badge:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
 .quantity-controls {
     display: flex;
     align-items: center;
@@ -119,6 +163,11 @@
 .quantity-btn:hover {
     background: #f0f0f0;
     border-color: #bbb;
+}
+
+.quantity-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 .quantity-input {
@@ -227,12 +276,29 @@
     transition: all 0.3s ease;
     text-transform: uppercase;
     letter-spacing: 1px;
+    text-decoration: none;
+    display: block;
+    text-align: center;
 }
 
 .checkout-btn:hover {
     background: linear-gradient(135deg, #333, #1a1a1a);
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(26, 26, 26, 0.3);
+    color: white;
+    text-decoration: none;
+}
+
+.checkout-btn.disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.checkout-btn.disabled:hover {
+    background: #6c757d;
+    transform: none;
+    box-shadow: none;
 }
 
 .empty-cart {
@@ -290,6 +356,7 @@
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(26, 26, 26, 0.3);
     color: white;
+    text-decoration: none;
 }
 
 .continue-shopping {
@@ -306,6 +373,31 @@
 
 .continue-shopping a:hover {
     color: #1a1a1a;
+}
+
+.login-notice {
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    border: 1px solid #f59e0b;
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.login-notice-text {
+    color: #92400e;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.login-notice a {
+    color: #92400e;
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+.login-notice a:hover {
+    color: #78350f;
 }
 
 /* Responsive Design */
@@ -333,6 +425,10 @@
     .cart-title {
         font-size: 2rem;
     }
+    
+    .cart-summary {
+        position: static;
+    }
 }
 
 /* Loading Animation */
@@ -352,6 +448,40 @@
 .success-animation {
     animation: successPulse 0.3s ease;
 }
+
+/* Toast Notifications */
+.toast {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    background: white;
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    z-index: 10000;
+    transform: translateX(400px);
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    border-left: 4px solid #10B981;
+}
+
+.toast.show {
+    transform: translateX(0);
+}
+
+.toast.error {
+    border-left-color: #EF4444;
+}
+
+.toast-title {
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 0.25rem;
+}
+
+.toast-message {
+    color: #666;
+    font-size: 0.9rem;
+}
 </style>
 @endpush
 
@@ -368,11 +498,7 @@
                 <div class="cart-items">
                     @foreach(session('cart') as $id => $details)
                         <div class="cart-item" data-item-id="{{ $id }}">
-<<<<<<< HEAD
-                            <img src="{{ asset($details['image'] ?? 'images/MOCKUP DEPAN.jpeg.jpg') }}" 
-=======
-                            <img src="{{ asset('storage/' .$details['image'] ?? 'images/MOCKUP DEPAN.jpeg.jpg') }}" 
->>>>>>> 82222bc52ccb8b3cd430cfa57b880d708a18ee3d
+                            <img src="{{ isset($details['image']) && $details['image'] ? asset('storage/' . $details['image']) : asset('images/MOCKUP DEPAN.jpeg.jpg') }}" 
                                  alt="{{ $details['name'] }}" 
                                  class="item-image">
                             
@@ -380,8 +506,29 @@
                                 <h4 class="item-name">{{ $details['name'] }}</h4>
                                 <p class="item-price">Rp. {{ number_format($details['price'], 0, ',', '.') }} each</p>
                                 
+                                @if(isset($details['size']) || isset($details['color']))
+                                    <div class="item-attributes">
+                                        @if(isset($details['size']) && $details['size'])
+                                            <span class="attribute-badge size-badge">
+                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                                </svg>
+                                                Size: {{ $details['size'] }}
+                                            </span>
+                                        @endif
+                                        @if(isset($details['color']) && $details['color'])
+                                            <span class="attribute-badge color-badge">
+                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                                    <circle cx="12" cy="12" r="10"/>
+                                                </svg>
+                                                Color: {{ $details['color'] }}
+                                            </span>
+                                        @endif
+                                    </div>
+                                @endif
+                                
                                 <div class="quantity-controls">
-                                    <button class="quantity-btn decrease-qty" data-id="{{ $id }}">−</button>
+                                    <button class="quantity-btn decrease-qty" data-id="{{ $id }}" {{ $details['quantity'] <= 1 ? 'disabled' : '' }}>−</button>
                                     <input type="number" 
                                            class="quantity-input" 
                                            value="{{ $details['quantity'] }}" 
@@ -450,21 +597,19 @@
                         <span class="total-value">Rp. {{ number_format($total, 0, ',', '.') }}</span>
                     </div>
                     
-<<<<<<< HEAD
-                    <a href="{{ route('checkout.index') }}" class="checkout-btn" style="text-decoration: none; display: block; text-align: center;">
-                        Proceed to Checkout
-                    </a>
-=======
-                    @auth
-                        <a href="{{ route('checkout.index') }}" class="checkout-btn" style="text-decoration: none; display: block; text-align: center;">
-                            Proceed to Checkout
-                        </a>
-                    @else
-                        <a href="{{ route('login') }}" class="checkout-btn" style="text-decoration: none; display: block; text-align: center; opacity: 0.6; pointer-events: auto; cursor: not-allowed;">
+                    @guest
+                        <div class="login-notice">
+                            <div class="login-notice-text">Please login to proceed with checkout</div>
+                            <a href="{{ route('login') }}">Login here</a> or <a href="{{ route('register') }}">Create an account</a>
+                        </div>
+                        <a href="{{ route('login') }}" class="checkout-btn disabled">
                             Login to Checkout
                         </a>
-                    @endauth
->>>>>>> 82222bc52ccb8b3cd430cfa57b880d708a18ee3d
+                    @else
+                        <a href="{{ route('checkout.index') }}" class="checkout-btn">
+                            Proceed to Checkout
+                        </a>
+                    @endguest
                     
                     <div class="continue-shopping">
                         <a href="{{ route('products') }}">← Continue Shopping</a>
@@ -503,11 +648,31 @@ document.addEventListener('DOMContentLoaded', function() {
     const increaseButtons = document.querySelectorAll('.increase-qty');
     const decreaseButtons = document.querySelectorAll('.decrease-qty');
     
+    // Toast notification function
+    function showToast(type, title, message) {
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        toast.innerHTML = `
+            <div class="toast-title">${title}</div>
+            <div class="toast-message">${message}</div>
+        `;
+        
+        document.body.appendChild(toast);
+        
+        setTimeout(() => toast.classList.add('show'), 100);
+        
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+    }
+    
     // Remove item
     removeButtons.forEach(button => {
         button.addEventListener('click', function() {
             const itemId = this.dataset.id;
             const cartItem = this.closest('.cart-item');
+            const itemName = cartItem.querySelector('.item-name').textContent;
             
             // Add loading state
             cartItem.classList.add('loading');
@@ -525,6 +690,9 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
+                    // Show success toast
+                    showToast('success', 'Item Removed', `${itemName} has been removed from your cart.`);
+                    
                     // Animate removal
                     cartItem.style.transform = 'translateX(-100%)';
                     cartItem.style.opacity = '0';
@@ -534,13 +702,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     }, 300);
                 } else {
                     cartItem.classList.remove('loading');
-                    alert('Error removing item from cart');
+                    showToast('error', 'Error', 'Failed to remove item from cart.');
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
                 cartItem.classList.remove('loading');
-                alert('Error removing item from cart');
+                showToast('error', 'Error', 'Something went wrong. Please try again.');
             });
         });
     });
@@ -568,6 +736,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function updateQuantity(itemId, change) {
         const cartItem = document.querySelector(`[data-item-id="${itemId}"]`);
+        const itemName = cartItem.querySelector('.item-name').textContent;
         cartItem.classList.add('loading');
         
         fetch('{{ route("cart.add") }}', {
@@ -584,6 +753,10 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
+                // Show success toast
+                const action = change > 0 ? 'increased' : 'decreased';
+                showToast('success', 'Quantity Updated', `${itemName} quantity has been ${action}.`);
+                
                 // Add success animation
                 cartItem.classList.add('success-animation');
                 
@@ -592,17 +765,31 @@ document.addEventListener('DOMContentLoaded', function() {
                 }, 300);
             } else {
                 cartItem.classList.remove('loading');
-                alert(data.message || 'Error updating quantity');
+                showToast('error', 'Error', data.message || 'Failed to update quantity.');
             }
         })
         .catch(error => {
             console.error('Error:', error);
             cartItem.classList.remove('loading');
-            alert('Error updating quantity');
+            showToast('error', 'Error', 'Something went wrong. Please try again.');
         });
     }
     
-    // Checkout button is now a link, no JavaScript needed
+    // Update cart counter in header
+    function updateCartCounter() {
+        const cartCounter = document.querySelector('#cartCounter');
+        if (cartCounter) {
+            fetch('{{ route("cart.count") }}')
+                .then(response => response.json())
+                .then(data => {
+                    cartCounter.textContent = data.count || 0;
+                })
+                .catch(error => console.error('Error updating cart counter:', error));
+        }
+    }
+    
+    // Update cart counter on page load
+    updateCartCounter();
 });
 </script>
 @endpush

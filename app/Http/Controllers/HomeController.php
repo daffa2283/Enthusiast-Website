@@ -10,8 +10,8 @@ class HomeController extends Controller
 {
     public function index()
     {
-        // Get featured products for homepage (limit to 4)
-        $products = Product::active()->inStock()->take(4)->get();
+        // Get only active products that are in stock for homepage
+        $products = Product::active()->inStock()->orderBy('created_at', 'desc')->get();
         // Get active categories for homepage navigation
         $categories = Category::active()->get();
         return view('home', compact('products', 'categories'));
@@ -22,7 +22,8 @@ class HomeController extends Controller
         $query = $request->input('search');
         $category = $request->input('category');
         
-        $productsQuery = Product::active()->inStock();
+        // Show all active products (including out of stock, but out of stock will be shown at bottom)
+        $productsQuery = Product::where('is_active', true);
         
         // Apply search filter
         if ($query) {
@@ -38,8 +39,16 @@ class HomeController extends Controller
             $productsQuery->where('category', $category);
         }
         
-        $products = $productsQuery->get();
-        $categories = Category::active()->get();
+        // Order by stock status first (in stock first), then by newest
+        $products = $productsQuery->orderByRaw('CASE WHEN stock > 0 THEN 0 ELSE 1 END')
+                                 ->orderBy('created_at', 'desc')
+                                 ->get();
+        
+        // Get categories from existing products
+        $categories = Product::where('is_active', true)
+                            ->select('category')
+                            ->distinct()
+                            ->pluck('category');
         
         return view('products', compact('products', 'categories', 'query', 'category'));
     }
@@ -66,6 +75,8 @@ class HomeController extends Controller
                       ->orWhere('description', 'LIKE', "%{$query}%")
                       ->orWhere('category', 'LIKE', "%{$query}%");
                 })
+                ->orderByRaw('CASE WHEN stock > 0 THEN 0 ELSE 1 END')
+                ->orderBy('created_at', 'desc')
                 ->get();
         }
         
@@ -83,17 +94,22 @@ class HomeController extends Controller
         $products = Product::active()
             ->where(function($q) use ($query) {
                 $q->where('name', 'LIKE', "%{$query}%")
-                  ->orWhere('category', 'LIKE', "%{$query}%");
+                  ->orWhere('category', 'LIKE', "%{$query}%")
+                  ->orWhere('description', 'LIKE', "%{$query}%");
             })
-            ->take(5)
+            ->orderByRaw('CASE WHEN stock > 0 THEN 0 ELSE 1 END')
+            ->orderBy('created_at', 'desc')
+            ->take(6)
             ->get()
             ->map(function($product) {
                 return [
                     'id' => $product->id,
                     'name' => $product->name,
-                    'image' => asset($product->image),
+                    'image' => $product->image ? asset('storage/' . $product->image) : asset('images/MOCKUP DEPAN.jpeg.jpg'),
                     'formatted_price' => $product->formatted_price,
-                    'category' => $product->category,
+                    'category' => ucfirst($product->category),
+                    'stock' => $product->stock,
+                    'url' => route('product.detail', $product->id)
                 ];
             });
         
@@ -104,6 +120,8 @@ class HomeController extends Controller
     {
         $productId = $request->input('product_id', 1);
         $quantity = $request->input('quantity', 1);
+        $size = $request->input('size', '');
+        $color = $request->input('color', '');
         
         // Get product from database
         $product = Product::find($productId);
@@ -118,13 +136,19 @@ class HomeController extends Controller
         // Get current cart from session
         $cart = session()->get('cart', []);
         
+        // Create unique cart key based on product ID, size, and color
+        $cartKey = $productId;
+        if ($size || $color) {
+            $cartKey = $productId . '_' . $size . '_' . $color;
+        }
+        
         // Handle quantity update (can be negative for decrease)
-        if(isset($cart[$productId])) {
-            $newQuantity = $cart[$productId]['quantity'] + $quantity;
+        if(isset($cart[$cartKey])) {
+            $newQuantity = $cart[$cartKey]['quantity'] + $quantity;
             
             // If quantity becomes 0 or negative, remove item
             if ($newQuantity <= 0) {
-                unset($cart[$productId]);
+                unset($cart[$cartKey]);
             } else {
                 // Check if new quantity exceeds stock
                 if ($newQuantity > $product->stock) {
@@ -134,7 +158,7 @@ class HomeController extends Controller
                     ], 400);
                 }
                 
-                $cart[$productId]['quantity'] = $newQuantity;
+                $cart[$cartKey]['quantity'] = $newQuantity;
             }
         } else {
             // Adding new item
@@ -153,11 +177,14 @@ class HomeController extends Controller
                 ], 400);
             }
             
-            $cart[$productId] = [
+            $cart[$cartKey] = [
+                'product_id' => $productId,
                 'name' => $product->name,
                 'price' => $product->price,
                 'quantity' => $quantity,
-                'image' => $product->image
+                'image' => $product->image,
+                'size' => $size,
+                'color' => $color
             ];
         }
         
@@ -176,12 +203,12 @@ class HomeController extends Controller
     
     public function removeFromCart(Request $request)
     {
-        $productId = $request->input('id');
+        $cartKey = $request->input('id');
         
         $cart = session()->get('cart', []);
         
-        if(isset($cart[$productId])) {
-            unset($cart[$productId]);
+        if(isset($cart[$cartKey])) {
+            unset($cart[$cartKey]);
             session()->put('cart', $cart);
             
             // Update cart count
@@ -192,6 +219,16 @@ class HomeController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Product removed from cart successfully!'
+        ]);
+    }
+
+    public function getCartCount()
+    {
+        $cart = session()->get('cart', []);
+        $cartCount = array_sum(array_column($cart, 'quantity'));
+        
+        return response()->json([
+            'count' => $cartCount
         ]);
     }
 
@@ -214,6 +251,7 @@ class HomeController extends Controller
                 'price' => $this->getDefaultProductPrice($id),
                 'formatted_price' => $this->getDefaultProductFormattedPrice($id),
                 'image' => $this->getDefaultProductImage($id),
+                'back_image' => $this->getDefaultProductBackImage($id),
                 'category' => 'Clothing',
                 'stock' => 10,
                 'size' => 'S, M, L, XL',
@@ -230,6 +268,7 @@ class HomeController extends Controller
                 'price' => $product->price ?? $this->getDefaultProductPrice($product->id),
                 'formatted_price' => $product->formatted_price ?? $this->getDefaultProductFormattedPrice($product->id),
                 'image' => $product->image ? asset('storage/' . $product->image) : $this->getDefaultProductImage($product->id),
+                'back_image' => $product->back_image ? asset('storage/' . $product->back_image) : $this->getDefaultProductBackImage($product->id),
                 'category' => $product->category ?? 'Clothing',
                 'stock' => $product->stock ?? 10,
                 'size' => $product->size ?? 'S, M, L, XL',
@@ -290,5 +329,17 @@ class HomeController extends Controller
         ];
         
         return $images[$id] ?? asset('images/MOCKUP DEPAN.jpeg.jpg');
+    }
+    
+    private function getDefaultProductBackImage($id)
+    {
+        $backImages = [
+            1 => asset('images/MOCKUP BELAKANG.jpeg.jpg'),
+            2 => asset('images/MOCKUP BELAKANG.11jpeg.jpg'),
+            3 => asset('images/MOCKUP BELAKANG.jpeg.jpg'),
+            4 => asset('images/MOCKUP BELAKANG.11jpeg.jpg')
+        ];
+        
+        return $backImages[$id] ?? asset('images/MOCKUP BELAKANG.jpeg.jpg');
     }
 }

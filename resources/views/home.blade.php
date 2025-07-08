@@ -13,8 +13,8 @@
         <div class="hero-overlay"></div>
     </div>
     <div class="hero-content">
-        <h1>LOVE IS<br>ALL-TO<br>WEAPON</h1>
-        <p class="hero-quote">"Express your passion through fashion. Every piece tells a story of boldness, creativity, and identity."</p>
+        <h1><br><br></h1>
+        <p class="hero-quote"></p>
         <a href="#products" class="hero-cta">Explore Collection</a>
     </div>
 </section>
@@ -34,10 +34,17 @@
                 <div class="product-details">
                     <h3 class="product-name">{{ $product->name }}</h3>
                     <p class="product-price">{{ $product->formatted_price }}</p>
-                    <button class="add-to-cart" data-product-id="{{ $product->id }}">
-                        <span>Add to Cart</span>
-                        <svg viewBox="0 0 12 12"><path d="M10.7 3.3c-.4-.4-1-.4-1.4 0L5 7.6 1.7 4.3c-.4-.4-1-.4-1.4 0s-.4 1 0 1.4l4 4c.2.2.5.3.7.3s.5-.1.7-.3l5-5c.4-.4.4-1 0-1.4z"/></svg>
-                    </button>
+                    @auth
+                        <button class="add-to-cart" data-product-id="{{ $product->id }}">
+                            <span>Add to Cart</span>
+                            <svg viewBox="0 0 12 12"><path d="M10.7 3.3c-.4-.4-1-.4-1.4 0L5 7.6 1.7 4.3c-.4-.4-1-.4-1.4 0s-.4 1 0 1.4l4 4c.2.2.5.3.7.3s.5-.1.7-.3l5-5c.4-.4.4-1 0-1.4z"/></svg>
+                        </button>
+                    @else
+                        <button class="add-to-cart guest-add-to-cart login-required" data-product-id="{{ $product->id }}">
+                            <span>LOGIN TO PURCHASE</span>
+                            <svg viewBox="0 0 12 12"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 7a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>
+                        </button>
+                    @endauth
                 </div>
             </div>
         @empty
@@ -52,10 +59,17 @@
                 <div class="product-details">
                     <h3 class="product-name">Essential Crewneck</h3>
                     <p class="product-price">Rp. 399.000</p>
-                    <button class="add-to-cart" data-product-id="1">
-                        <span>Add to Cart</span>
-                        <svg viewBox="0 0 12 12"><path d="M10.7 3.3c-.4-.4-1-.4-1.4 0L5 7.6 1.7 4.3c-.4-.4-1-.4-1.4 0s-.4 1 0 1.4l4 4c.2.2.5.3.7.3s.5-.1.7-.3l5-5c.4-.4.4-1 0-1.4z"/></svg>
-                    </button>
+                    @auth
+                        <button class="add-to-cart" data-product-id="1">
+                            <span>Add to Cart</span>
+                            <svg viewBox="0 0 12 12"><path d="M10.7 3.3c-.4-.4-1-.4-1.4 0L5 7.6 1.7 4.3c-.4-.4-1-.4-1.4 0s-.4 1 0 1.4l4 4c.2.2.5.3.7.3s.5-.1.7-.3l5-5c.4-.4.4-1 0-1.4z"/></svg>
+                        </button>
+                    @else
+                        <button class="add-to-cart guest-add-to-cart login-required" data-product-id="1">
+                            <span>LOGIN TO PURCHASE</span>
+                            <svg viewBox="0 0 12 12"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 7a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>
+                        </button>
+                    @endauth
                 </div>
             </div>
 
@@ -69,10 +83,17 @@
                 <div class="product-details">
                     <h3 class="product-name">Premium Hoodie</h3>
                     <p class="product-price">Rp. 599.000</p>
-                    <button class="add-to-cart" data-product-id="2">
-                        <span>Add to Cart</span>
-                        <svg viewBox="0 0 12 12"><path d="M10.7 3.3c-.4-.4-1-.4-1.4 0L5 7.6 1.7 4.3c-.4-.4-1-.4-1.4 0s-.4 1 0 1.4l4 4c.2.2.5.3.7.3s.5-.1.7-.3l5-5c.4-.4.4-1 0-1.4z"/></svg>
-                    </button>
+                    @auth
+                        <button class="add-to-cart" data-product-id="2">
+                            <span>Add to Cart</span>
+                            <svg viewBox="0 0 12 12"><path d="M10.7 3.3c-.4-.4-1-.4-1.4 0L5 7.6 1.7 4.3c-.4-.4-1-.4-1.4 0s-.4 1 0 1.4l4 4c.2.2.5.3.7.3s.5-.1.7-.3l5-5c.4-.4.4-1 0-1.4z"/></svg>
+                        </button>
+                    @else
+                        <button class="add-to-cart guest-add-to-cart login-required" data-product-id="2">
+                            <span>LOGIN TO PURCHASE</span>
+                            <svg viewBox="0 0 12 12"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 7a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>
+                        </button>
+                    @endauth
                 </div>
             </div>
         @endforelse
@@ -86,7 +107,28 @@
         <button class="modal-close">&times;</button>
         <div class="modal-body">
             <div class="product-image-section">
-                <img id="modalProductImage" src="" alt="Product Image">
+                <div class="image-slider">
+                    <div class="slider-container">
+                        <div class="slider-track" id="modalSliderTrack">
+                            <div class="slide active">
+                                <img id="modalProductImageFront" src="" alt="Product Image - Front">
+                            </div>
+                            <div class="slide">
+                                <img id="modalProductImageBack" src="" alt="Product Image - Back">
+                            </div>
+                        </div>
+                    </div>
+                    <button class="slider-arrow slider-arrow-left" id="modalSliderPrev">
+                        <span>&lt;</span>
+                    </button>
+                    <button class="slider-arrow slider-arrow-right" id="modalSliderNext">
+                        <span>&gt;</span>
+                    </button>
+                    <div class="slider-dots">
+                        <span class="dot active" data-slide="0"></span>
+                        <span class="dot" data-slide="1"></span>
+                    </div>
+                </div>
             </div>
             <div class="product-info-section">
                 <h2 id="modalProductName">Product Name</h2>
@@ -119,9 +161,15 @@
                     </div>
                 </div>
                 <div class="modal-actions">
-                    <button id="modalAddToCart" class="add-to-cart-btn">
-                        <span>Add to Cart</span>
-                    </button>
+                    @auth
+                        <button id="modalAddToCart" class="add-to-cart-btn">
+                            <span>Add to Cart</span>
+                        </button>
+                    @else
+                        <button id="modalAddToCart" class="add-to-cart-btn guest-modal-add-to-cart">
+                            <span>LOGIN TO ADD TO CART</span>
+                        </button>
+                    @endauth
                     <p id="modalStockInfo" class="stock-info">In Stock</p>
                 </div>
             </div>
@@ -316,6 +364,195 @@
     }
 }
 
+/* Login required button styling */
+.login-required {
+    background: linear-gradient(135deg, #6B7280, #4B5563) !important;
+    border: 2px solid #9CA3AF !important;
+    color: white !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.login-required:hover {
+    background: linear-gradient(135deg, #4B5563, #374151) !important;
+    border-color: #6B7280 !important;
+    transform: translateY(-1px);
+}
+
+.login-required:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+}
+
+.login-required:hover:before {
+    left: 100%;
+}
+
+.login-required svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Login Modal Styles */
+.login-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.login-modal.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.login-modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+}
+
+.login-modal-content {
+    position: relative;
+    background: white;
+    border-radius: 20px;
+    max-width: 500px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+    transform: scale(0.9) translateY(-20px);
+    transition: all 0.3s ease;
+}
+
+.login-modal.show .login-modal-content {
+    transform: scale(1) translateY(0);
+}
+
+.login-modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.1);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.login-modal-close:hover {
+    background: rgba(0, 0, 0, 0.2);
+    transform: rotate(90deg);
+}
+
+.login-modal-body {
+    padding: 40px;
+    text-align: center;
+}
+
+.login-modal-icon {
+    margin-bottom: 20px;
+    color: #6B7280;
+}
+
+.login-modal-body h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 15px;
+}
+
+.login-modal-body p {
+    color: #666;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.login-benefits {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+    text-align: left;
+}
+
+.benefit-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #374151;
+}
+
+.benefit-item svg {
+    color: #10B981;
+    flex-shrink: 0;
+}
+
+.login-modal-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.btn-register {
+    background: linear-gradient(135deg, var(--accent-color), #ff6b6b);
+    color: white;
+    padding: 15px 30px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.btn-register:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(255, 59, 63, 0.3);
+    color: white;
+    text-decoration: none;
+}
+
+.btn-login {
+    color: #6B7280;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 10px;
+    transition: color 0.3s ease;
+}
+
+.btn-login:hover {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
 /* Quick View Modal Styles */
 .quick-view-modal {
     position: fixed;
@@ -397,12 +634,105 @@
     padding: 40px;
 }
 
-.product-image-section img {
+.product-image-section {
+    position: relative;
+}
+
+.image-slider {
+    position: relative;
     width: 100%;
     height: 400px;
-    object-fit: cover;
     border-radius: 15px;
+    overflow: hidden;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.slider-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.slider-track {
+    display: flex;
+    width: 200%;
+    height: 100%;
+    transition: transform 0.3s ease;
+}
+
+.slide {
+    width: 50%;
+    height: 100%;
+    flex-shrink: 0;
+}
+
+.slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.slider-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.slider-arrow:hover {
+    background: rgba(0, 0, 0, 0.9);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.slider-arrow-left {
+    left: 15px;
+}
+
+.slider-arrow-right {
+    right: 15px;
+}
+
+.slider-dots {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.dot.active {
+    background: white;
+    transform: scale(1.2);
+}
+
+.dot:hover {
+    background: rgba(255, 255, 255, 0.8);
 }
 
 .product-info-section {
@@ -429,7 +759,7 @@
 .product-info-section .product-price {
     font-size: 1.5rem;
     font-weight: 700;
-    color: #2563eb;
+    color: var(--accent-color);
     margin: 0;
 }
 
@@ -475,8 +805,8 @@
 .color-buttons button:hover,
 .size-buttons button.active,
 .color-buttons button.active {
-    border-color: #2563eb;
-    background: #2563eb;
+    border-color: var(--accent-color);
+    background: var(--accent-color);
     color: white;
 }
 
@@ -502,8 +832,8 @@
 }
 
 .quantity-btn:hover {
-    border-color: #2563eb;
-    background: #2563eb;
+    border-color: var(--accent-color);
+    background: var(--accent-color);
     color: white;
 }
 
@@ -525,7 +855,7 @@
 }
 
 .add-to-cart-btn {
-    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    background: linear-gradient(135deg, var(--accent-color), #ff6b6b);
     color: white;
     border: none;
     padding: 15px 30px;
@@ -540,7 +870,7 @@
 
 .add-to-cart-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+    box-shadow: 0 10px 25px rgba(255, 59, 63, 0.3);
 }
 
 .add-to-cart-btn.loading span {
@@ -559,6 +889,16 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.add-to-cart-btn.guest-modal-add-to-cart {
+    background: linear-gradient(135deg, #6B7280, #4B5563) !important;
+    border: 2px solid #9CA3AF;
+}
+
+.add-to-cart-btn.guest-modal-add-to-cart:hover {
+    background: linear-gradient(135deg, #4B5563, #374151) !important;
+    border-color: #6B7280;
 }
 
 .stock-info {
@@ -599,7 +939,7 @@
         padding: 20px;
     }
     
-    .product-image-section img {
+    .image-slider {
         height: 300px;
     }
     
@@ -662,7 +1002,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Modal Add to Cart functionality
     const modalAddToCartBtn = document.getElementById('modalAddToCart');
     modalAddToCartBtn.addEventListener('click', function() {
-        if (currentProductId) {
+        if (this.classList.contains('guest-modal-add-to-cart')) {
+            // Show login modal for guests
+            const productName = document.getElementById('modalProductName').textContent;
+            showLoginModal(productName);
+            closeQuickView();
+        } else if (currentProductId) {
             const quantity = parseInt(quantityInput.value);
             addToCartFromModal(currentProductId, quantity);
         }
@@ -694,13 +1039,31 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function populateModal(product) {
+        console.log('Product data:', product); // Debug log
+        
         // Update product information
-        document.getElementById('modalProductImage').src = product.image;
-        document.getElementById('modalProductImage').alt = product.name;
+        document.getElementById('modalProductImageFront').src = product.image;
+        document.getElementById('modalProductImageFront').alt = product.name + ' - Front';
+        
+        // Set back image or use front image as fallback
+        const backImageElement = document.getElementById('modalProductImageBack');
+        if (product.back_image) {
+            console.log('Setting back image:', product.back_image); // Debug log
+            backImageElement.src = product.back_image;
+            backImageElement.alt = product.name + ' - Back';
+        } else {
+            console.log('No back image, using front image as fallback'); // Debug log
+            backImageElement.src = product.image;
+            backImageElement.alt = product.name + ' - Back';
+        }
+        
         document.getElementById('modalProductName').textContent = product.name;
         document.getElementById('modalProductCategory').textContent = product.category;
         document.getElementById('modalProductPrice').textContent = product.formatted_price;
         document.getElementById('modalProductDescription').textContent = product.description;
+        
+        // Reset slider to first slide
+        resetSlider();
         
         // Update stock info
         const stockInfo = document.getElementById('modalStockInfo');
@@ -722,7 +1085,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const sizesContainer = document.getElementById('modalProductSizes');
         sizesContainer.innerHTML = '';
         if (product.size) {
-            const sizes = product.size.split(', ');
+            const sizes = product.size.split(',');
             sizes.forEach((size, index) => {
                 const sizeBtn = document.createElement('button');
                 sizeBtn.textContent = size.trim();
@@ -740,7 +1103,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const colorsContainer = document.getElementById('modalProductColors');
         colorsContainer.innerHTML = '';
         if (product.color) {
-            const colors = product.color.split(', ');
+            const colors = product.color.split(',');
             colors.forEach((color, index) => {
                 const colorBtn = document.createElement('button');
                 colorBtn.textContent = color.trim();
@@ -762,6 +1125,33 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function addToCartFromModal(productId, quantity) {
+        // Get selected size and color
+        const selectedSize = document.querySelector('#modalProductSizes button.active')?.textContent.trim() || '';
+        const selectedColor = document.querySelector('#modalProductColors button.active')?.textContent.trim() || '';
+        
+        // Check if size is required and selected
+        const sizesContainer = document.getElementById('modalProductSizes');
+        const hasSizes = sizesContainer && sizesContainer.children.length > 0;
+        
+        if (hasSizes && !selectedSize) {
+            // Show error message for missing size selection
+            showToast('error', 'Size Required!', 'Please select a size before adding to cart.');
+            
+            // Highlight size section
+            const sizeOptions = document.querySelector('.size-options');
+            if (sizeOptions) {
+                sizeOptions.style.border = '2px solid #EF4444';
+                sizeOptions.style.borderRadius = '8px';
+                sizeOptions.style.padding = '10px';
+                setTimeout(() => {
+                    sizeOptions.style.border = '';
+                    sizeOptions.style.borderRadius = '';
+                    sizeOptions.style.padding = '';
+                }, 3000);
+            }
+            return;
+        }
+        
         modalAddToCartBtn.classList.add('loading');
         
         fetch('{{ route("cart.add") }}', {
@@ -772,7 +1162,9 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             body: JSON.stringify({
                 product_id: productId,
-                quantity: quantity
+                quantity: quantity,
+                size: selectedSize,
+                color: selectedColor
             })
         })
         .then(response => response.json())
@@ -790,7 +1182,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Show success toast
                 const productName = document.getElementById('modalProductName').textContent;
-                showToast('success', 'Added to Cart!', `${productName} has been added to your cart.`);
+                const sizeText = selectedSize ? ` (Size: ${selectedSize})` : '';
+                showToast('success', 'Added to Cart!', `${productName}${sizeText} has been added to your cart.`);
                 
                 // Close modal after short delay
                 setTimeout(() => {
@@ -807,8 +1200,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Add to cart functionality
-    const addToCartButtons = document.querySelectorAll('.add-to-cart');
+    // Add to cart functionality for authenticated users
+    const addToCartButtons = document.querySelectorAll('.add-to-cart:not(.guest-add-to-cart)');
     const cartCounter = document.querySelector('.cart-counter');
     
     addToCartButtons.forEach(button => {
@@ -816,52 +1209,18 @@ document.addEventListener('DOMContentLoaded', function() {
             const productId = this.dataset.productId;
             const productName = this.closest('.product-card').querySelector('.product-name').textContent;
             
-            // Add loading state
-            this.classList.add('loading');
-            
-            // Send AJAX request to add product to cart
-            fetch('{{ route("cart.add") }}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
-                body: JSON.stringify({
-                    product_id: productId || 1,
-                    quantity: 1
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Remove loading state
-                this.classList.remove('loading');
-                
-                if (data.success) {
-                    // Update cart counter with animation
-                    cartCounter.textContent = data.cart_count;
-                    cartCounter.classList.add('updated');
-                    setTimeout(() => cartCounter.classList.remove('updated'), 600);
-                    
-                    // Show success toast
-                    showToast('success', 'Added to Cart!', `${productName} has been added to your cart.`);
-                } else {
-                    // Show error toast
-                    showToast('error', 'Error!', data.message || 'Failed to add product to cart.');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                this.classList.remove('loading');
-                
-                // Fallback: just increment counter
-                let currentCount = parseInt(cartCounter.textContent) || 0;
-                cartCounter.textContent = currentCount + 1;
-                cartCounter.classList.add('updated');
-                setTimeout(() => cartCounter.classList.remove('updated'), 600);
-                
-                // Show error toast
-                showToast('error', 'Error!', 'Something went wrong. Please try again.');
-            });
+            // For home page, always show quick view modal for size selection
+            openQuickView(productId);
+        });
+    });
+    
+    // Handle guest add to cart - show login notification
+    const guestAddToCartButtons = document.querySelectorAll('.guest-add-to-cart');
+    
+    guestAddToCartButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const productName = this.closest('.product-card').querySelector('.product-name').textContent;
+            showLoginModal(productName);
         });
     });
     
@@ -903,6 +1262,180 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => toast.remove(), 300);
         }, 3000);
     }
+    
+    // Show login modal for guests
+    function showLoginModal(productName) {
+        // Remove existing modal if any
+        const existingModal = document.getElementById('loginModal');
+        if (existingModal) {
+            existingModal.remove();
+        }
+        
+        // Create modal HTML
+        const modalHTML = `
+            <div id="loginModal" class="login-modal">
+                <div class="login-modal-overlay"></div>
+                <div class="login-modal-content">
+                    <button class="login-modal-close">&times;</button>
+                    <div class="login-modal-body">
+                        <div class="login-modal-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                                <circle cx="9" cy="7" r="4"/>
+                                <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                            </svg>
+                        </div>
+                        <h2>Buat Akun untuk Melanjutkan</h2>
+                        <p>Untuk membeli <strong>${productName}</strong>, Anda perlu membuat akun terlebih dahulu.</p>
+                        <div class="login-benefits">
+                            <div class="benefit-item">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20,6 9,17 4,12"/>
+                                </svg>
+                                <span>Simpan produk favorit</span>
+                            </div>
+                            <div class="benefit-item">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20,6 9,17 4,12"/>
+                                </svg>
+                                <span>Lacak pesanan Anda</span>
+                            </div>
+                            <div class="benefit-item">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20,6 9,17 4,12"/>
+                                </svg>
+                                <span>Checkout lebih cepat</span>
+                            </div>
+                            <div class="benefit-item">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20,6 9,17 4,12"/>
+                                </svg>
+                                <span>Dapatkan penawaran eksklusif</span>
+                            </div>
+                        </div>
+                        <div class="login-modal-actions">
+                            <a href="{{ route('register') }}" class="btn-register">Daftar Sekarang</a>
+                            <a href="{{ route('login') }}" class="btn-login">Sudah Punya Akun? Login</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        // Add modal to page
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+        
+        // Show modal with animation
+        const modal = document.getElementById('loginModal');
+        setTimeout(() => modal.classList.add('show'), 10);
+        
+        // Add event listeners
+        const closeBtn = modal.querySelector('.login-modal-close');
+        const overlay = modal.querySelector('.login-modal-overlay');
+        
+        closeBtn.addEventListener('click', closeLoginModal);
+        overlay.addEventListener('click', closeLoginModal);
+        
+        // Prevent body scroll
+        document.body.style.overflow = 'hidden';
+    }
+    
+    function closeLoginModal() {
+        const modal = document.getElementById('loginModal');
+        if (modal) {
+            modal.classList.remove('show');
+            setTimeout(() => {
+                modal.remove();
+                document.body.style.overflow = '';
+            }, 300);
+        }
+    }
+    
+    // Close modal with ESC key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeLoginModal();
+        }
+    });
+    
+    // Image Slider Functionality
+    let currentSlide = 0;
+    const totalSlides = 2;
+    
+    const sliderTrack = document.getElementById('modalSliderTrack');
+    const prevBtn = document.getElementById('modalSliderPrev');
+    const nextBtn = document.getElementById('modalSliderNext');
+    const dots = document.querySelectorAll('.slider-dots .dot');
+    
+    function updateSlider() {
+        const translateX = -currentSlide * 50;
+        console.log('Updating slider - currentSlide:', currentSlide, 'translateX:', translateX); // Debug log
+        sliderTrack.style.transform = `translateX(${translateX}%)`;
+        
+        // Update dots
+        dots.forEach((dot, index) => {
+            dot.classList.toggle('active', index === currentSlide);
+        });
+    }
+    
+    function nextSlide() {
+        console.log('Next slide clicked - current:', currentSlide); // Debug log
+        currentSlide = (currentSlide + 1) % totalSlides;
+        updateSlider();
+    }
+    
+    function prevSlide() {
+        console.log('Previous slide clicked - current:', currentSlide); // Debug log
+        currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+        updateSlider();
+    }
+    
+    function goToSlide(slideIndex) {
+        currentSlide = slideIndex;
+        updateSlider();
+    }
+    
+    function resetSlider() {
+        currentSlide = 0;
+        updateSlider();
+    }
+    
+    // Event listeners for slider controls
+    if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+    if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+    
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => goToSlide(index));
+    });
+    
+    // Auto-slide functionality (optional)
+    let autoSlideInterval;
+    
+    function startAutoSlide() {
+        autoSlideInterval = setInterval(nextSlide, 5000); // Change slide every 5 seconds
+    }
+    
+    function stopAutoSlide() {
+        clearInterval(autoSlideInterval);
+    }
+    
+    // Add event listeners for user interaction
+    if (sliderTrack) {
+        sliderTrack.addEventListener('mouseenter', stopAutoSlide);
+        sliderTrack.addEventListener('mouseleave', startAutoSlide);
+    }
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+        if (quickViewModal && quickViewModal.classList.contains('show')) {
+            if (e.key === 'ArrowLeft') {
+                prevSlide();
+            } else if (e.key === 'ArrowRight') {
+                nextSlide();
+            }
+        }
+    });
     
     // Smooth scrolling for hero CTA
     document.querySelector('.hero-cta').addEventListener('click', function(e) {

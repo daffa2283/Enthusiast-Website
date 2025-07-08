@@ -12,6 +12,11 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
         
+        // Redirect admin users to admin panel
+        if ($user->isAdmin()) {
+            return redirect('/admin')->with('info', 'Admin users should use the admin panel.');
+        }
+        
         // Get user's orders - search by user_id first, then by email as fallback
         $orders = Order::with('orderItems')
                       ->where(function($query) use ($user) {

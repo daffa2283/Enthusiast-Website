@@ -16,12 +16,13 @@
 
         <div class="nav-right">
             <div class="search-container">
-                <form action="{{ route('search') }}" method="GET" class="search-form">
+                <form action="{{ route('search') }}" method="GET" class="search-form" id="searchForm">
                     <div class="search-input-wrapper">
                         <input type="text" 
                                name="q" 
                                placeholder="Search..." 
                                class="search-input"
+                               id="searchInput"
                                value="{{ request('q') }}"
                                autocomplete="off">
                         <button type="submit" class="search-btn">
@@ -62,7 +63,11 @@
                     </button>
                     <div class="user-dropdown" id="userDropdown">
                         <a href="{{ route('profile.edit') }}" class="dropdown-item">Profile</a>
-                        <a href="{{ route('dashboard') }}" class="dropdown-item">Dashboard</a>
+                        @if(auth()->user()->isAdmin())
+                            <a href="/admin" class="dropdown-item">Admin Panel</a>
+                        @else
+                            <a href="{{ route('dashboard') }}" class="dropdown-item">Dashboard</a>
+                        @endif
                         <div class="dropdown-divider"></div>
                         <form method="POST" action="{{ route('logout') }}" class="dropdown-form">
                             @csrf
@@ -105,7 +110,11 @@
                 </div>
                 <div class="mobile-user-links">
                     <a href="{{ route('profile.edit') }}" class="mobile-auth-link">Profile</a>
-                    <a href="{{ route('dashboard') }}" class="mobile-auth-link">Dashboard</a>
+                    @if(auth()->user()->isAdmin())
+                        <a href="/admin" class="mobile-auth-link">Admin Panel</a>
+                    @else
+                        <a href="{{ route('dashboard') }}" class="mobile-auth-link">Dashboard</a>
+                    @endif
                     <form method="POST" action="{{ route('logout') }}" class="mobile-logout-form">
                         @csrf
                         <button type="submit" class="mobile-auth-link logout-btn">Logout</button>

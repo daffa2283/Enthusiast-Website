@@ -550,6 +550,29 @@ function addToCart(productId, quantity, size, color, redirectToCheckout = false)
     const button = document.querySelector('.add-to-cart-btn');
     const originalText = button.innerHTML;
     
+    // Check if size is required and selected
+    const sizeButtons = document.querySelectorAll('.size-btn');
+    const hasSizes = sizeButtons.length > 0;
+    
+    if (hasSizes && !size) {
+        // Show error message for missing size selection
+        showToast('Error!', 'Please select a size before adding to cart.', 'error');
+        
+        // Highlight size section
+        const sizeOptions = document.querySelector('.size-options');
+        if (sizeOptions) {
+            sizeOptions.style.border = '2px solid #EF4444';
+            sizeOptions.style.borderRadius = '8px';
+            sizeOptions.style.padding = '10px';
+            setTimeout(() => {
+                sizeOptions.style.border = '';
+                sizeOptions.style.borderRadius = '';
+                sizeOptions.style.padding = '';
+            }, 3000);
+        }
+        return;
+    }
+    
     // Show loading state
     button.innerHTML = '<span>Adding...</span>';
     button.disabled = true;
@@ -570,7 +593,8 @@ function addToCart(productId, quantity, size, color, redirectToCheckout = false)
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            showToast('Success!', data.message, 'success');
+            const sizeText = size ? ` (Size: ${size})` : '';
+            showToast('Success!', `Product${sizeText} added to cart successfully!`, 'success');
             
             // Update cart count if it exists
             const cartCount = document.querySelector('.cart-count');

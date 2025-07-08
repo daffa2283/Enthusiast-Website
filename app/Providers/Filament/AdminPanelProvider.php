@@ -12,6 +12,11 @@ use Filament\Support\Colors\Color;
 use Filament\Widgets;
 use App\Filament\Widgets\DashboardStatsOverview;
 use App\Filament\Widgets\OrdersChart;
+use App\Http\Middleware\AdminMiddleware;
+use App\Http\Middleware\FilamentAdminAuth;
+use App\Filament\Pages\Auth\Login;
+use App\Filament\Pages\Auth\Logout;
+use Filament\Http\Responses\Auth\Contracts\LogoutResponse;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -22,13 +27,20 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class AdminPanelProvider extends PanelProvider
 {
+    public function boot(): void
+    {
+        // Bind custom logout response for admin panel
+        $this->app->bind(LogoutResponse::class, Logout::class);
+    }
+
     public function panel(Panel $panel): Panel
     {
         return $panel
             ->default()
             ->id('admin')
             ->path('admin')
-            ->login()
+            ->login(Login::class)
+            ->authGuard('admin')
             ->colors([
                 'primary' => Color::Slate,
                 'gray' => Color::Gray,
@@ -57,7 +69,7 @@ class AdminPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
             ])
             ->authMiddleware([
-                Authenticate::class,
+                FilamentAdminAuth::class,
             ]);
     }
 }

@@ -63,7 +63,7 @@ class Product extends Model
         if ($this->image) {
             return asset('storage/' . $this->image);
         }
-        return asset('images/default-product.jpg');
+        return asset('images/MOCKUP DEPAN.jpeg.jpg');
     }
 
     // Tambahkan accessor untuk URL gambar belakang

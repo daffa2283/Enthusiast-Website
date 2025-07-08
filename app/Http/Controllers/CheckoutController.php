@@ -84,7 +84,10 @@ class CheckoutController extends Controller
             ]);
             
             // Create order items
-            foreach ($cart as $productId => $details) {
+            foreach ($cart as $cartKey => $details) {
+                // Extract product ID from cart key (handles both old and new format)
+                $productId = isset($details['product_id']) ? $details['product_id'] : explode('_', $cartKey)[0];
+                
                 OrderItem::create([
                     'order_id' => $order->id,
                     'product_id' => $productId,
@@ -92,6 +95,8 @@ class CheckoutController extends Controller
                     'product_price' => $details['price'],
                     'quantity' => $details['quantity'],
                     'total' => $details['price'] * $details['quantity'],
+                    'size' => $details['size'] ?? null,
+                    'color' => $details['color'] ?? null,
                 ]);
                 
                 // Update product stock

@@ -90,6 +90,7 @@ class ProductResource extends Resource
                         FileUpload::make('image')
                             ->label('Front Image')
                             ->image()
+                            ->disk('public')
                             ->directory('products')
                             ->visibility('public')
                             ->imageEditor()
@@ -103,6 +104,7 @@ class ProductResource extends Resource
                         FileUpload::make('back_image')
                             ->label('Back Image')
                             ->image()
+                            ->disk('public')
                             ->directory('products')
                             ->visibility('public')
                             ->imageEditor()
@@ -122,8 +124,11 @@ class ProductResource extends Resource
         return $table
             ->columns([
                 ImageColumn::make('image')
+                    ->label('Image')
                     ->size(60)
-                    ->square(),
+                    ->square()
+                    ->disk('public')
+                    ->defaultImageUrl(asset('images/MOCKUP DEPAN.jpeg.jpg')),
 
                 TextColumn::make('name')
                     ->searchable()

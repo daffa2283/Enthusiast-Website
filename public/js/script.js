@@ -65,19 +65,31 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (searchInput && searchSuggestions) {
         let searchTimeout;
+        let currentRequest = null;
         
         searchInput.addEventListener('input', function() {
             const query = this.value.trim();
             
             clearTimeout(searchTimeout);
             
-            if (query.length > 2) {
+            // Cancel previous request
+            if (currentRequest) {
+                currentRequest.abort();
+            }
+            
+            if (query.length >= 2) {
                 searchTimeout = setTimeout(() => {
-                    // Simulate search suggestions (replace with actual API call)
-                    showSearchSuggestions(query);
+                    fetchSearchSuggestions(query);
                 }, 300);
             } else {
                 hideSearchSuggestions();
+            }
+        });
+        
+        searchInput.addEventListener('focus', function() {
+            const query = this.value.trim();
+            if (query.length >= 2) {
+                fetchSearchSuggestions(query);
             }
         });
         
@@ -87,42 +99,122 @@ document.addEventListener('DOMContentLoaded', function() {
                 hideSearchSuggestions();
             }, 200);
         });
+        
+        // Handle keyboard navigation
+        searchInput.addEventListener('keydown', function(e) {
+            const suggestions = searchSuggestions.querySelectorAll('.suggestion-item');
+            const activeSuggestion = searchSuggestions.querySelector('.suggestion-item.active');
+            
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                if (activeSuggestion) {
+                    activeSuggestion.classList.remove('active');
+                    const next = activeSuggestion.nextElementSibling;
+                    if (next) {
+                        next.classList.add('active');
+                    } else {
+                        suggestions[0]?.classList.add('active');
+                    }
+                } else {
+                    suggestions[0]?.classList.add('active');
+                }
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                if (activeSuggestion) {
+                    activeSuggestion.classList.remove('active');
+                    const prev = activeSuggestion.previousElementSibling;
+                    if (prev) {
+                        prev.classList.add('active');
+                    } else {
+                        suggestions[suggestions.length - 1]?.classList.add('active');
+                    }
+                } else {
+                    suggestions[suggestions.length - 1]?.classList.add('active');
+                }
+            } else if (e.key === 'Enter') {
+                if (activeSuggestion) {
+                    e.preventDefault();
+                    activeSuggestion.click();
+                }
+            } else if (e.key === 'Escape') {
+                hideSearchSuggestions();
+            }
+        });
     }
     
-    function showSearchSuggestions(query) {
-        // This would typically make an API call to get suggestions
-        const suggestions = [
-            'Essential Crewneck',
-            'Premium Hoodie',
-            'Classic T-Shirt',
-            'Vintage Jacket'
-        ].filter(item => item.toLowerCase().includes(query.toLowerCase()));
+    function fetchSearchSuggestions(query) {
+        if (!searchSuggestions) return;
         
-        if (suggestions.length > 0) {
-            searchSuggestions.innerHTML = suggestions.map(suggestion => 
-                `<div class="suggestion-item" onclick="selectSuggestion('${suggestion}')">${suggestion}</div>`
-            ).join('');
-            searchSuggestions.style.display = 'block';
-        } else {
-            hideSearchSuggestions();
-        }
+        // Show loading state
+        searchSuggestions.innerHTML = '<div class="search-loading">Searching...</div>';
+        searchSuggestions.classList.add('show');
+        
+        // Create new request
+        currentRequest = new AbortController();
+        
+        fetch(`/search/suggestions?q=${encodeURIComponent(query)}`, {
+            signal: currentRequest.signal
+        })
+        .then(response => response.json())
+        .then(products => {
+            if (products.length > 0) {
+                const suggestionsHTML = products.map(product => `
+                    <a href="${product.url}" class="suggestion-item" data-product-id="${product.id}">
+                        <img src="${product.image}" alt="${product.name}" class="suggestion-image" loading="lazy">
+                        <div class="suggestion-content">
+                            <div class="suggestion-name">${product.name}</div>
+                        </div>
+                    </a>
+                `).join('');
+                
+                searchSuggestions.innerHTML = suggestionsHTML;
+                searchSuggestions.classList.add('show');
+                
+                // Add click handlers
+                searchSuggestions.querySelectorAll('.suggestion-item').forEach(item => {
+                    item.addEventListener('mouseenter', function() {
+                        // Remove active class from all items
+                        searchSuggestions.querySelectorAll('.suggestion-item').forEach(i => i.classList.remove('active'));
+                        // Add active class to hovered item
+                        this.classList.add('active');
+                    });
+                    
+                    item.addEventListener('click', function(e) {
+                        // Let the link work normally
+                        hideSearchSuggestions();
+                    });
+                });
+            } else {
+                searchSuggestions.innerHTML = '<div class="no-suggestions">No products found</div>';
+                searchSuggestions.classList.add('show');
+            }
+        })
+        .catch(error => {
+            if (error.name !== 'AbortError') {
+                console.error('Search error:', error);
+                searchSuggestions.innerHTML = '<div class="no-suggestions">Search temporarily unavailable</div>';
+                searchSuggestions.classList.add('show');
+            }
+        });
     }
     
     function hideSearchSuggestions() {
         if (searchSuggestions) {
-            searchSuggestions.style.display = 'none';
+            searchSuggestions.classList.remove('show');
+            setTimeout(() => {
+                if (!searchSuggestions.classList.contains('show')) {
+                    searchSuggestions.innerHTML = '';
+                }
+            }, 300);
         }
     }
     
-    // Make selectSuggestion globally available
-    window.selectSuggestion = function(suggestion) {
-        if (searchInput) {
-            searchInput.value = suggestion;
+    // Close suggestions when clicking outside
+    document.addEventListener('click', function(e) {
+        if (searchInput && searchSuggestions && !searchInput.closest('.search-container').contains(e.target)) {
             hideSearchSuggestions();
-            // Trigger search
-            searchInput.closest('form').submit();
         }
-    };
+    });
 
     // Smooth scrolling for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {

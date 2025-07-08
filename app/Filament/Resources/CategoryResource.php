@@ -14,10 +14,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Toggle;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\BooleanColumn;
 use Filament\Tables\Filters\TernaryFilter;
 use Illuminate\Support\Str;
@@ -64,21 +62,6 @@ class CategoryResource extends Resource
                             ->default(true),
                     ])
                     ->columns(2),
-
-                Forms\Components\Section::make('Category Image')
-                    ->schema([
-                        FileUpload::make('image')
-                            ->image()
-                            ->directory('categories')
-                            ->visibility('public')
-                            ->imageEditor()
-                            ->imageEditorAspectRatios([
-                                '1:1',
-                                '4:3',
-                                '16:9',
-                            ])
-                            ->columnSpanFull(),
-                    ]),
             ]);
     }
 
@@ -86,11 +69,6 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
-                ImageColumn::make('image')
-                    ->size(60)
-                    ->square()
-                    ->defaultImageUrl(url('/images/default-category.png')),
-                
                 TextColumn::make('name')
                     ->searchable()
                     ->sortable()

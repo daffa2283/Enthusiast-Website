@@ -211,6 +211,38 @@
     font-size: 14px;
 }
 
+.item-attributes {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.attribute-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    color: #495057;
+    padding: 0.2rem 0.6rem;
+    border-radius: 15px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border: 1px solid #dee2e6;
+}
+
+.size-badge {
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+    color: #1565c0;
+    border-color: #90caf9;
+}
+
+.color-badge {
+    background: linear-gradient(135deg, #f3e5f5, #e1bee7);
+    color: #7b1fa2;
+    border-color: #ce93d8;
+}
+
 .item-quantity {
     color: #666;
     font-size: 12px;
@@ -409,7 +441,7 @@
                                id="customer_name" 
                                name="customer_name" 
                                class="form-input" 
-                               value="{{ old('customer_name') }}" 
+                               value="{{ old('customer_name', auth()->user()->name ?? '') }}" 
                                required>
                     </div>
                     
@@ -419,7 +451,7 @@
                                id="customer_email" 
                                name="customer_email" 
                                class="form-input" 
-                               value="{{ old('customer_email') }}" 
+                               value="{{ old('customer_email', auth()->user()->email ?? '') }}" 
                                required>
                     </div>
                     
@@ -543,15 +575,21 @@
                 <div class="order-items">
                     @foreach($cart as $id => $details)
                         <div class="order-item">
-<<<<<<< HEAD
-                            <img src="{{ asset($details['image'] ?? 'images/MOCKUP DEPAN.jpeg.jpg') }}" 
-=======
-                            <img src="{{ asset('storage/' .$details['image'] ?? 'images/MOCKUP DEPAN.jpeg.jpg') }}" 
->>>>>>> 82222bc52ccb8b3cd430cfa57b880d708a18ee3d
+                            <img src="{{ isset($details['image']) && $details['image'] ? asset('storage/' . $details['image']) : asset('images/MOCKUP DEPAN.jpeg.jpg') }}" 
                                  alt="{{ $details['name'] }}" 
                                  class="item-image">
                             <div class="item-details">
                                 <div class="item-name">{{ $details['name'] }}</div>
+                                @if(isset($details['size']) || isset($details['color']))
+                                    <div class="item-attributes">
+                                        @if(isset($details['size']) && $details['size'])
+                                            <span class="attribute-badge size-badge">Size: {{ $details['size'] }}</span>
+                                        @endif
+                                        @if(isset($details['color']) && $details['color'])
+                                            <span class="attribute-badge color-badge">Color: {{ $details['color'] }}</span>
+                                        @endif
+                                    </div>
+                                @endif
                                 <div class="item-quantity">Qty: {{ $details['quantity'] }}</div>
                             </div>
                             <div class="item-price">
