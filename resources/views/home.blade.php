@@ -3,13 +3,6 @@
 @section('title', 'EnthusiastVerse - Home')
 
 @section('content')
-<<<<<<< HEAD
-<!-- Hero Section dengan slogan -->
-<section class="hero" id="home">
-    <div class="hero-content">
-        <h1>LOVE IS<br>ALL-TO<br>WEAPON</h1>
-        <!-- <p class="hero-quote">"I keep my circle small because there are too many people out there who would tear you down instead of raising you up. Our message is: if you don't like it, please leave. We can live without having to put up with the bullshit that comes out of the mouths of people who don't like us."</p> -->
-=======
 <!-- Hero Section dengan video jumbotron -->
 <section class="hero" id="home">
     <div class="hero-video">
@@ -17,10 +10,12 @@
             <source src="{{ asset('videos/hero-video.mp4') }}" type="video/mp4">
             Your browser does not support the video tag.
         </video>
+        <div class="hero-overlay"></div>
     </div>
     <div class="hero-content">
-        <h1><br><br></h1>
->>>>>>> 82222bc52ccb8b3cd430cfa57b880d708a18ee3d
+        <h1>LOVE IS<br>ALL-TO<br>WEAPON</h1>
+        <p class="hero-quote">"Express your passion through fashion. Every piece tells a story of boldness, creativity, and identity."</p>
+        <a href="#products" class="hero-cta">Explore Collection</a>
     </div>
 </section>
 
@@ -31,11 +26,7 @@
         @forelse($products as $product)
             <div class="product-card">
                 <div class="product-image">
-<<<<<<< HEAD
-                    <img src="{{ asset($product->image) }}" alt="{{ $product->name }}">
-=======
                     <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
->>>>>>> 82222bc52ccb8b3cd430cfa57b880d708a18ee3d
                     <div class="product-hover">
                         <button class="quick-view" data-product-id="{{ $product->id }}">Quick View</button>
                     </div>
@@ -88,13 +79,6 @@
     </div>
 </section>
 
-<<<<<<< HEAD
-<!-- About Section -->
-<section class="about" id="about">
-    <div class="container">
-        <h2>About Enthusias</h2>
-        <p>Enthusias is more than just a clothing brand. We're a movement — a reflection of passion, resistance, and love transformed into a statement. Each piece in our collection tells a story of boldness, creativity, and identity. Join us and wear what you believe in.</p>
-=======
 <!-- Quick View Modal -->
 <div id="quickViewModal" class="quick-view-modal">
     <div class="modal-overlay"></div>
@@ -150,13 +134,97 @@
     <div class="container">
         <h2>About EnthusiastVerse</h2>
         <p>EnthusiastVerse is more than just a clothing brand. We're a movement — a reflection of passion, resistance, and love transformed into a statement. Each piece in our collection tells a story of boldness, creativity, and identity. Join us and wear what you believe in.</p>
->>>>>>> 82222bc52ccb8b3cd430cfa57b880d708a18ee3d
     </div>
 </section>
 @endsection
 
 @push('styles')
 <style>
+/* Hero Section Improvements */
+.hero {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.jumbotron-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: white;
+    max-width: 800px;
+    padding: 0 2rem;
+}
+
+.hero-content h1 {
+    font-size: 4rem;
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.hero-quote {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    font-style: italic;
+    opacity: 0.9;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+.hero-cta {
+    display: inline-block;
+    background: linear-gradient(135deg, #FF3B3F, #ff6b6b);
+    color: white;
+    padding: 1rem 2rem;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 59, 63, 0.3);
+}
+
+.hero-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 59, 63, 0.4);
+    background: linear-gradient(135deg, #ff6b6b, #FF3B3F);
+}
+
 /* Toast Notification Styles */
 .toast {
     position: fixed;
@@ -246,35 +314,6 @@
     80% {
         transform: translateY(-5px);
     }
-}
-<<<<<<< HEAD
-=======
-.hero {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
-}
-
-.hero-video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-}
-
-.jumbotron-video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.hero-content {
-    position: relative;
-    z-index: 1;
-    /* Pastikan konten tetap terlihat di atas video */
 }
 
 /* Quick View Modal Styles */
@@ -535,6 +574,20 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    .hero-content h1 {
+        font-size: 2.5rem;
+        letter-spacing: 2px;
+    }
+    
+    .hero-quote {
+        font-size: 1rem;
+    }
+    
+    .hero-cta {
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+    }
+    
     .modal-content {
         margin: 10px;
         max-height: 95vh;
@@ -554,15 +607,12 @@
         font-size: 1.5rem;
     }
 }
->>>>>>> 82222bc52ccb8b3cd430cfa57b880d708a18ee3d
 </style>
 @endpush
 
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-<<<<<<< HEAD
-=======
     // Quick View functionality
     const quickViewButtons = document.querySelectorAll('.quick-view');
     const quickViewModal = document.getElementById('quickViewModal');
@@ -757,7 +807,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
->>>>>>> 82222bc52ccb8b3cd430cfa57b880d708a18ee3d
     // Add to cart functionality
     const addToCartButtons = document.querySelectorAll('.add-to-cart');
     const cartCounter = document.querySelector('.cart-counter');
@@ -854,6 +903,14 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => toast.remove(), 300);
         }, 3000);
     }
+    
+    // Smooth scrolling for hero CTA
+    document.querySelector('.hero-cta').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelector('#products').scrollIntoView({
+            behavior: 'smooth'
+        });
+    });
 });
 </script>
 @endpush
