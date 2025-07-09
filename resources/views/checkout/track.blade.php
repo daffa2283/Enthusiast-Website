@@ -236,13 +236,6 @@
     font-size: 0.8rem;
 }
 
-.order-info {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
-    margin: 2rem 0;
-}
-
 .info-card {
     background: #f8f9fa;
     padding: 1rem;
@@ -332,10 +325,6 @@
         text-align: center;
     }
     
-    .order-info {
-        grid-template-columns: 1fr;
-    }
-    
     .timeline {
         padding-left: 1.5rem;
     }
@@ -387,25 +376,6 @@
                     <div class="order-number">Order #{{ $order->order_number }}</div>
                     <div class="order-status status-{{ $order->status }}">
                         {{ ucfirst($order->status) }}
-                    </div>
-                </div>
-                
-                <div class="order-info">
-                    <div class="info-card">
-                        <div class="info-label">Customer</div>
-                        <div class="info-value">{{ $order->customer_name }}</div>
-                    </div>
-                    <div class="info-card">
-                        <div class="info-label">Order Date</div>
-                        <div class="info-value">{{ $order->created_at->format('M d, Y') }}</div>
-                    </div>
-                    <div class="info-card">
-                        <div class="info-label">Total Amount</div>
-                        <div class="info-value">{{ $order->formatted_total }}</div>
-                    </div>
-                    <div class="info-card">
-                        <div class="info-label">Payment Method</div>
-                        <div class="info-value">{{ ucwords(str_replace('_', ' ', $order->payment_method)) }}</div>
                     </div>
                 </div>
                 

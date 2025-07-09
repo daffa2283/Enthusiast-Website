@@ -27,13 +27,6 @@
                         @include('profile.partials.update-password-form')
                     </div>
                 </div>
-
-                <div class="profile-section">
-                    <h2>Delete Account</h2>
-                    <div class="profile-card">
-                        @include('profile.partials.delete-user-form')
-                    </div>
-                </div>
             </div>
         </div>
     </div>

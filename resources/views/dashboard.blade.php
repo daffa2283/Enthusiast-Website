@@ -170,7 +170,14 @@
                                 </div>
                                 <div class="order-content">
                                     <div class="order-header">
-                                        <h4>Order #{{ $order->order_number }}</h4>
+                                        <div class="order-number-section">
+                                            <h4>Order #{{ $order->order_number }}</h4>
+                                            <button class="copy-btn" onclick="copyOrderNumber('{{ $order->order_number }}', event)" title="Copy Order Number">
+                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                                    <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                                                </svg>
+                                            </button>
+                                        </div>
                                         <span class="status-badge {{ $order->status === 'completed' ? 'completed' : ($order->status === 'pending' ? 'pending' : 'processing') }}">
                                             {{ ucfirst($order->status) }}
                                         </span>
@@ -604,11 +611,50 @@
     margin-bottom: 0.5rem;
 }
 
+.order-number-section {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
 .order-header h4 {
     font-size: 1rem;
     font-weight: 600;
     color: #1e293b;
     margin: 0;
+}
+
+/* Copy Button Styles */
+.copy-btn {
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 0.25rem;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+}
+
+.copy-btn:hover {
+    background: #3b82f6;
+    color: white;
+    border-color: #3b82f6;
+    transform: translateY(-1px);
+}
+
+.copy-btn:active {
+    transform: translateY(0);
+}
+
+.copy-btn.copied {
+    background: #10b981;
+    color: white;
+    border-color: #10b981;
 }
 
 .order-details {
@@ -834,4 +880,168 @@
     }
 }
 </style>
+@endpush
+
+@push('scripts')
+<script>
+// Function to copy order number (only the part after "#")
+function copyOrderNumber(orderNumber, event) {
+    // Prevent any default behavior
+    if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+    
+    // Extract only the part after "#"
+    const orderNumberOnly = orderNumber.toString();
+    
+    // Get the button element
+    const button = event ? event.target.closest('.copy-btn') : document.querySelector('.copy-btn');
+    
+    console.log('Copying order number:', orderNumberOnly); // Debug log
+    
+    // Try to use the modern clipboard API
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(orderNumberOnly).then(() => {
+            console.log('Copy successful via clipboard API'); // Debug log
+            showCopySuccess(button);
+        }).catch((err) => {
+            console.log('Clipboard API failed, using fallback:', err); // Debug log
+            // Fallback to older method
+            fallbackCopyTextToClipboard(orderNumberOnly, button);
+        });
+    } else {
+        console.log('Using fallback copy method'); // Debug log
+        // Fallback for older browsers
+        fallbackCopyTextToClipboard(orderNumberOnly, button);
+    }
+}
+
+// Fallback copy function for older browsers
+function fallbackCopyTextToClipboard(text, button) {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.position = "fixed";
+    textArea.style.left = "-999999px";
+    textArea.style.top = "-999999px";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    
+    try {
+        const successful = document.execCommand('copy');
+        if (successful) {
+            showCopySuccess(button);
+        } else {
+            showCopyError();
+        }
+    } catch (err) {
+        showCopyError();
+    }
+    
+    document.body.removeChild(textArea);
+}
+
+// Function to show copy success feedback
+function showCopySuccess(button) {
+    // Add copied class for animation
+    button.classList.add('copied');
+    
+    // Change icon to checkmark temporarily
+    const originalIcon = button.querySelector('svg').innerHTML;
+    button.querySelector('svg').innerHTML = `
+        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+    `;
+    
+    // Update title
+    const originalTitle = button.title;
+    button.title = 'Copied!';
+    
+    // Show success notification
+    showToast('Order number copied to clipboard!', 'success');
+    
+    // Reset after 2 seconds
+    setTimeout(() => {
+        button.classList.remove('copied');
+        button.title = originalTitle;
+        button.querySelector('svg').innerHTML = originalIcon;
+    }, 2000);
+}
+
+// Function to show copy error
+function showCopyError() {
+    showToast('Failed to copy order number', 'error');
+}
+
+// Simple toast notification function
+function showToast(message, type = 'success') {
+    // Remove existing toasts
+    const existingToasts = document.querySelectorAll('.toast-notification');
+    existingToasts.forEach(toast => toast.remove());
+    
+    // Create toast element
+    const toast = document.createElement('div');
+    toast.className = `toast-notification toast-${type}`;
+    toast.textContent = message;
+    
+    // Style the toast
+    toast.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: ${type === 'success' ? '#10b981' : '#ef4444'};
+        color: white;
+        padding: 12px 20px;
+        border-radius: 8px;
+        font-weight: 500;
+        font-size: 14px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        z-index: 10000;
+        animation: slideIn 0.3s ease;
+        max-width: 300px;
+    `;
+    
+    // Add animation keyframes if not already added
+    if (!document.querySelector('#toast-styles')) {
+        const style = document.createElement('style');
+        style.id = 'toast-styles';
+        style.textContent = `
+            @keyframes slideIn {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+            @keyframes slideOut {
+                from {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+                to {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+    
+    // Add to page
+    document.body.appendChild(toast);
+    
+    // Remove after 3 seconds
+    setTimeout(() => {
+        toast.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => {
+            if (toast.parentNode) {
+                toast.parentNode.removeChild(toast);
+            }
+        }, 300);
+    }, 3000);
+}
+</script>
 @endpush

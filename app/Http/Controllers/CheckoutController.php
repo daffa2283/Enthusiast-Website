@@ -150,4 +150,37 @@ class CheckoutController extends Controller
         
         return view('checkout.track', compact('order'));
     }
+    
+    public function confirmPayment($orderId)
+    {
+        try {
+            $order = Order::findOrFail($orderId);
+            
+            // Check if order is still pending
+            if ($order->payment_status !== 'pending') {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Pembayaran sudah dikonfirmasi sebelumnya.'
+                ]);
+            }
+            
+            // Update order status
+            $order->update([
+                'status' => 'processing',
+                'payment_status' => 'paid'
+            ]);
+            
+            return response()->json([
+                'success' => true,
+                'message' => 'Pembayaran berhasil dikonfirmasi! Pesanan Anda sedang diproses.'
+            ]);
+            
+        } catch (\Exception $e) {
+            \Log::error('Payment confirmation error: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan saat mengkonfirmasi pembayaran: ' . $e->getMessage()
+            ]);
+        }
+    }
 }

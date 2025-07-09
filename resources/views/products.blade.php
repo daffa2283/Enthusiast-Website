@@ -32,16 +32,6 @@
                 </form>
             </div>
             
-            <div class="category-filter">
-                <select name="category" class="category-select" onchange="filterByCategory(this.value)">
-                    <option value="">All Categories</option>
-                    <option value="hoodie" {{ request('category') == 'hoodie' ? 'selected' : '' }}>Hoodies</option>
-                    <option value="tshirt" {{ request('category') == 'tshirt' ? 'selected' : '' }}>T-Shirts</option>
-                    <option value="crewneck" {{ request('category') == 'crewneck' ? 'selected' : '' }}>Crewnecks</option>
-                    <option value="jacket" {{ request('category') == 'jacket' ? 'selected' : '' }}>Jackets</option>
-                </select>
-            </div>
-            
             <div class="results-count">
                 <span>{{ $products->count() }} {{ $products->count() == 1 ? 'product' : 'products' }} found</span>
             </div>
@@ -141,7 +131,12 @@
 <div id="quickViewModal" class="quick-view-modal">
     <div class="modal-overlay"></div>
     <div class="modal-content">
-        <button class="modal-close">&times;</button>
+        <button class="modal-close">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
         <div class="modal-body">
             <div class="product-image-section">
                 <div class="image-slider">
@@ -156,10 +151,14 @@
                         </div>
                     </div>
                     <button class="slider-arrow slider-arrow-left" id="modalSliderPrev">
-                        <span>&lt;</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="15,18 9,12 15,6"></polyline>
+                        </svg>
                     </button>
                     <button class="slider-arrow slider-arrow-right" id="modalSliderNext">
-                        <span>&gt;</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9,18 15,12 9,6"></polyline>
+                        </svg>
                     </button>
                     <div class="slider-dots">
                         <span class="dot active" data-slide="0"></span>
@@ -168,46 +167,108 @@
                 </div>
             </div>
             <div class="product-info-section">
-                <h2 id="modalProductName">Product Name</h2>
-                <p id="modalProductCategory" class="product-category">Category</p>
-                <p id="modalProductPrice" class="product-price">Price</p>
+                <div class="product-header">
+                    <div class="product-badge">
+                        <span id="modalProductCategory" class="category-badge">Category</span>
+                    </div>
+                    <h2 id="modalProductName">Product Name</h2>
+                    <div class="price-container">
+                        <span id="modalProductPrice" class="product-price">Price</span>
+                        <div class="stock-indicator">
+                            <div class="stock-dot"></div>
+                            <span id="modalStockInfo" class="stock-text">In Stock</span>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="product-description">
-                    <h4>Description</h4>
+                    <h4>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14,2 14,8 20,8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                            <polyline points="10,9 9,9 8,9"></polyline>
+                        </svg>
+                        Description
+                    </h4>
                     <p id="modalProductDescription">Product description will appear here.</p>
                 </div>
+
                 <div class="product-options">
                     <div class="size-options">
-                        <h4>Size</h4>
+                        <h4>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                <circle cx="9" cy="9" r="2"></circle>
+                                <path d="M21 15.5c-.3-1.1-1.2-2-2.4-2.5"></path>
+                            </svg>
+                            Size
+                        </h4>
                         <div id="modalProductSizes" class="size-buttons">
                             <!-- Size buttons will be populated here -->
                         </div>
                     </div>
                     <div class="color-options">
-                        <h4>Color</h4>
+                        <h4>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="3"></circle>
+                                <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1m15.5-6.5l-4.24 4.24M7.76 7.76L3.52 3.52m12.96 12.96l-4.24-4.24M7.76 16.24l-4.24 4.24"></path>
+                            </svg>
+                            Color
+                        </h4>
                         <div id="modalProductColors" class="color-buttons">
                             <!-- Color buttons will be populated here -->
                         </div>
                     </div>
                     <div class="quantity-section">
-                        <h4>Quantity</h4>
+                        <h4>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="1" y="3" width="15" height="13"></rect>
+                                <polygon points="16,8 20,8 23,11 23,16 16,16 16,8"></polygon>
+                                <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                                <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                            </svg>
+                            Quantity
+                        </h4>
                         <div class="quantity-controls">
-                            <button type="button" class="quantity-btn minus">-</button>
+                            <button type="button" class="quantity-btn minus">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                            </button>
                             <input type="number" id="modalQuantity" value="1" min="1" max="10">
-                            <button type="button" class="quantity-btn plus">+</button>
+                            <button type="button" class="quantity-btn plus">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                            </button>
                         </div>
                     </div>
                 </div>
+
                 <div class="modal-actions">
                     @auth
-                        <button id="modalAddToCart" class="add-to-cart-btn">
+                        <button id="modalAddToCart" class="add-to-cart-btn primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 3h2l.4 2m0 0L6 13h11l1.5-8H5.4z"></path>
+                                <circle cx="9" cy="20" r="1"></circle>
+                                <circle cx="20" cy="20" r="1"></circle>
+                            </svg>
                             <span>Add to Cart</span>
                         </button>
                     @else
                         <button id="modalAddToCart" class="add-to-cart-btn guest-modal-add-to-cart">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
                             <span>LOGIN TO ADD TO CART</span>
                         </button>
                     @endauth
-                    <p id="modalStockInfo" class="stock-info">In Stock</p>
                 </div>
             </div>
         </div>
@@ -274,7 +335,7 @@
     align-items: center;
     gap: 2rem;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: center;
 }
 
 .filter-form {
@@ -320,21 +381,6 @@
     transform: scale(1.05);
 }
 
-.category-select {
-    padding: 0.75rem 1rem;
-    border: 2px solid #e9ecef;
-    border-radius: 25px;
-    font-size: 1rem;
-    background: white;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.category-select:focus {
-    outline: none;
-    border-color: var(--accent-color);
-}
-
 .results-count {
     font-weight: 500;
     color: #666;
@@ -351,6 +397,7 @@
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     gap: 3rem;
     margin-top: 2rem;
+    justify-content: center;
 }
 
 .product-card {
@@ -361,6 +408,9 @@
     box-shadow: 0 5px 20px rgba(0,0,0,0.08);
     transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
     border: 1px solid rgba(0,0,0,0.05);
+    max-width: 400px;
+    width: 100%;
+    justify-self: center;
 }
 
 .product-card:hover {
@@ -545,160 +595,6 @@
     background: linear-gradient(135deg, #5a6268, #495057);
 }
 
-/* Login Modal Styles */
-.login-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 10000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-}
-
-.login-modal.show {
-    opacity: 1;
-    visibility: visible;
-}
-
-.login-modal-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(5px);
-}
-
-.login-modal-content {
-    position: relative;
-    background: white;
-    border-radius: 20px;
-    max-width: 500px;
-    width: 100%;
-    max-height: 90vh;
-    overflow-y: auto;
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-    transform: scale(0.9) translateY(-20px);
-    transition: all 0.3s ease;
-}
-
-.login-modal.show .login-modal-content {
-    transform: scale(1) translateY(0);
-}
-
-.login-modal-close {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background: rgba(0, 0, 0, 0.1);
-    border: none;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    font-size: 24px;
-    cursor: pointer;
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-}
-
-.login-modal-close:hover {
-    background: rgba(0, 0, 0, 0.2);
-    transform: rotate(90deg);
-}
-
-.login-modal-body {
-    padding: 40px;
-    text-align: center;
-}
-
-.login-modal-icon {
-    margin-bottom: 20px;
-    color: #6B7280;
-}
-
-.login-modal-body h2 {
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: #1a1a1a;
-    margin-bottom: 15px;
-}
-
-.login-modal-body p {
-    color: #666;
-    font-size: 1.1rem;
-    line-height: 1.6;
-    margin-bottom: 30px;
-}
-
-.login-benefits {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-bottom: 30px;
-    text-align: left;
-}
-
-.benefit-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    color: #374151;
-}
-
-.benefit-item svg {
-    color: #10B981;
-    flex-shrink: 0;
-}
-
-.login-modal-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.btn-register {
-    background: linear-gradient(135deg, #2563eb, #1d4ed8);
-    color: white;
-    padding: 15px 30px;
-    border-radius: 12px;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 1.1rem;
-    transition: all 0.3s ease;
-    display: inline-block;
-}
-
-.btn-register:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
-    color: white;
-    text-decoration: none;
-}
-
-.btn-login {
-    color: #6B7280;
-    text-decoration: none;
-    font-weight: 500;
-    padding: 10px;
-    transition: color 0.3s ease;
-}
-
-.btn-login:hover {
-    color: #2563eb;
-    text-decoration: none;
-}
-
 .add-to-cart.out-of-stock {
     background: #6c757d;
     cursor: not-allowed;
@@ -709,21 +605,6 @@
     background: #6c757d;
     transform: none;
     box-shadow: none;
-}
-
-/* Out of stock product card styling */
-.product-card.out-of-stock-card {
-    opacity: 0.7;
-    filter: grayscale(20%);
-}
-
-.product-card.out-of-stock-card:hover {
-    opacity: 0.85;
-    transform: translateY(-5px);
-}
-
-.product-card.out-of-stock-card .product-image img {
-    filter: grayscale(10%);
 }
 
 .add-to-cart svg {
@@ -837,7 +718,6 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    font-size: 24px;
     cursor: pointer;
     z-index: 10;
     display: flex;
@@ -912,8 +792,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
-    font-weight: bold;
     transition: all 0.3s ease;
     z-index: 10;
 }
@@ -962,43 +840,140 @@
 .product-info-section {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 25px;
+}
+
+.product-header {
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 20px;
+}
+
+.product-badge {
+    margin-bottom: 12px;
+}
+
+.category-badge {
+    background: linear-gradient(135deg, var(--accent-color), #ff6b6b);
+    color: white;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: inline-block;
 }
 
 .product-info-section h2 {
     font-size: 2rem;
     font-weight: 700;
     color: #1a1a1a;
-    margin: 0;
+    margin: 0 0 15px 0;
+    line-height: 1.2;
 }
 
-.product-info-section .product-category {
-    color: #666;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin: 0;
+.price-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
 }
 
 .product-info-section .product-price {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     font-weight: 700;
     color: var(--accent-color);
     margin: 0;
 }
 
-.product-description h4,
-.product-options h4 {
+.stock-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: rgba(16, 185, 129, 0.1);
+    border-radius: 20px;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.stock-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #10b981;
+    animation: pulse 2s infinite;
+}
+
+.stock-indicator.out-of-stock {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.2);
+}
+
+.stock-indicator.out-of-stock .stock-dot {
+    background: #ef4444;
+}
+
+.stock-text {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #10b981;
+    margin: 0;
+}
+
+.stock-indicator.out-of-stock .stock-text {
+    color: #ef4444;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.product-description {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 12px;
+    border-left: 4px solid var(--accent-color);
+}
+
+.product-description h4 {
     font-size: 1rem;
     font-weight: 600;
     color: #1a1a1a;
-    margin: 0 0 10px 0;
+    margin: 0 0 12px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.product-description h4 svg {
+    color: var(--accent-color);
 }
 
 .product-description p {
     color: #666;
     line-height: 1.6;
     margin: 0;
+    font-size: 0.95rem;
+}
+
+.product-options h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0 0 12px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.product-options h4 svg {
+    color: var(--accent-color);
 }
 
 .product-options {
@@ -1047,8 +1022,6 @@
     background: white;
     border-radius: 8px;
     cursor: pointer;
-    font-size: 18px;
-    font-weight: 600;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1088,8 +1061,10 @@
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
 .add-to-cart-btn:hover {
@@ -1107,212 +1082,26 @@
     border-color: #6B7280;
 }
 
-.stock-info {
-    color: #10b981;
-    font-weight: 600;
-    margin: 0;
-    text-align: center;
+/* Out of Stock Button Styling */
+.add-to-cart-btn.out-of-stock-btn {
+    background: #6c757d !important;
+    color: white !important;
+    cursor: not-allowed !important;
+    opacity: 0.7 !important;
+    border: 2px solid #6c757d !important;
 }
 
-.stock-info.out-of-stock {
-    color: #ef4444;
+.add-to-cart-btn.out-of-stock-btn:hover {
+    background: #6c757d !important;
+    transform: none !important;
+    box-shadow: none !important;
+    border-color: #6c757d !important;
 }
 
-/* Loading and Animation States */
-.add-to-cart.loading {
-    opacity: 0.7;
-    pointer-events: none;
-}
-
-.add-to-cart.loading span {
-    opacity: 0;
-}
-
-.add-to-cart.loading::after {
-    content: '';
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    border: 2px solid transparent;
-    border-top: 2px solid white;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-@keyframes spin {
-    0% { transform: translate(-50%, -50%) rotate(0deg); }
-    100% { transform: translate(-50%, -50%) rotate(360deg); }
-}
-
-/* Size Selection Modal */
-.size-selection-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 10000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-}
-
-.size-selection-modal.show {
-    opacity: 1;
-    visibility: visible;
-}
-
-.size-selection-modal .modal-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(5px);
-}
-
-.size-selection-modal .modal-content {
-    position: relative;
-    background: white;
-    border-radius: 20px;
-    max-width: 500px;
-    width: 100%;
-    max-height: 90vh;
-    overflow-y: auto;
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-    transform: scale(0.9) translateY(-20px);
-    transition: all 0.3s ease;
-}
-
-.size-selection-modal.show .modal-content {
-    transform: scale(1) translateY(0);
-}
-
-.size-selection-modal .modal-close {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background: rgba(0, 0, 0, 0.1);
-    border: none;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    font-size: 24px;
-    cursor: pointer;
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-}
-
-.size-selection-modal .modal-close:hover {
-    background: rgba(0, 0, 0, 0.2);
-    transform: rotate(90deg);
-}
-
-.size-selection-modal .modal-body {
-    padding: 40px;
-    text-align: center;
-}
-
-.size-selection-modal h3 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #1a1a1a;
-    margin-bottom: 10px;
-}
-
-.size-selection-modal p {
-    color: #666;
-    font-size: 1rem;
-    margin-bottom: 30px;
-}
-
-.size-selection-buttons {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-bottom: 30px;
-}
-
-.size-selection-btn {
-    padding: 12px 20px;
-    border: 2px solid #e5e5e5;
-    background: white;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: 600;
-    font-size: 1rem;
-    min-width: 60px;
-}
-
-.size-selection-btn:hover {
-    border-color: var(--accent-color);
-    background: rgba(255, 59, 63, 0.1);
-}
-
-.size-selection-btn.active {
-    border-color: var(--accent-color);
-    background: var(--accent-color);
-    color: white;
-}
-
-.size-selection-modal .modal-actions {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-}
-
-.confirm-btn {
-    background: linear-gradient(135deg, var(--accent-color), #ff6b6b);
-    color: white;
-    border: none;
-    padding: 12px 30px;
-    border-radius: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 1rem;
-}
-
-.confirm-btn:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(255, 59, 63, 0.3);
-}
-
-.confirm-btn:disabled {
-    background: #ccc;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
-}
-
-.cancel-btn {
-    background: white;
-    color: #666;
-    border: 2px solid #e5e5e5;
-    padding: 12px 30px;
-    border-radius: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 1rem;
-}
-
-.cancel-btn:hover {
-    border-color: #ccc;
-    background: #f8f9fa;
+.add-to-cart-btn.out-of-stock-btn:disabled {
+    background: #6c757d !important;
+    color: white !important;
+    cursor: not-allowed !important;
 }
 
 /* Responsive Design */
@@ -1432,17 +1221,27 @@ document.addEventListener('DOMContentLoaded', function() {
     // Modal Add to Cart functionality
     const modalAddToCartBtn = document.getElementById('modalAddToCart');
     if (modalAddToCartBtn) {
-        modalAddToCartBtn.addEventListener('click', function() {
+        modalAddToCartBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('Modal button clicked!'); // Debug log
+            console.log('Button classes:', this.classList); // Debug log
+            
             if (this.classList.contains('guest-modal-add-to-cart')) {
-                // Show login modal for guests
+                console.log('Guest user detected, showing login modal'); // Debug log
+                // Show login modal for guests (regardless of stock status)
                 const productName = document.getElementById('modalProductName').textContent;
                 showLoginModal(productName);
                 closeQuickView();
-            } else if (currentProductId) {
+            } else if (currentProductId && !this.disabled) {
+                console.log('Authenticated user, adding to cart'); // Debug log
                 const quantity = parseInt(quantityInput.value);
                 addToCartFromModal(currentProductId, quantity);
+            } else {
+                console.log('Button disabled or no product ID'); // Debug log
             }
         });
+    } else {
+        console.log('Modal add to cart button not found!'); // Debug log
     }
     
     function openQuickView(productId) {
@@ -1473,8 +1272,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function populateModal(product) {
-        console.log('Product data:', product); // Debug log
-        
         // Update product information
         document.getElementById('modalProductImageFront').src = product.image;
         document.getElementById('modalProductImageFront').alt = product.name + ' - Front';
@@ -1482,11 +1279,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // Set back image or use front image as fallback
         const backImageElement = document.getElementById('modalProductImageBack');
         if (product.back_image) {
-            console.log('Setting back image:', product.back_image); // Debug log
             backImageElement.src = product.back_image;
             backImageElement.alt = product.name + ' - Back';
         } else {
-            console.log('No back image, using front image as fallback'); // Debug log
             backImageElement.src = product.image;
             backImageElement.alt = product.name + ' - Back';
         }
@@ -1499,21 +1294,83 @@ document.addEventListener('DOMContentLoaded', function() {
         // Reset slider to first slide
         resetSlider();
         
-        // Update stock info
+        // Update stock info and button based on stock status
         const stockInfo = document.getElementById('modalStockInfo');
+        const stockIndicator = document.querySelector('.stock-indicator');
+        const modalButtonSpan = modalAddToCartBtn.querySelector('span');
+        const modalButtonSvg = modalAddToCartBtn.querySelector('svg');
+        
         if (product.stock > 0) {
+            // Product is in stock
             stockInfo.textContent = `${product.stock} in stock`;
-            stockInfo.classList.remove('out-of-stock');
+            stockIndicator.classList.remove('out-of-stock');
             modalAddToCartBtn.disabled = false;
+            modalAddToCartBtn.classList.remove('out-of-stock-btn');
+            
+            // Reset button text and icon for in-stock products
+            @auth
+                modalButtonSpan.textContent = 'Add to Cart';
+                modalButtonSvg.innerHTML = `
+                    <path d="M3 3h2l.4 2m0 0L6 13h11l1.5-8H5.4z"></path>
+                    <circle cx="9" cy="20" r="1"></circle>
+                    <circle cx="20" cy="20" r="1"></circle>
+                `;
+            @else
+                modalButtonSpan.textContent = 'LOGIN TO ADD TO CART';
+                modalButtonSvg.innerHTML = `
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                    <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                `;
+            @endauth
         } else {
+            // Product is out of stock
             stockInfo.textContent = 'Out of stock';
-            stockInfo.classList.add('out-of-stock');
+            stockIndicator.classList.add('out-of-stock');
             modalAddToCartBtn.disabled = true;
+            modalAddToCartBtn.classList.add('out-of-stock-btn');
+            
+            // Change button text and icon for out-of-stock products
+            modalButtonSpan.textContent = 'Out of Stock';
+            modalButtonSvg.innerHTML = `
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="15" y1="9" x2="9" y2="15"></line>
+                <line x1="9" y1="9" x2="15" y2="15"></line>
+            `;
         }
         
         // Update quantity input max value
-        quantityInput.max = Math.min(product.stock, 10);
+        quantityInput.max = Math.min(product.stock || 1, 10);
         quantityInput.value = 1;
+        
+        // Disable quantity controls for out-of-stock products
+        const quantityControls = document.querySelectorAll('.quantity-btn, #modalQuantity');
+        quantityControls.forEach(control => {
+            if (product.stock <= 0) {
+                control.disabled = true;
+                control.style.opacity = '0.5';
+                control.style.cursor = 'not-allowed';
+            } else {
+                control.disabled = false;
+                control.style.opacity = '1';
+                control.style.cursor = 'pointer';
+            }
+        });
+        
+        // Disable size and color options for out-of-stock products
+        const optionButtons = document.querySelectorAll('.size-buttons button, .color-buttons button');
+        optionButtons.forEach(button => {
+            if (product.stock <= 0) {
+                button.disabled = true;
+                button.style.opacity = '0.5';
+                button.style.cursor = 'not-allowed';
+            } else {
+                button.disabled = false;
+                button.style.opacity = '1';
+                button.style.cursor = 'pointer';
+            }
+        });
         
         // Populate size options
         const sizesContainer = document.getElementById('modalProductSizes');
@@ -1572,19 +1429,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (hasSizes && !selectedSize) {
             // Show error message for missing size selection
             showToast('error', 'Size Required!', 'Please select a size before adding to cart.');
-            
-            // Highlight size section
-            const sizeOptions = document.querySelector('.size-options');
-            if (sizeOptions) {
-                sizeOptions.style.border = '2px solid #EF4444';
-                sizeOptions.style.borderRadius = '8px';
-                sizeOptions.style.padding = '10px';
-                setTimeout(() => {
-                    sizeOptions.style.border = '';
-                    sizeOptions.style.borderRadius = '';
-                    sizeOptions.style.padding = '';
-                }, 3000);
-            }
             return;
         }
         
@@ -1636,9 +1480,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Add to cart functionality for authenticated users
+    // Add to cart functionality for authenticated users - redirect to quick view
     const addToCartButtons = document.querySelectorAll('.add-to-cart:not(.guest-add-to-cart)');
-    const cartCounter = document.querySelector('.cart-counter');
     
     addToCartButtons.forEach(button => {
         button.addEventListener('click', function(e) {
@@ -1649,152 +1492,10 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             const productId = this.dataset.productId;
-            const productCard = this.closest('.product-card');
-            const productName = productCard.querySelector('.product-name').textContent;
-            const sizesText = productCard.querySelector('.product-sizes .info-value').textContent;
-            
-            // Check if product has sizes
-            if (sizesText && sizesText.trim() !== '' && sizesText.trim() !== '-') {
-                // Show size selection modal
-                showSizeSelectionModal(productId, productName, sizesText);
-            } else {
-                // Add to cart without size selection
-                addToCartDirectly(productId, productName, '', '');
-            }
+            // Always open quick view modal for size and quantity selection
+            openQuickView(productId);
         });
     });
-    
-    function addToCartDirectly(productId, productName, size, color) {
-        const button = document.querySelector(`[data-product-id="${productId}"]`);
-        button.classList.add('loading');
-        
-        fetch('{{ route("cart.add") }}', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
-            body: JSON.stringify({
-                product_id: productId,
-                quantity: 1,
-                size: size,
-                color: color
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            button.classList.remove('loading');
-            
-            if (data.success) {
-                // Update cart counter with animation
-                const cartCounter = document.querySelector('.cart-counter');
-                if (cartCounter) {
-                    cartCounter.textContent = data.cart_count;
-                    cartCounter.classList.add('updated');
-                    setTimeout(() => cartCounter.classList.remove('updated'), 600);
-                }
-                
-                // Show success toast
-                showToast('success', 'Added to Cart!', `${productName} has been added to your cart.`);
-            } else {
-                showToast('error', 'Error!', data.message || 'Failed to add product to cart.');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            button.classList.remove('loading');
-            showToast('error', 'Error!', 'Something went wrong. Please try again.');
-        });
-    }
-    
-    function showSizeSelectionModal(productId, productName, sizesText) {
-        // Remove existing modal if any
-        const existingModal = document.getElementById('sizeSelectionModal');
-        if (existingModal) {
-            existingModal.remove();
-        }
-        
-        // Parse sizes
-        const sizes = sizesText.split(',').map(s => s.trim()).filter(s => s !== '');
-        
-        // Create size selection modal HTML
-        const modalHTML = `
-            <div id="sizeSelectionModal" class="size-selection-modal">
-                <div class="modal-overlay"></div>
-                <div class="modal-content">
-                    <button class="modal-close">&times;</button>
-                    <div class="modal-body">
-                        <h3>Select Size for ${productName}</h3>
-                        <p>Please choose your preferred size:</p>
-                        <div class="size-selection-buttons">
-                            ${sizes.map(size => `
-                                <button type="button" class="size-selection-btn" data-size="${size}">
-                                    ${size}
-                                </button>
-                            `).join('')}
-                        </div>
-                        <div class="modal-actions">
-                            <button id="confirmSizeSelection" class="confirm-btn" disabled>Add to Cart</button>
-                            <button class="cancel-btn">Cancel</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
-        
-        // Add modal to page
-        document.body.insertAdjacentHTML('beforeend', modalHTML);
-        
-        // Show modal with animation
-        const modal = document.getElementById('sizeSelectionModal');
-        setTimeout(() => modal.classList.add('show'), 10);
-        
-        // Add event listeners
-        const closeBtn = modal.querySelector('.modal-close');
-        const overlay = modal.querySelector('.modal-overlay');
-        const cancelBtn = modal.querySelector('.cancel-btn');
-        const confirmBtn = modal.querySelector('#confirmSizeSelection');
-        const sizeButtons = modal.querySelectorAll('.size-selection-btn');
-        
-        let selectedSize = '';
-        
-        // Size selection handlers
-        sizeButtons.forEach(btn => {
-            btn.addEventListener('click', function() {
-                sizeButtons.forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                selectedSize = this.dataset.size;
-                confirmBtn.disabled = false;
-            });
-        });
-        
-        // Confirm selection
-        confirmBtn.addEventListener('click', function() {
-            if (selectedSize) {
-                closeSizeSelectionModal();
-                addToCartDirectly(productId, productName, selectedSize, '');
-            }
-        });
-        
-        // Close modal handlers
-        closeBtn.addEventListener('click', closeSizeSelectionModal);
-        overlay.addEventListener('click', closeSizeSelectionModal);
-        cancelBtn.addEventListener('click', closeSizeSelectionModal);
-        
-        // Prevent body scroll
-        document.body.style.overflow = 'hidden';
-    }
-    
-    function closeSizeSelectionModal() {
-        const modal = document.getElementById('sizeSelectionModal');
-        if (modal) {
-            modal.classList.remove('show');
-            setTimeout(() => {
-                modal.remove();
-                document.body.style.overflow = '';
-            }, 300);
-        }
-    }
     
     // Handle guest add to cart - show login notification
     const guestAddToCartButtons = document.querySelectorAll('.guest-add-to-cart');
@@ -1934,13 +1635,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Close modal with ESC key
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            closeLoginModal();
-        }
-    });
-    
     // Image Slider Functionality
     let currentSlide = 0;
     const totalSlides = 2;
@@ -1952,7 +1646,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function updateSlider() {
         const translateX = -currentSlide * 50;
-        console.log('Updating slider - currentSlide:', currentSlide, 'translateX:', translateX); // Debug log
         sliderTrack.style.transform = `translateX(${translateX}%)`;
         
         // Update dots
@@ -1962,13 +1655,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function nextSlide() {
-        console.log('Next slide clicked - current:', currentSlide); // Debug log
         currentSlide = (currentSlide + 1) % totalSlides;
         updateSlider();
     }
     
     function prevSlide() {
-        console.log('Previous slide clicked - current:', currentSlide); // Debug log
         currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
         updateSlider();
     }
@@ -1990,61 +1681,9 @@ document.addEventListener('DOMContentLoaded', function() {
     dots.forEach((dot, index) => {
         dot.addEventListener('click', () => goToSlide(index));
     });
-    
-    // Auto-slide functionality (optional)
-    let autoSlideInterval;
-    
-    function startAutoSlide() {
-        autoSlideInterval = setInterval(nextSlide, 5000); // Change slide every 5 seconds
-    }
-    
-    function stopAutoSlide() {
-        clearInterval(autoSlideInterval);
-    }
-    
-    // Start auto-slide when modal opens, stop when user interacts
-    function handleModalOpen() {
-        startAutoSlide();
-    }
-    
-    function handleUserInteraction() {
-        stopAutoSlide();
-        // Restart auto-slide after 3 seconds of no interaction
-        setTimeout(startAutoSlide, 3000);
-    }
-    
-    // Add event listeners for user interaction
-    if (sliderTrack) {
-        sliderTrack.addEventListener('mouseenter', stopAutoSlide);
-        sliderTrack.addEventListener('mouseleave', startAutoSlide);
-    }
-    
-    // Keyboard navigation
-    document.addEventListener('keydown', function(e) {
-        if (quickViewModal && quickViewModal.classList.contains('show')) {
-            if (e.key === 'ArrowLeft') {
-                prevSlide();
-                handleUserInteraction();
-            } else if (e.key === 'ArrowRight') {
-                nextSlide();
-                handleUserInteraction();
-            }
-        }
-    });
 });
 
-// Category filter function
-function filterByCategory(category) {
-    const currentUrl = new URL(window.location);
-    if (category) {
-        currentUrl.searchParams.set('category', category);
-    } else {
-        currentUrl.searchParams.delete('category');
-    }
-    window.location.href = currentUrl.toString();
-}
-
-// Toast styles
+// Add toast styles
 const toastStyles = `
 .toast {
     position: fixed;
@@ -2107,6 +1746,159 @@ const toastStyles = `
     80% {
         transform: translateY(-5px);
     }
+}
+
+.login-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.login-modal.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.login-modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+}
+
+.login-modal-content {
+    position: relative;
+    background: white;
+    border-radius: 20px;
+    max-width: 500px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+    transform: scale(0.9) translateY(-20px);
+    transition: all 0.3s ease;
+}
+
+.login-modal.show .login-modal-content {
+    transform: scale(1) translateY(0);
+}
+
+.login-modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.1);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.login-modal-close:hover {
+    background: rgba(0, 0, 0, 0.2);
+    transform: rotate(90deg);
+}
+
+.login-modal-body {
+    padding: 40px;
+    text-align: center;
+}
+
+.login-modal-icon {
+    margin-bottom: 20px;
+    color: #6B7280;
+}
+
+.login-modal-body h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 15px;
+}
+
+.login-modal-body p {
+    color: #666;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.login-benefits {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+    text-align: left;
+}
+
+.benefit-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #374151;
+}
+
+.benefit-item svg {
+    color: #10B981;
+    flex-shrink: 0;
+}
+
+.login-modal-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.btn-register {
+    background: linear-gradient(135deg, var(--accent-color), #ff6b6b);
+    color: white;
+    padding: 15px 30px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.btn-register:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(255, 59, 63, 0.3);
+    color: white;
+    text-decoration: none;
+}
+
+.btn-login {
+    color: #6B7280;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 10px;
+    transition: color 0.3s ease;
+}
+
+.btn-login:hover {
+    color: var(--accent-color);
+    text-decoration: none;
 }
 `;
 

@@ -33,17 +33,27 @@ Route::get('/cart', [HomeController::class, 'cart'])->name('cart');
 Route::get('/search', [HomeController::class, 'search'])->name('search');
 Route::get('/search/suggestions', [HomeController::class, 'searchSuggestions'])->name('search.suggestions');
 
-// Checkout & Cart functionality (protected)
+// Cart count (available to all users)
+Route::get('/cart/count', [HomeController::class, 'getCartCount'])->name('cart.count');
+
+// Cart test page (for debugging)
+Route::get('/cart/test', function () {
+    return view('cart-test');
+})->name('cart.test');
+
+// Cart and Checkout functionality (protected)
 Route::middleware('auth')->group(function () {
-    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
-    Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
     Route::post('/cart/add', [HomeController::class, 'addToCart'])->name('cart.add');
     Route::post('/cart/remove', [HomeController::class, 'removeFromCart'])->name('cart.remove');
-    Route::get('/cart/count', [HomeController::class, 'getCartCount'])->name('cart.count');
+    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+    Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
 });
 
 // Checkout success and tracking
 Route::get('/checkout/success/{order}', [CheckoutController::class, 'success'])->name('checkout.success');
+Route::post('/checkout/confirm-payment/{order}', [CheckoutController::class, 'confirmPayment'])
+    ->middleware('web')
+    ->name('checkout.confirm-payment');
 Route::get('/track-order', [CheckoutController::class, 'trackOrder'])->name('checkout.track');
 
 // Product detail page
@@ -61,8 +71,6 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
-
 
 // Authentication routes
 require __DIR__.'/auth.php';

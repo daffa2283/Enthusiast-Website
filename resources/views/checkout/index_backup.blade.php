@@ -160,153 +160,6 @@
     font-size: 14px;
 }
 
-/* Payment Details Styles */
-.payment-details {
-    margin-top: 1rem;
-    animation: slideDown 0.3s ease-out;
-}
-
-@keyframes slideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.payment-info-card {
-    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-    border: 1px solid #dee2e6;
-    border-radius: 12px;
-    padding: 1.5rem;
-    border-left: 4px solid #FF3B3F;
-}
-
-.payment-info-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 1rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid #dee2e6;
-}
-
-.payment-info-icon {
-    width: 20px;
-    height: 20px;
-    color: #FF3B3F;
-    margin-right: 8px;
-    flex-shrink: 0;
-}
-
-.payment-info-header h4 {
-    margin: 0;
-    font-size: 1rem;
-    font-weight: 600;
-    color: #1a1a1a;
-}
-
-.payment-info-content {
-    margin-bottom: 1rem;
-}
-
-.account-detail {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.75rem 0;
-    border-bottom: 1px solid rgba(0,0,0,0.05);
-}
-
-.account-detail:last-child {
-    border-bottom: none;
-}
-
-.detail-label {
-    font-weight: 500;
-    color: #666;
-    font-size: 0.9rem;
-    min-width: 120px;
-}
-
-.detail-value {
-    font-weight: 600;
-    color: #1a1a1a;
-    font-size: 0.9rem;
-    flex: 1;
-    text-align: right;
-    margin-right: 0.5rem;
-}
-
-.account-number {
-    font-family: 'Courier New', monospace;
-    font-size: 1rem;
-    letter-spacing: 1px;
-    background: rgba(255, 59, 63, 0.1);
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    border: 1px solid rgba(255, 59, 63, 0.2);
-}
-
-.copy-btn {
-    background: #FF3B3F;
-    color: white;
-    border: none;
-    padding: 0.5rem;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 36px;
-    height: 36px;
-}
-
-.copy-btn:hover {
-    background: #e63946;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(255, 59, 63, 0.3);
-}
-
-.copy-btn:active {
-    transform: translateY(0);
-}
-
-.payment-note {
-    background: rgba(255, 193, 7, 0.1);
-    border: 1px solid rgba(255, 193, 7, 0.3);
-    border-radius: 8px;
-    padding: 1rem;
-    margin-top: 1rem;
-}
-
-.payment-note p {
-    margin: 0;
-    font-size: 0.85rem;
-    line-height: 1.4;
-    color: #856404;
-}
-
-.payment-note strong {
-    color: #533f03;
-}
-
-/* Copy success animation */
-.copy-success {
-    background: #28a745 !important;
-    transform: scale(1.1);
-}
-
-.copy-success::after {
-    content: '✓';
-    position: absolute;
-    font-size: 12px;
-    font-weight: bold;
-}
-
 .order-summary {
     background: white;
     border-radius: 16px;
@@ -502,6 +355,153 @@
     color: #666;
     font-size: 12px;
     line-height: 1.4;
+}
+
+/* Payment Details Styles */
+.payment-details {
+    margin-top: 1rem;
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.payment-info-card {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border: 1px solid #dee2e6;
+    border-radius: 12px;
+    padding: 1.5rem;
+    border-left: 4px solid #FF3B3F;
+}
+
+.payment-info-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.payment-info-icon {
+    width: 20px;
+    height: 20px;
+    color: #FF3B3F;
+    margin-right: 8px;
+    flex-shrink: 0;
+}
+
+.payment-info-header h4 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.payment-info-content {
+    margin-bottom: 1rem;
+}
+
+.account-detail {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.account-detail:last-child {
+    border-bottom: none;
+}
+
+.detail-label {
+    font-weight: 500;
+    color: #666;
+    font-size: 0.9rem;
+    min-width: 120px;
+}
+
+.detail-value {
+    font-weight: 600;
+    color: #1a1a1a;
+    font-size: 0.9rem;
+    flex: 1;
+    text-align: right;
+    margin-right: 0.5rem;
+}
+
+.account-number {
+    font-family: 'Courier New', monospace;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    background: rgba(255, 59, 63, 0.1);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 59, 63, 0.2);
+}
+
+.copy-btn {
+    background: #FF3B3F;
+    color: white;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+}
+
+.copy-btn:hover {
+    background: #e63946;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 59, 63, 0.3);
+}
+
+.copy-btn:active {
+    transform: translateY(0);
+}
+
+.payment-note {
+    background: rgba(255, 193, 7, 0.1);
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-top: 1rem;
+}
+
+.payment-note p {
+    margin: 0;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: #856404;
+}
+
+.payment-note strong {
+    color: #533f03;
+}
+
+/* Copy success animation */
+.copy-success {
+    background: #28a745 !important;
+    transform: scale(1.1);
+}
+
+.copy-success::after {
+    content: '✓';
+    position: absolute;
+    font-size: 12px;
+    font-weight: bold;
 }
 
 /* Responsive Design */
@@ -867,21 +867,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.style.borderColor = '#ddd';
             }
         });
-
+        
         input.addEventListener('input', function() {
             if (this.style.borderColor === 'rgb(255, 59, 63)' && this.value.trim()) {
                 this.style.borderColor = '#ddd';
             }
         });
     });
-
+    
     // Phone number formatting
     const phoneInput = document.getElementById('customer_phone');
     phoneInput.addEventListener('input', function() {
         // Remove non-numeric characters
         this.value = this.value.replace(/[^0-9+\-\s]/g, '');
     });
-
+    
     // Email validation
     const emailInput = document.getElementById('customer_email');
     emailInput.addEventListener('blur', function() {
@@ -890,118 +890,6 @@ document.addEventListener('DOMContentLoaded', function() {
             this.style.borderColor = '#FF3B3F';
         }
     });
-    
-    // Payment method change handlers
-    const paymentRadios = document.querySelectorAll('input[name="payment_method"]');
-    const bankTransferDetails = document.getElementById('bank_transfer_details');
-    const eWalletDetails = document.getElementById('e_wallet_details');
-    
-    paymentRadios.forEach(radio => {
-        radio.addEventListener('change', function() {
-            // Hide all payment details first
-            bankTransferDetails.style.display = 'none';
-            eWalletDetails.style.display = 'none';
-            
-            // Show relevant payment details
-            if (this.value === 'bank_transfer' && this.checked) {
-                bankTransferDetails.style.display = 'block';
-            } else if (this.value === 'e_wallet' && this.checked) {
-                eWalletDetails.style.display = 'block';
-            }
-        });
-    });
-    
-    // Show payment details if already selected (for page reload with old input)
-    const selectedPayment = document.querySelector('input[name="payment_method"]:checked');
-    if (selectedPayment) {
-        if (selectedPayment.value === 'bank_transfer') {
-            bankTransferDetails.style.display = 'block';
-        } else if (selectedPayment.value === 'e_wallet') {
-            eWalletDetails.style.display = 'block';
-        }
-    }
 });
-
-// Copy to clipboard function
-function copyToClipboard(text) {
-    // Create a temporary textarea element
-    const textarea = document.createElement('textarea');
-    textarea.value = text;
-    document.body.appendChild(textarea);
-    
-    // Select and copy the text
-    textarea.select();
-    textarea.setSelectionRange(0, 99999); // For mobile devices
-    
-    try {
-        document.execCommand('copy');
-        
-        // Find the button that was clicked
-        const copyBtn = event.target.closest('.copy-btn');
-        if (copyBtn) {
-            // Add success animation
-            copyBtn.classList.add('copy-success');
-            
-            // Show success message
-            showCopyToast('Nomor berhasil disalin!');
-            
-            // Remove success class after animation
-            setTimeout(() => {
-                copyBtn.classList.remove('copy-success');
-            }, 1000);
-        }
-    } catch (err) {
-        console.error('Failed to copy text: ', err);
-        showCopyToast('Gagal menyalin nomor', 'error');
-    }
-    
-    // Remove the temporary textarea
-    document.body.removeChild(textarea);
-}
-
-// Show copy toast notification
-function showCopyToast(message, type = 'success') {
-    // Remove existing toasts
-    const existingToasts = document.querySelectorAll('.copy-toast');
-    existingToasts.forEach(toast => toast.remove());
-    
-    // Create toast element
-    const toast = document.createElement('div');
-    toast.className = `copy-toast ${type}`;
-    toast.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: ${type === 'success' ? '#28a745' : '#dc3545'};
-        color: white;
-        padding: 12px 20px;
-        border-radius: 8px;
-        font-size: 14px;
-        font-weight: 500;
-        z-index: 10000;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        transform: translateX(100%);
-        transition: transform 0.3s ease;
-    `;
-    toast.textContent = message;
-    
-    // Add to page
-    document.body.appendChild(toast);
-    
-    // Show toast
-    setTimeout(() => {
-        toast.style.transform = 'translateX(0)';
-    }, 100);
-    
-    // Hide and remove toast
-    setTimeout(() => {
-        toast.style.transform = 'translateX(100%)';
-        setTimeout(() => {
-            if (toast.parentNode) {
-                toast.parentNode.removeChild(toast);
-            }
-        }, 300);
-    }, 2000);
-}
 </script>
 @endpush

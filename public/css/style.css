@@ -542,34 +542,54 @@ html {
     color: #dc3545;
 }
 
-/* Auth Links */
+/* Auth Links - Navbar only */
 .auth-links {
     display: flex;
     gap: 1rem;
+    align-items: center;
 }
 
-.auth-link {
-    color: white;
+.auth-links .auth-link {
+    color: white !important;
     text-decoration: none;
     padding: 0.5rem 1rem;
     border-radius: 25px;
     font-weight: 500;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     transition: var(--transition-smooth);
+    display: flex;
+    align-items: center;
+    height: 40px;
+    line-height: 1;
+    letter-spacing: 0.5px;
 }
 
-.login-link:hover {
+.auth-links .login-link {
+    color: white !important;
+}
+
+.auth-links .login-link:hover {
     background: rgba(255, 255, 255, 0.1);
+    color: white !important;
 }
 
-.register-link {
+.auth-links .register-link {
     background: linear-gradient(135deg, var(--accent-color), #ff6b6b);
     box-shadow: 0 2px 10px rgba(255, 59, 63, 0.3);
+    color: white !important;
 }
 
-.register-link:hover {
+.auth-links .register-link:hover {
     transform: translateY(-1px);
     box-shadow: 0 4px 15px rgba(255, 59, 63, 0.4);
+    color: white !important;
+}
+
+/* Ensure navbar auth links stay white regardless of active state */
+.auth-links .auth-link:visited,
+.auth-links .auth-link:active,
+.auth-links .auth-link:focus {
+    color: white !important;
 }
 
 /* Mobile Menu Toggle */

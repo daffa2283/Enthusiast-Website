@@ -124,45 +124,6 @@
                 </p>
             </div>
         </div>
-
-        <div class="auth-image">
-            <div class="image-overlay">
-                <h2>Start Your Fashion Journey</h2>
-                <p>Join thousands of fashion enthusiasts who trust EnthusiastVerse for authentic, high-quality clothing that expresses their unique style.</p>
-                <div class="benefits">
-                    <div class="benefit">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="12" cy="7" r="4"></circle>
-                        </svg>
-                        <div>
-                            <h4>Exclusive Access</h4>
-                            <p>Get early access to new collections and member-only deals</p>
-                        </div>
-                    </div>
-                    <div class="benefit">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M3 3h2l.4 2m0 0L6 13h11l1.5-8H5.4z"></path>
-                            <circle cx="9" cy="20" r="1"></circle>
-                            <circle cx="20" cy="20" r="1"></circle>
-                        </svg>
-                        <div>
-                            <h4>Easy Shopping</h4>
-                            <p>Save your favorites, track orders, and enjoy faster checkout</p>
-                        </div>
-                    </div>
-                    <div class="benefit">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-                        </svg>
-                        <div>
-                            <h4>Rewards Program</h4>
-                            <p>Earn points with every purchase and unlock special rewards</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 @endsection
@@ -174,30 +135,23 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #f8f9fa;
     padding: 2rem 1rem;
     margin-top: -80px;
     padding-top: 120px;
 }
 
 .auth-wrapper {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    max-width: 1200px;
+    max-width: 450px;
     width: 100%;
     background: white;
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
-    min-height: 700px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e9ecef;
 }
 
 .auth-card {
-    padding: 3rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    overflow-y: auto;
+    padding: 2.5rem;
 }
 
 .auth-header {
@@ -206,21 +160,21 @@
 }
 
 .auth-header h1 {
-    font-size: 2.5rem;
-    font-weight: 700;
+    font-size: 1.8rem;
+    font-weight: 600;
     color: #1a1a1a;
     margin-bottom: 0.5rem;
 }
 
 .auth-header p {
-    color: #666;
-    font-size: 1.1rem;
+    color: #6c757d;
+    font-size: 0.95rem;
 }
 
 .auth-form {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1.25rem;
 }
 
 .form-group {
@@ -229,26 +183,25 @@
 }
 
 .form-label {
-    font-weight: 600;
-    color: #1a1a1a;
+    font-weight: 500;
+    color: #374151;
     margin-bottom: 0.5rem;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
 }
 
 .form-input {
-    padding: 1rem;
-    border: 2px solid #e5e5e5;
-    border-radius: 12px;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    background: #fafafa;
+    padding: 0.875rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    background: white;
 }
 
 .form-input:focus {
     outline: none;
-    border-color: #FF3B3F;
-    background: white;
-    box-shadow: 0 0 0 3px rgba(255, 59, 63, 0.1);
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
 .form-input.error {
@@ -262,27 +215,26 @@
 
 .password-toggle {
     position: absolute;
-    right: 1rem;
+    right: 0.875rem;
     top: 50%;
     transform: translateY(-50%);
     background: none;
     border: none;
-    color: #666;
+    color: #6b7280;
     cursor: pointer;
     padding: 0.25rem;
-    border-radius: 6px;
-    transition: color 0.3s ease;
+    border-radius: 4px;
+    transition: color 0.2s ease;
 }
 
 .password-toggle:hover {
-    color: #FF3B3F;
+    color: #374151;
 }
 
 .error-message {
     color: #ef4444;
-    font-size: 0.875rem;
+    font-size: 0.8rem;
     margin-top: 0.5rem;
-    font-weight: 500;
 }
 
 .checkbox-group {
@@ -294,8 +246,8 @@
     display: flex;
     align-items: flex-start;
     cursor: pointer;
-    font-size: 0.95rem;
-    color: #666;
+    font-size: 0.9rem;
+    color: #6b7280;
     line-height: 1.5;
 }
 
@@ -304,59 +256,60 @@
 }
 
 .checkbox-custom {
-    width: 20px;
-    height: 20px;
-    border: 2px solid #e5e5e5;
+    width: 18px;
+    height: 18px;
+    border: 1px solid #d1d5db;
     border-radius: 4px;
     margin-right: 0.75rem;
     margin-top: 2px;
     position: relative;
-    transition: all 0.3s ease;
-    background: #fafafa;
+    transition: all 0.2s ease;
+    background: white;
     flex-shrink: 0;
 }
 
 .checkbox-input:checked + .checkbox-custom {
-    background: #FF3B3F;
-    border-color: #FF3B3F;
+    background: #3b82f6;
+    border-color: #3b82f6;
 }
 
 .checkbox-input:checked + .checkbox-custom::after {
     content: '';
     position: absolute;
-    left: 6px;
-    top: 2px;
-    width: 6px;
-    height: 10px;
+    left: 5px;
+    top: 1px;
+    width: 5px;
+    height: 9px;
     border: solid white;
     border-width: 0 2px 2px 0;
     transform: rotate(45deg);
 }
 
 .terms-link {
-    color: #FF3B3F;
+    color: #3b82f6;
     text-decoration: none;
     font-weight: 500;
 }
 
 .terms-link:hover {
+    color: #2563eb;
     text-decoration: underline;
 }
 
 .form-actions {
-    margin-top: 1rem;
+    margin-top: 0.5rem;
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, #FF3B3F, #e63946);
+    background: #3b82f6;
     color: white;
     border: none;
-    padding: 1rem 2rem;
-    border-radius: 12px;
-    font-size: 1.1rem;
-    font-weight: 600;
+    padding: 0.875rem 1.5rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -365,118 +318,37 @@
 }
 
 .btn-primary:hover {
-    background: linear-gradient(135deg, #e63946, #d62d20);
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(255, 59, 63, 0.3);
+    background: #2563eb;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
 .auth-footer {
     text-align: center;
-    margin-top: 2rem;
-    padding-top: 2rem;
-    border-top: 1px solid #e5e5e5;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e5e7eb;
 }
 
 .auth-footer p {
-    color: #666;
+    color: #6b7280;
     margin: 0;
+    font-size: 0.9rem;
 }
 
 .login-link {
-    color: #FF3B3F;
+    color: #3b82f6;
     text-decoration: none;
-    font-weight: 600;
-    transition: color 0.3s ease;
+    font-weight: 500;
+    transition: color 0.2s ease;
 }
 
 .login-link:hover {
-    color: #e63946;
+    color: #2563eb;
     text-decoration: underline;
 }
 
-.auth-image {
-    background: linear-gradient(135deg, rgba(255, 59, 63, 0.9), rgba(230, 57, 70, 0.9)), 
-                url('{{ asset('images/MOCKUP DEPAN11.jpeg.jpg') }}');
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-}
-
-.image-overlay {
-    text-align: center;
-    color: white;
-    padding: 2rem;
-    max-width: 400px;
-}
-
-.image-overlay h2 {
-    font-size: 2rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-    line-height: 1.2;
-}
-
-.image-overlay p {
-    font-size: 1.1rem;
-    margin-bottom: 2rem;
-    opacity: 0.9;
-    line-height: 1.6;
-}
-
-.benefits {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    text-align: left;
-}
-
-.benefit {
-    display: flex;
-    align-items: flex-start;
-    gap: 1rem;
-}
-
-.benefit svg {
-    background: rgba(255, 255, 255, 0.2);
-    padding: 0.75rem;
-    border-radius: 12px;
-    width: 48px;
-    height: 48px;
-    flex-shrink: 0;
-}
-
-.benefit h4 {
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin: 0 0 0.25rem 0;
-}
-
-.benefit p {
-    font-size: 0.9rem;
-    margin: 0;
-    opacity: 0.8;
-    line-height: 1.4;
-}
-
 /* Responsive Design */
-@media (max-width: 1024px) {
-    .auth-wrapper {
-        grid-template-columns: 1fr;
-        max-width: 500px;
-    }
-    
-    .auth-image {
-        display: none;
-    }
-    
-    .auth-card {
-        padding: 2rem;
-    }
-}
-
 @media (max-width: 768px) {
     .auth-container {
         padding: 1rem;
@@ -484,29 +356,25 @@
     }
     
     .auth-card {
-        padding: 1.5rem;
+        padding: 2rem;
     }
     
     .auth-header h1 {
-        font-size: 2rem;
-    }
-    
-    .auth-header p {
-        font-size: 1rem;
+        font-size: 1.6rem;
     }
 }
 
 @media (max-width: 480px) {
     .auth-card {
-        padding: 1rem;
+        padding: 1.5rem;
     }
     
     .auth-header h1 {
-        font-size: 1.75rem;
+        font-size: 1.5rem;
     }
     
     .form-input {
-        padding: 0.875rem;
+        padding: 0.75rem;
     }
 }
 </style>

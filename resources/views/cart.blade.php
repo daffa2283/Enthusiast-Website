@@ -267,18 +267,21 @@
     background: linear-gradient(135deg, #1a1a1a, #333);
     color: white;
     border: none;
-    padding: 1rem 2rem;
-    font-size: 1.1rem;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
     font-weight: 600;
-    border-radius: 12px;
+    border-radius: 8px;
     cursor: pointer;
     margin-top: 1.5rem;
     transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    text-transform: none;
+    letter-spacing: 0.5px;
     text-decoration: none;
     display: block;
     text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .checkout-btn:hover {
