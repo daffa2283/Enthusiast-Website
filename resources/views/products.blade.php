@@ -192,7 +192,7 @@
                         </svg>
                         Description
                     </h4>
-                    <p id="modalProductDescription">Product description will appear here.</p>
+                    <div id="modalProductDescription" class="description-content">Product description will appear here.</div>
                 </div>
 
                 <div class="product-options">
@@ -281,7 +281,7 @@
 /* Products Hero Section */
 .products-hero {
     height: 50vh;
-    background: linear-gradient(135deg, rgba(0,0,0,0.8), rgba(255,59,63,0.3)), 
+    background: linear-gradient(135deg, rgba(0,0,0,0.8), rgba(44,62,80,0.3)), 
                 url('{{ asset("images/products-hero-bg.jpg") }}') center/cover;
     display: flex;
     align-items: center;
@@ -357,7 +357,7 @@
 .filter-search-input:focus {
     outline: none;
     border-color: var(--accent-color);
-    box-shadow: 0 0 0 3px rgba(255, 59, 63, 0.1);
+    box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.1);
 }
 
 .filter-search-btn {
@@ -377,7 +377,7 @@
 }
 
 .filter-search-btn:hover {
-    background: #ff6b6b;
+    background: #507191;
     transform: scale(1.05);
 }
 
@@ -454,7 +454,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, rgba(0,0,0,0.6), rgba(255,59,63,0.3));
+    background: linear-gradient(135deg, rgba(0,0,0,0.6), rgba(44,62,80,0.3));
     opacity: 0;
     transition: opacity 0.4s ease;
     display: flex;
@@ -486,7 +486,7 @@
     background: var(--accent-color);
     color: white;
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(255, 59, 63, 0.4);
+    box-shadow: 0 6px 20px rgba(44, 62, 80, 0.4);
 }
 
 .stock-badge {
@@ -582,9 +582,9 @@
 }
 
 .add-to-cart:hover {
-    background: linear-gradient(135deg, var(--accent-color), #ff6b6b);
+    background: linear-gradient(135deg, var(--accent-color), #507191);
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(255, 59, 63, 0.3);
+    box-shadow: 0 8px 25px rgba(44, 62, 80, 0.3);
 }
 
 .add-to-cart.login-required {
@@ -641,7 +641,7 @@
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, var(--accent-color), #ff6b6b);
+    background: linear-gradient(135deg, var(--accent-color), #507191);
     color: white;
     padding: 1rem 2rem;
     border-radius: 30px;
@@ -655,7 +655,7 @@
 
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(255, 59, 63, 0.3);
+    box-shadow: 0 8px 25px rgba(44, 62, 80, 0.3);
 }
 
 /* Quick View Modal Styles */
@@ -853,7 +853,7 @@
 }
 
 .category-badge {
-    background: linear-gradient(135deg, var(--accent-color), #ff6b6b);
+    background: linear-gradient(135deg, var(--accent-color), #507191);
     color: white;
     padding: 6px 16px;
     border-radius: 20px;
@@ -962,6 +962,49 @@
     font-size: 0.95rem;
 }
 
+/* Description Content Styling for Modal */
+.description-content {
+    color: #666;
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+.description-content p {
+    margin: 0 0 10px 0;
+}
+
+.description-content p:last-child {
+    margin-bottom: 0;
+}
+
+.description-content ul,
+.description-content ol {
+    margin: 10px 0;
+    padding-left: 20px;
+}
+
+.description-content li {
+    margin-bottom: 5px;
+}
+
+.description-content strong {
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.description-content em {
+    font-style: italic;
+}
+
+.description-content a {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+.description-content a:hover {
+    text-decoration: underline;
+}
+
 .product-options h4 {
     font-size: 1rem;
     font-weight: 600;
@@ -1052,7 +1095,7 @@
 }
 
 .add-to-cart-btn {
-    background: linear-gradient(135deg, var(--accent-color), #ff6b6b);
+    background: linear-gradient(135deg, var(--accent-color), #507191);
     color: white;
     border: none;
     padding: 15px 30px;
@@ -1069,7 +1112,7 @@
 
 .add-to-cart-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(255, 59, 63, 0.3);
+    box-shadow: 0 10px 25px rgba(44, 62, 80, 0.3);
 }
 
 .add-to-cart-btn.guest-modal-add-to-cart {
@@ -1289,7 +1332,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('modalProductName').textContent = product.name;
         document.getElementById('modalProductCategory').textContent = product.category;
         document.getElementById('modalProductPrice').textContent = product.formatted_price;
-        document.getElementById('modalProductDescription').textContent = product.description;
+        document.getElementById('modalProductDescription').innerHTML = product.description || '<p>High-quality product crafted with attention to detail and premium materials.</p>';
         
         // Reset slider to first slide
         resetSlider();
@@ -1870,7 +1913,7 @@ const toastStyles = `
 }
 
 .btn-register {
-    background: linear-gradient(135deg, var(--accent-color), #ff6b6b);
+    background: linear-gradient(135deg, var(--accent-color), #507191);
     color: white;
     padding: 15px 30px;
     border-radius: 12px;
@@ -1883,7 +1926,7 @@ const toastStyles = `
 
 .btn-register:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(255, 59, 63, 0.3);
+    box-shadow: 0 10px 25px rgba(44, 62, 80, 0.3);
     color: white;
     text-decoration: none;
 }

@@ -56,7 +56,9 @@
                     
                     <div class="product-description">
                         <h4>Description</h4>
-                        <p>{{ $product->description ?: 'High-quality product crafted with attention to detail and premium materials.' }}</p>
+                        <div class="description-content">
+                            {!! $product->description ?: '<p>High-quality product crafted with attention to detail and premium materials.</p>' !!}
+                        </div>
                     </div>
                     
                     <div class="product-options">
@@ -335,6 +337,48 @@
     color: #666;
     line-height: 1.6;
     margin: 0;
+}
+
+/* Description Content Styling */
+.description-content {
+    color: #666;
+    line-height: 1.6;
+}
+
+.description-content p {
+    margin: 0 0 10px 0;
+}
+
+.description-content p:last-child {
+    margin-bottom: 0;
+}
+
+.description-content ul,
+.description-content ol {
+    margin: 10px 0;
+    padding-left: 20px;
+}
+
+.description-content li {
+    margin-bottom: 5px;
+}
+
+.description-content strong {
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.description-content em {
+    font-style: italic;
+}
+
+.description-content a {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+.description-content a:hover {
+    text-decoration: underline;
 }
 
 /* Product Options */

@@ -181,7 +181,7 @@
 /* About Hero Section */
 .about-hero {
     height: 60vh;
-    background: linear-gradient(135deg, rgba(0,0,0,0.8), rgba(255,59,63,0.3)), 
+    background: linear-gradient(135deg, rgba(0,0,0,0.8), rgba(59,130,246,0.3)), 
                 url('{{ asset("images/about-hero-bg.jpg") }}') center/cover;
     display: flex;
     align-items: center;
@@ -256,7 +256,7 @@
 .section-line {
     width: 80px;
     height: 4px;
-    background: linear-gradient(90deg, var(--accent-color), #ff6b6b);
+    background: linear-gradient(90deg, #3b82f6, #2563eb);
     margin: 0 auto;
     border-radius: 2px;
 }
@@ -316,7 +316,7 @@
 .mvv-icon {
     width: 80px;
     height: 80px;
-    background: linear-gradient(135deg, var(--accent-color), #ff6b6b);
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -357,7 +357,7 @@
 }
 
 .value-item strong, .contact-item strong {
-    color: var(--accent-color);
+    color: #3b82f6;
     font-weight: 600;
 }
 
@@ -444,14 +444,14 @@
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, var(--accent-color), #ff6b6b);
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
     color: white;
-    box-shadow: 0 4px 15px rgba(255, 59, 63, 0.3);
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
 }
 
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(255, 59, 63, 0.4);
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
 }
 
 .btn-secondary {

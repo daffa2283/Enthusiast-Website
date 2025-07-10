@@ -48,7 +48,7 @@
 }
 
 .profile-header {
-    background: linear-gradient(135deg, #FF3B3F, #e63946);
+    background: linear-gradient(135deg, #2c3e50, #34495e);
     color: white;
     padding: 3rem 0;
     text-align: center;
@@ -117,11 +117,11 @@
 
 .profile-card input:focus {
     outline: none;
-    border-color: #FF3B3F;
+    border-color: #2c3e50;
 }
 
 .profile-card button {
-    background: linear-gradient(135deg, #FF3B3F, #e63946);
+    background: linear-gradient(135deg, #2c3e50, #34495e);
     color: white;
     border: none;
     padding: 0.75rem 1.5rem;
@@ -132,7 +132,7 @@
 }
 
 .profile-card button:hover {
-    background: linear-gradient(135deg, #e63946, #d62d20);
+    background: linear-gradient(135deg, #34495e, #2c3e50);
     transform: translateY(-1px);
 }
 

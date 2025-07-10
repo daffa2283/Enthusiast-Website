@@ -461,7 +461,7 @@
             <div class="help-text">
                 If you're having trouble tracking your order or have any questions, 
                 please contact our customer support at <strong>support@enthusiasverse.com</strong> 
-                or call us at <strong>+62 123 456 7890</strong>.
+                or call us at <strong>+62 878-4399-7805</strong>.
             </div>
         </div>
     </div>
