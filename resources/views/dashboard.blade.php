@@ -178,7 +178,7 @@
                                                 </svg>
                                             </button>
                                         </div>
-                                        <span class="status-badge {{ $order->status === 'completed' ? 'completed' : ($order->status === 'pending' ? 'pending' : 'processing') }}">
+                                        <span class="status-badge {{ $order->status === 'completed' ? 'completed' : ($order->status === 'pending' ? 'pending' : ($order->status === 'cancelled' ? 'cancelled' : 'processing')) }}">
                                             {{ ucfirst($order->status) }}
                                         </span>
                                     </div>
@@ -501,16 +501,16 @@
 .actions-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
+    gap: 0.75rem;
 }
 
 .action-card {
     background: #f8fafc;
     border-radius: 12px;
-    padding: 1.5rem;
+    padding: 1rem;
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.75rem;
     text-decoration: none;
     color: inherit;
     transition: all 0.3s ease;
@@ -555,7 +555,7 @@
     font-size: 1rem;
     font-weight: 600;
     color: #1e293b;
-    margin: 0 0 0.25rem 0;
+    margin: 0 0 0.125rem 0;
 }
 
 .action-content p {
@@ -568,14 +568,14 @@
 .orders-list {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.75rem;
 }
 
 .order-item {
     display: flex;
     align-items: flex-start;
-    gap: 1rem;
-    padding: 1.5rem;
+    gap: 0.75rem;
+    padding: 1rem;
     background: #f8fafc;
     border-radius: 12px;
     border: 1px solid #e2e8f0;
@@ -698,6 +698,11 @@
     color: #166534;
 }
 
+.status-badge.cancelled {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
 /* Empty State */
 .empty-state {
     text-align: center;
@@ -733,7 +738,7 @@
 .account-info {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.75rem;
     margin-bottom: 2rem;
 }
 
@@ -815,7 +820,7 @@
     }
     
     .header-stats {
-        gap: 1rem;
+        gap: 0.75rem;
     }
 }
 
@@ -836,7 +841,7 @@
     
     .stats-overview {
         grid-template-columns: 1fr;
-        gap: 1rem;
+        gap: 0.75rem;
     }
     
     .actions-grid {
@@ -844,7 +849,7 @@
     }
     
     .section-card {
-        padding: 1.5rem;
+        padding: 1rem;
     }
     
     .order-item {
@@ -872,7 +877,7 @@
     }
     
     .stat-card {
-        padding: 1.5rem;
+        padding: 1rem;
     }
     
     .action-card {
