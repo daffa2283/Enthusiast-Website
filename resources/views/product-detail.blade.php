@@ -163,14 +163,14 @@
 }
 
 .breadcrumb a {
-    color: var(--accent-color);
+    color: #2c3e50;
     text-decoration: none;
     font-weight: 500;
     transition: color 0.3s ease;
 }
 
 .breadcrumb a:hover {
-    color: #ff6b6b;
+    color: #507191;
 }
 
 .breadcrumb span {
@@ -183,7 +183,7 @@
     border-radius: 20px;
     box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    border: 1px solid rgba(255, 59, 63, 0.1);
+    border: 1px solid rgba(44, 62, 80, 0.1);
 }
 
 .product-detail-grid {
@@ -322,7 +322,7 @@
 .product-price {
     font-size: 1.8rem;
     font-weight: 700;
-    color: var(--accent-color);
+    color: #2c3e50;
     margin: 0;
 }
 
@@ -373,7 +373,7 @@
 }
 
 .description-content a {
-    color: var(--accent-color);
+    color: #2c3e50;
     text-decoration: none;
 }
 
@@ -417,8 +417,8 @@
 .color-btn:hover,
 .size-btn.active,
 .color-btn.active {
-    border-color: var(--accent-color);
-    background: var(--accent-color);
+    border-color: #2c3e50;
+    background: #2c3e50;
     color: white;
 }
 
@@ -444,8 +444,8 @@
 }
 
 .quantity-btn:hover {
-    border-color: var(--accent-color);
-    background: var(--accent-color);
+    border-color: #2c3e50;
+    background: #2c3e50;
     color: white;
 }
 
@@ -468,7 +468,7 @@
 }
 
 .add-to-cart-btn {
-    background: linear-gradient(135deg, var(--accent-color), #ff6b6b);
+    background: linear-gradient(135deg, #2c3e50, #507191);
     color: white;
     border: none;
     padding: 15px 30px;
@@ -484,7 +484,7 @@
 
 .add-to-cart-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(255, 59, 63, 0.3);
+    box-shadow: 0 10px 25px rgba(44, 62, 80, 0.3);
 }
 
 .add-to-cart-btn.guest-add-to-cart {
@@ -1120,7 +1120,7 @@ const loginModalStyles = `
 }
 
 .btn-register {
-    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    background: linear-gradient(135deg, #2c3e50, #507191);
     color: white;
     padding: 15px 30px;
     border-radius: 12px;
@@ -1133,7 +1133,7 @@ const loginModalStyles = `
 
 .btn-register:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+    box-shadow: 0 10px 25px rgba(44, 62, 80, 0.3);
     color: white;
     text-decoration: none;
 }
@@ -1147,7 +1147,7 @@ const loginModalStyles = `
 }
 
 .btn-login:hover {
-    color: #2563eb;
+    color: #2c3e50;
     text-decoration: none;
 }
 
@@ -1173,4 +1173,4 @@ const styleSheet = document.createElement('style');
 styleSheet.textContent = loginModalStyles;
 document.head.appendChild(styleSheet);
 </script>
-@endpush 
+@endpush

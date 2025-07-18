@@ -64,7 +64,7 @@
                     <div class="user-dropdown" id="userDropdown">
                         <a href="{{ route('profile.edit') }}" class="dropdown-item">Profile</a>
                         @if(auth()->user()->isAdmin())
-                            <a href="/admin" class="dropdown-item">Admin Panel</a>
+                            <a href="/admin-panel" class="dropdown-item">Admin Panel</a>
                         @else
                             <a href="{{ route('dashboard') }}" class="dropdown-item">Dashboard</a>
                         @endif
@@ -111,7 +111,7 @@
                 <div class="mobile-user-links">
                     <a href="{{ route('profile.edit') }}" class="mobile-auth-link">Profile</a>
                     @if(auth()->user()->isAdmin())
-                        <a href="/admin" class="mobile-auth-link">Admin Panel</a>
+                        <a href="/admin-panel" class="mobile-auth-link">Admin Panel</a>
                     @else
                         <a href="{{ route('dashboard') }}" class="mobile-auth-link">Dashboard</a>
                     @endif

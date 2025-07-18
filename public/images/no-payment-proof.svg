@@ -1,0 +1,7 @@
+<svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="50" height="50" fill="#f3f4f6"/>
+  <path d="M25 15C23.3431 15 22 16.3431 22 18C22 19.6569 23.3431 21 25 21C26.6569 21 28 19.6569 28 18C28 16.3431 26.6569 15 25 15Z" fill="#9ca3af"/>
+  <path d="M15 35L20 30L25 35L30 30L35 35V37C35 38.1046 34.1046 39 33 39H17C15.8954 39 15 38.1046 15 37V35Z" fill="#9ca3af"/>
+  <rect x="13" y="13" width="24" height="24" rx="2" stroke="#9ca3af" stroke-width="2" fill="none"/>
+  <text x="25" y="45" text-anchor="middle" font-family="Arial, sans-serif" font-size="6" fill="#6b7280">No Proof</text>
+</svg>

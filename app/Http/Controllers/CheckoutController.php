@@ -128,7 +128,32 @@ class CheckoutController extends Controller
     {
         $order = Order::with('orderItems.product')->findOrFail($orderId);
         
+        // Show success page with current order status (no redirects)
         return view('checkout.success', compact('order'));
+    }
+    
+    public function paymentConfirmed($orderId)
+    {
+        $order = Order::with('orderItems.product')->findOrFail($orderId);
+        
+        // Security check: only allow access if payment is confirmed
+        if ($order->payment_status !== 'paid') {
+            return redirect()->route('checkout.success', $orderId);
+        }
+        
+        return view('checkout.payment-confirmed', compact('order'));
+    }
+    
+    public function paymentRejected($orderId)
+    {
+        $order = Order::with('orderItems.product')->findOrFail($orderId);
+        
+        // Security check: only allow access if payment is rejected
+        if ($order->payment_status !== 'rejected') {
+            return redirect()->route('checkout.success', $orderId);
+        }
+        
+        return view('checkout.payment-rejected', compact('order'));
     }
     
     public function trackOrder(Request $request)
@@ -151,35 +176,72 @@ class CheckoutController extends Controller
         return view('checkout.track', compact('order'));
     }
     
-    public function confirmPayment($orderId)
+    public function uploadPaymentProof(Request $request, $orderId)
     {
         try {
             $order = Order::findOrFail($orderId);
             
-            // Check if order is still pending
-            if ($order->payment_status !== 'pending') {
+            // Check if order allows payment proof upload (pending or rejected)
+            if (!in_array($order->payment_status, ['pending', 'rejected'])) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Pembayaran sudah dikonfirmasi sebelumnya.'
+                    'message' => 'Payment has already been processed.'
                 ]);
             }
             
-            // Update order status
-            $order->update([
-                'status' => 'processing',
-                'payment_status' => 'paid'
+            // Validate file upload
+            $request->validate([
+                'payment_proof' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120' // 5MB max
             ]);
+            
+            // Delete old payment proof if exists
+            if ($order->payment_proof && \Storage::disk('public')->exists($order->payment_proof)) {
+                \Storage::disk('public')->delete($order->payment_proof);
+            }
+            
+            // Store new payment proof
+            $file = $request->file('payment_proof');
+            $filename = 'payment_proof_' . $order->order_number . '_' . time() . '.' . $file->getClientOriginalExtension();
+            $path = $file->storeAs('payment_proofs', $filename, 'public');
+            
+            // Update order with payment proof and reset status to pending if it was rejected
+            $updateData = ['payment_proof' => $path];
+            if ($order->payment_status === 'rejected') {
+                $updateData['payment_status'] = 'pending';
+            }
+            
+            $order->update($updateData);
             
             return response()->json([
                 'success' => true,
-                'message' => 'Pembayaran berhasil dikonfirmasi! Pesanan Anda sedang diproses.'
+                'message' => 'Payment proof uploaded successfully! Please wait for admin confirmation.'
             ]);
             
         } catch (\Exception $e) {
-            \Log::error('Payment confirmation error: ' . $e->getMessage());
+            \Log::error('Payment proof upload error: ' . $e->getMessage());
             return response()->json([
                 'success' => false,
-                'message' => 'Terjadi kesalahan saat mengkonfirmasi pembayaran: ' . $e->getMessage()
+                'message' => 'Error uploading payment proof: ' . $e->getMessage()
+            ]);
+        }
+    }
+    
+    public function checkPaymentStatus($orderId)
+    {
+        try {
+            $order = Order::findOrFail($orderId);
+            
+            return response()->json([
+                'success' => true,
+                'payment_status' => $order->payment_status,
+                'order_status' => $order->status,
+                'updated_at' => $order->updated_at->toISOString()
+            ]);
+            
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Order not found.'
             ]);
         }
     }

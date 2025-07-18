@@ -30,7 +30,7 @@
     transform: translateX(-50%);
     width: 100px;
     height: 4px;
-    background: linear-gradient(90deg, var(--accent-color), #ff6b6b);
+    background: linear-gradient(90deg, var(--accent-color), #507191);
     border-radius: 2px;
 }
 
@@ -51,7 +51,7 @@
 }
 
 .search-query {
-    color: #FF3B3F;
+    color: var(--accent-color);
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -68,7 +68,7 @@
     flex-wrap: wrap;
     gap: 1.5rem;
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    border: 1px solid rgba(255, 59, 63, 0.1);
+    border: 1px solid rgba(44, 62, 80, 0.1);
 }
 
 .results-count {
@@ -106,12 +106,12 @@
 
 .filter-select:focus {
     outline: none;
-    border-color: #FF3B3F;
-    box-shadow: 0 0 0 3px rgba(255, 59, 63, 0.1);
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.1);
 }
 
 .filter-select:hover {
-    border-color: #FF3B3F;
+    border-color: var(--accent-color);
 }
 
 .products-grid {
@@ -161,7 +161,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, rgba(0,0,0,0.6), rgba(255,59,63,0.3));
+    background: linear-gradient(135deg, rgba(0,0,0,0.6), rgba(44, 62, 80, 0.3));
     opacity: 0;
     transition: opacity 0.4s ease;
     display: flex;
@@ -193,7 +193,7 @@
     background: var(--accent-color);
     color: white;
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(255, 59, 63, 0.4);
+    box-shadow: 0 6px 20px rgba(44, 62, 80, 0.4);
 }
 
 .stock-badge {
@@ -263,9 +263,9 @@
 }
 
 .add-to-cart:hover {
-    background: linear-gradient(135deg, var(--accent-color), #ff6b6b);
+    background: linear-gradient(135deg, var(--accent-color), #507191);
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(255, 59, 63, 0.3);
+    box-shadow: 0 8px 25px rgba(44, 62, 80, 0.3);
 }
 
 .add-to-cart.out-of-stock {
@@ -311,7 +311,7 @@
     background: white;
     border-radius: 20px;
     box-shadow: 0 15px 40px rgba(0,0,0,0.1);
-    border: 1px solid rgba(255, 59, 63, 0.1);
+    border: 1px solid rgba(44, 62, 80, 0.1);
     position: relative;
     overflow: hidden;
 }
@@ -323,7 +323,7 @@
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, var(--accent-color), #ff6b6b);
+    background: linear-gradient(90deg, var(--accent-color), #507191);
 }
 
 .no-results-icon {
@@ -347,7 +347,7 @@
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    background: linear-gradient(135deg, transparent, rgba(255, 59, 63, 0.1));
+    background: linear-gradient(135deg, transparent, rgba(44, 62, 80, 0.1));
     animation: pulse 2s infinite;
 }
 
@@ -415,11 +415,11 @@
 }
 
 .suggestion-tag:hover {
-    background: #FF3B3F;
+    background: var(--accent-color);
     color: white;
-    border-color: #FF3B3F;
+    border-color: var(--accent-color);
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(255, 59, 63, 0.3);
+    box-shadow: 0 8px 25px rgba(44, 62, 80, 0.3);
 }
 
 .back-to-products {
@@ -909,43 +909,183 @@
 .product-info-section {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 25px;
+}
+
+.product-header {
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 20px;
+}
+
+.product-badge {
+    margin-bottom: 12px;
+}
+
+.category-badge {
+    background: linear-gradient(135deg, var(--accent-color), #507191);
+    color: white;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: inline-block;
 }
 
 .product-info-section h2 {
     font-size: 2rem;
     font-weight: 700;
     color: #1a1a1a;
-    margin: 0;
+    margin: 0 0 15px 0;
+    line-height: 1.2;
 }
 
-.product-info-section .product-category {
-    color: #666;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin: 0;
+.price-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
 }
 
 .product-info-section .product-price {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     font-weight: 700;
     color: var(--accent-color);
     margin: 0;
 }
 
-.product-description h4,
-.product-options h4 {
+.stock-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: rgba(16, 185, 129, 0.1);
+    border-radius: 20px;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.stock-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #10b981;
+    animation: pulse 2s infinite;
+}
+
+.stock-indicator.out-of-stock {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.2);
+}
+
+.stock-indicator.out-of-stock .stock-dot {
+    background: #ef4444;
+}
+
+.stock-text {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #10b981;
+    margin: 0;
+}
+
+.stock-indicator.out-of-stock .stock-text {
+    color: #ef4444;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.product-description {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 12px;
+    border-left: 4px solid var(--accent-color);
+}
+
+.product-description h4 {
     font-size: 1rem;
     font-weight: 600;
     color: #1a1a1a;
-    margin: 0 0 10px 0;
+    margin: 0 0 12px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.product-description h4 svg {
+    color: var(--accent-color);
 }
 
 .product-description p {
     color: #666;
     line-height: 1.6;
     margin: 0;
+    font-size: 0.95rem;
+}
+
+/* Description Content Styling for Modal */
+.description-content {
+    color: #666;
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+.description-content p {
+    margin: 0 0 10px 0;
+}
+
+.description-content p:last-child {
+    margin-bottom: 0;
+}
+
+.description-content ul,
+.description-content ol {
+    margin: 10px 0;
+    padding-left: 20px;
+}
+
+.description-content li {
+    margin-bottom: 5px;
+}
+
+.description-content strong {
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.description-content em {
+    font-style: italic;
+}
+
+.description-content a {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+.description-content a:hover {
+    text-decoration: underline;
+}
+
+.product-options h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0 0 12px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.product-options h4 svg {
+    color: var(--accent-color);
 }
 
 .product-options {
@@ -1026,7 +1166,7 @@
 }
 
 .add-to-cart-btn {
-    background: linear-gradient(135deg, var(--accent-color), #ff6b6b);
+    background: linear-gradient(135deg, var(--accent-color), #507191);
     color: white;
     border: none;
     padding: 15px 30px;
@@ -1035,13 +1175,15 @@
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
 .add-to-cart-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(255, 59, 63, 0.3);
+    box-shadow: 0 10px 25px rgba(44, 62, 80, 0.3);
 }
 
 .add-to-cart-btn.guest-modal-add-to-cart {
@@ -1404,7 +1546,12 @@
 <div id="quickViewModal" class="quick-view-modal">
     <div class="modal-overlay"></div>
     <div class="modal-content">
-        <button class="modal-close">&times;</button>
+        <button class="modal-close">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
         <div class="modal-body">
             <div class="product-image-section">
                 <div class="image-slider">
@@ -1419,10 +1566,14 @@
                         </div>
                     </div>
                     <button class="slider-arrow slider-arrow-left" id="modalSliderPrev">
-                        <span>&lt;</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="15,18 9,12 15,6"></polyline>
+                        </svg>
                     </button>
                     <button class="slider-arrow slider-arrow-right" id="modalSliderNext">
-                        <span>&gt;</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9,18 15,12 9,6"></polyline>
+                        </svg>
                     </button>
                     <div class="slider-dots">
                         <span class="dot active" data-slide="0"></span>
@@ -1431,46 +1582,108 @@
                 </div>
             </div>
             <div class="product-info-section">
-                <h2 id="modalProductName">Product Name</h2>
-                <p id="modalProductCategory" class="product-category">Category</p>
-                <p id="modalProductPrice" class="product-price">Price</p>
-                <div class="product-description">
-                    <h4>Description</h4>
-                    <p id="modalProductDescription">Product description will appear here.</p>
+                <div class="product-header">
+                    <div class="product-badge">
+                        <span id="modalProductCategory" class="category-badge">Category</span>
+                    </div>
+                    <h2 id="modalProductName">Product Name</h2>
+                    <div class="price-container">
+                        <span id="modalProductPrice" class="product-price">Price</span>
+                        <div class="stock-indicator">
+                            <div class="stock-dot"></div>
+                            <span id="modalStockInfo" class="stock-text">In Stock</span>
+                        </div>
+                    </div>
                 </div>
+
+                <div class="product-description">
+                    <h4>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14,2 14,8 20,8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                            <polyline points="10,9 9,9 8,9"></polyline>
+                        </svg>
+                        Description
+                    </h4>
+                    <div id="modalProductDescription" class="description-content">Product description will appear here.</div>
+                </div>
+
                 <div class="product-options">
                     <div class="size-options">
-                        <h4>Size</h4>
+                        <h4>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                <circle cx="9" cy="9" r="2"></circle>
+                                <path d="M21 15.5c-.3-1.1-1.2-2-2.4-2.5"></path>
+                            </svg>
+                            Size
+                        </h4>
                         <div id="modalProductSizes" class="size-buttons">
                             <!-- Size buttons will be populated here -->
                         </div>
                     </div>
                     <div class="color-options">
-                        <h4>Color</h4>
+                        <h4>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="3"></circle>
+                                <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1m15.5-6.5l-4.24 4.24M7.76 7.76L3.52 3.52m12.96 12.96l-4.24-4.24M7.76 16.24l-4.24 4.24"></path>
+                            </svg>
+                            Color
+                        </h4>
                         <div id="modalProductColors" class="color-buttons">
                             <!-- Color buttons will be populated here -->
                         </div>
                     </div>
                     <div class="quantity-section">
-                        <h4>Quantity</h4>
+                        <h4>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="1" y="3" width="15" height="13"></rect>
+                                <polygon points="16,8 20,8 23,11 23,16 16,16 16,8"></polygon>
+                                <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                                <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                            </svg>
+                            Quantity
+                        </h4>
                         <div class="quantity-controls">
-                            <button type="button" class="quantity-btn minus">-</button>
+                            <button type="button" class="quantity-btn minus">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                            </button>
                             <input type="number" id="modalQuantity" value="1" min="1" max="10">
-                            <button type="button" class="quantity-btn plus">+</button>
+                            <button type="button" class="quantity-btn plus">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                            </button>
                         </div>
                     </div>
                 </div>
+
                 <div class="modal-actions">
                     @auth
-                        <button id="modalAddToCart" class="add-to-cart-btn">
+                        <button id="modalAddToCart" class="add-to-cart-btn primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 3h2l.4 2m0 0L6 13h11l1.5-8H5.4z"></path>
+                                <circle cx="9" cy="20" r="1"></circle>
+                                <circle cx="20" cy="20" r="1"></circle>
+                            </svg>
                             <span>Add to Cart</span>
                         </button>
                     @else
                         <button id="modalAddToCart" class="add-to-cart-btn guest-modal-add-to-cart">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
                             <span>LOGIN TO ADD TO CART</span>
                         </button>
                     @endauth
-                    <p id="modalStockInfo" class="stock-info">In Stock</p>
                 </div>
             </div>
         </div>
@@ -1481,57 +1694,20 @@
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Add to cart functionality for authenticated users
+    // Add to cart functionality for authenticated users - redirect to quick view
     const addToCartButtons = document.querySelectorAll('.add-to-cart:not(.guest-add-to-cart)');
-    const cartCounter = document.querySelector('#cartCounter');
     
     addToCartButtons.forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            if (this.classList.contains('login-required') || this.classList.contains('out-of-stock')) {
+                return;
+            }
+            
             const productId = this.dataset.productId;
-            const productName = this.closest('.product-card').querySelector('.product-name').textContent;
-            
-            // Add loading state
-            this.classList.add('loading');
-            
-            // Send AJAX request to add product to cart
-            fetch('{{ route("cart.add") }}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
-                body: JSON.stringify({
-                    product_id: productId,
-                    quantity: 1
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Remove loading state
-                this.classList.remove('loading');
-                
-                if (data.success) {
-                    // Update cart counter with animation
-                    if (cartCounter) {
-                        cartCounter.textContent = data.cart_count;
-                        cartCounter.classList.add('updated');
-                        setTimeout(() => cartCounter.classList.remove('updated'), 600);
-                    }
-                    
-                    // Show success toast
-                    showToast('success', 'Added to Cart!', `${productName} has been added to your cart.`);
-                } else {
-                    // Show error toast
-                    showToast('error', 'Error!', data.message || 'Failed to add product to cart.');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                this.classList.remove('loading');
-                
-                // Show error toast
-                showToast('error', 'Error!', 'Something went wrong. Please try again.');
-            });
+            // Always open quick view modal for size and quantity selection
+            openQuickView(productId);
         });
     });
     
@@ -1831,7 +2007,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('modalProductName').textContent = product.name;
         document.getElementById('modalProductCategory').textContent = product.category;
         document.getElementById('modalProductPrice').textContent = product.formatted_price;
-        document.getElementById('modalProductDescription').textContent = product.description;
+        document.getElementById('modalProductDescription').innerHTML = product.description || '<p>High-quality product crafted with attention to detail and premium materials.</p>';
         
         // Reset slider to first slide
         resetSlider();

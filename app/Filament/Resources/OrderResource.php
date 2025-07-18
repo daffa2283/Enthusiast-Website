@@ -17,9 +17,11 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\BadgeColumn;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Actions\Action;
 use Filament\Notifications\Notification;
+use Filament\Forms\Components\FileUpload;
 
 class OrderResource extends Resource
 {
@@ -62,12 +64,26 @@ class OrderResource extends Resource
                                 'pending' => 'Pending',
                                 'paid' => 'Paid',
                                 'failed' => 'Failed',
+                                'rejected' => 'Rejected',
                                 'refunded' => 'Refunded',
                             ])
                             ->required(),
                         
                         TextInput::make('payment_method')
                             ->maxLength(255),
+                        
+                        FileUpload::make('payment_proof')
+                            ->label('Payment Proof')
+                            ->disk('public')
+                            ->directory('payment_proofs')
+                            ->image()
+                            ->imagePreviewHeight('200')
+                            ->panelAspectRatio('16:9')
+                            ->panelLayout('integrated')
+                            ->removeUploadedFileButtonPosition('right')
+                            ->uploadButtonPosition('left')
+                            ->uploadProgressIndicatorPosition('left')
+                            ->columnSpanFull(),
                     ])
                     ->columns(2),
 
@@ -159,9 +175,19 @@ class OrderResource extends Resource
                         'warning' => 'pending',
                         'success' => 'paid',
                         'danger' => 'failed',
+                        'danger' => 'rejected',
                         'gray' => 'refunded',
                     ])
                     ->sortable(),
+                
+                ImageColumn::make('payment_proof')
+                    ->label('Payment Proof')
+                    ->disk('public')
+                    ->height(50)
+                    ->width(50)
+                    ->defaultImageUrl(url('/images/no-payment-proof.svg'))
+                    ->tooltip('Click to view full size')
+                    ->toggleable(),
                 
                 TextColumn::make('total')
                     ->money('IDR')
@@ -189,8 +215,25 @@ class OrderResource extends Resource
                         'pending' => 'Pending',
                         'paid' => 'Paid',
                         'failed' => 'Failed',
+                        'rejected' => 'Rejected',
                         'refunded' => 'Refunded',
                     ]),
+                
+                SelectFilter::make('payment_proof')
+                    ->label('Payment Proof')
+                    ->options([
+                        'with_proof' => 'With Payment Proof',
+                        'without_proof' => 'Without Payment Proof',
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query->when(
+                            $data['value'] === 'with_proof',
+                            fn (Builder $query): Builder => $query->whereNotNull('payment_proof'),
+                        )->when(
+                            $data['value'] === 'without_proof',
+                            fn (Builder $query): Builder => $query->whereNull('payment_proof'),
+                        );
+                    }),
                 
                 Tables\Filters\Filter::make('created_at')
                     ->form([
@@ -252,10 +295,127 @@ class OrderResource extends Resource
                             ->send();
                     })
                     ->visible(fn (Order $record): bool => $record->status === 'shipped'),
+                
+                Action::make('confirm_payment')
+                    ->label('Confirm Payment')
+                    ->icon('heroicon-o-check-badge')
+                    ->color('success')
+                    ->requiresConfirmation()
+                    ->modalHeading('Confirm Payment')
+                    ->modalDescription('Are you sure you want to confirm this payment? This action will mark the payment as paid and update the order status.')
+                    ->modalSubmitActionLabel('Confirm Payment')
+                    ->action(function (Order $record) {
+                        $record->update([
+                            'payment_status' => 'paid',
+                            'status' => $record->status === 'pending' ? 'processing' : $record->status
+                        ]);
+                        Notification::make()
+                            ->title('Payment confirmed successfully')
+                            ->body('Order payment has been confirmed and status updated.')
+                            ->success()
+                            ->send();
+                    })
+                    ->visible(fn (Order $record): bool => 
+                        in_array($record->payment_status, ['pending', 'rejected']) && 
+                        !empty($record->payment_proof)
+                    ),
+                
+                Action::make('reject_payment')
+                    ->label('Reject Payment')
+                    ->icon('heroicon-o-x-circle')
+                    ->color('danger')
+                    ->requiresConfirmation()
+                    ->modalHeading('Reject Payment')
+                    ->modalDescription('Are you sure you want to reject this payment? This will mark the payment as failed and may require customer to resubmit payment proof.')
+                    ->modalSubmitActionLabel('Reject Payment')
+                    ->action(function (Order $record) {
+                        $record->update([
+                            'payment_status' => 'rejected',
+                            // Keep the payment_proof - do not remove it
+                        ]);
+                        Notification::make()
+                            ->title('Payment rejected')
+                            ->body('Payment proof has been rejected. Customer can upload new payment proof.')
+                            ->warning()
+                            ->send();
+                    })
+                    ->visible(fn (Order $record): bool => 
+                        in_array($record->payment_status, ['pending', 'rejected']) && 
+                        !empty($record->payment_proof)
+                    ),
+                
+                Action::make('view_payment_proof')
+                    ->label('View Payment Proof')
+                    ->icon('heroicon-o-photo')
+                    ->color('info')
+                    ->modalContent(function (Order $record) {
+                        if (!$record->payment_proof) {
+                            return view('filament.modals.no-payment-proof');
+                        }
+                        return view('filament.modals.payment-proof', ['paymentProof' => $record->payment_proof]);
+                    })
+                    ->modalHeading('Payment Proof')
+                    ->modalSubmitAction(false)
+                    ->modalCancelActionLabel('Close')
+                    ->visible(fn (Order $record): bool => !empty($record->payment_proof)),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    
+                    Tables\Actions\BulkAction::make('bulk_confirm_payment')
+                        ->label('Confirm Payments')
+                        ->icon('heroicon-o-check-badge')
+                        ->color('success')
+                        ->requiresConfirmation()
+                        ->modalHeading('Confirm Multiple Payments')
+                        ->modalDescription('Are you sure you want to confirm payment for all selected orders? This will mark them as paid and update their status.')
+                        ->modalSubmitActionLabel('Confirm All Payments')
+                        ->action(function ($records) {
+                            $confirmedCount = 0;
+                            foreach ($records as $record) {
+                                if (in_array($record->payment_status, ['pending', 'rejected']) && !empty($record->payment_proof)) {
+                                    $record->update([
+                                        'payment_status' => 'paid',
+                                        'status' => $record->status === 'pending' ? 'processing' : $record->status
+                                    ]);
+                                    $confirmedCount++;
+                                }
+                            }
+                            
+                            Notification::make()
+                                ->title("Confirmed {$confirmedCount} payments")
+                                ->body("Successfully confirmed payment for {$confirmedCount} orders.")
+                                ->success()
+                                ->send();
+                        }),
+                    
+                    Tables\Actions\BulkAction::make('bulk_reject_payment')
+                        ->label('Reject Payments')
+                        ->icon('heroicon-o-x-circle')
+                        ->color('danger')
+                        ->requiresConfirmation()
+                        ->modalHeading('Reject Multiple Payments')
+                        ->modalDescription('Are you sure you want to reject payment for all selected orders? This will mark them as rejected but keep payment proofs.')
+                        ->modalSubmitActionLabel('Reject All Payments')
+                        ->action(function ($records) {
+                            $rejectedCount = 0;
+                            foreach ($records as $record) {
+                                if (in_array($record->payment_status, ['pending', 'rejected']) && !empty($record->payment_proof)) {
+                                    $record->update([
+                                        'payment_status' => 'rejected',
+                                        // Keep the payment_proof - do not remove it
+                                    ]);
+                                    $rejectedCount++;
+                                }
+                            }
+                            
+                            Notification::make()
+                                ->title("Rejected {$rejectedCount} payments")
+                                ->body("Successfully rejected payment for {$rejectedCount} orders.")
+                                ->warning()
+                                ->send();
+                        }),
                 ]),
             ])
             ->emptyStateActions([

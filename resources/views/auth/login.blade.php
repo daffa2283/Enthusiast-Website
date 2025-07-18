@@ -18,6 +18,21 @@
                 </div>
             @endif
 
+            <!-- Info Messages -->
+            @if (session('info'))
+                <div class="alert alert-info">
+                    {{ session('info') }}
+                </div>
+            @endif
+
+            <!-- Error Messages -->
+            @if (session('error'))
+                <div class="alert alert-error">
+                    {{ session('error') }}
+                </div>
+            @endif
+
+            
             <form method="POST" action="{{ route('login') }}" class="auth-form">
                 @csrf
 
@@ -155,6 +170,19 @@
     color: #0c4a6e;
     border: 1px solid #7dd3fc;
 }
+
+.alert-info {
+    background: #e0f2fe;
+    color: #0c4a6e;
+    border: 1px solid #7dd3fc;
+}
+
+.alert-error {
+    background: #fef2f2;
+    color: #dc2626;
+    border: 1px solid #fca5a5;
+}
+
 
 .auth-form {
     display: flex;

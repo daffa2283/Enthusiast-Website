@@ -16,13 +16,13 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // Check if user is authenticated using admin guard
-        if (!Auth::guard('admin')->check()) {
-            return redirect()->route('filament.admin.auth.login')->with('error', 'You must be logged in to access this area.');
+        // Check if user is authenticated
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Please login to access admin area.');
         }
 
         // Check if user is admin
-        if (!Auth::guard('admin')->user()->isAdmin()) {
+        if (!Auth::user()->isAdmin()) {
             abort(403, 'Access denied. Admin privileges required.');
         }
 

@@ -178,9 +178,22 @@
                                                 </svg>
                                             </button>
                                         </div>
-                                        <span class="status-badge {{ $order->status === 'completed' ? 'completed' : ($order->status === 'pending' ? 'pending' : ($order->status === 'cancelled' ? 'cancelled' : 'processing')) }}">
-                                            {{ ucfirst($order->status) }}
-                                        </span>
+                                        <div class="status-badges">
+                                            <span class="status-badge order-status {{ $order->status === 'delivered' ? 'completed' : ($order->status === 'pending' ? 'pending' : ($order->status === 'cancelled' ? 'cancelled' : 'processing')) }}">
+                                                {{ ucfirst($order->status) }}
+                                            </span>
+                                            <span class="status-badge payment-status {{ $order->payment_status === 'paid' ? 'paid' : ($order->payment_status === 'rejected' ? 'rejected' : 'pending-payment') }}">
+                                                @if($order->payment_status === 'paid')
+                                                    Paid
+                                                @elseif($order->payment_status === 'rejected')
+                                                    Payment Rejected
+                                                @elseif($order->payment_status === 'pending')
+                                                    Payment Pending
+                                                @else
+                                                    {{ ucfirst($order->payment_status) }}
+                                                @endif
+                                            </span>
+                                        </div>
                                     </div>
                                     <p class="order-details">{{ $order->orderItems->count() }} {{ Str::plural('item', $order->orderItems->count()) }} • {{ $order->formatted_total }}</p>
                                     <span class="order-date">{{ $order->created_at->format('M d, Y') }}</span>
@@ -607,8 +620,9 @@
 .order-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: 0.5rem;
+    gap: 1rem;
 }
 
 .order-number-section {
@@ -622,6 +636,14 @@
     font-weight: 600;
     color: #1e293b;
     margin: 0;
+}
+
+/* Status Badges Container */
+.status-badges {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    align-items: flex-end;
 }
 
 /* Copy Button Styles */
@@ -676,6 +698,7 @@
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    white-space: nowrap;
 }
 
 .status-badge.active {
@@ -699,6 +722,22 @@
 }
 
 .status-badge.cancelled {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+/* Payment Status Badges */
+.status-badge.paid {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.status-badge.pending-payment {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.status-badge.rejected {
     background: #fee2e2;
     color: #dc2626;
 }
@@ -854,6 +893,18 @@
     
     .order-item {
         padding: 1rem;
+    }
+    
+    .order-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .status-badges {
+        align-items: flex-start;
+        flex-direction: row;
+        gap: 0.5rem;
     }
     
     .info-item {

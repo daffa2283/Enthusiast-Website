@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,10 +52,49 @@ Route::middleware('auth')->group(function () {
 
 // Checkout success and tracking
 Route::get('/checkout/success/{order}', [CheckoutController::class, 'success'])->name('checkout.success');
-Route::post('/checkout/confirm-payment/{order}', [CheckoutController::class, 'confirmPayment'])
+Route::get('/checkout/payment-confirmed/{order}', [CheckoutController::class, 'paymentConfirmed'])->name('checkout.payment-confirmed');
+Route::get('/checkout/payment-rejected/{order}', [CheckoutController::class, 'paymentRejected'])->name('checkout.payment-rejected');
+Route::post('/checkout/upload-payment-proof/{order}', [CheckoutController::class, 'uploadPaymentProof'])
     ->middleware('web')
-    ->name('checkout.confirm-payment');
+    ->name('checkout.upload-payment-proof');
+Route::get('/checkout/check-payment-status/{order}', [CheckoutController::class, 'checkPaymentStatus'])
+    ->name('checkout.check-payment-status');
 Route::get('/track-order', [CheckoutController::class, 'trackOrder'])->name('checkout.track');
+
+// Redirect old admin URLs to new admin panel
+Route::get('/admin-old', function () {
+    if (auth()->check() && auth()->user()->isAdmin()) {
+        return redirect('/admin-panel');
+    }
+    return redirect()->route('login')->with('info', 'Please login with your admin credentials to access the admin area.');
+});
+
+// Admin login redirect
+Route::get('/admin-panel/login', function () {
+    return redirect()->route('login')->with('info', 'Please login with your admin credentials to access the admin area.');
+})->name('admin.login');
+
+// Admin test route (for debugging)
+Route::get('/admin-panel/test', function () {
+    if (!auth()->check()) {
+        return 'Not authenticated';
+    }
+    
+    if (!auth()->user()->isAdmin()) {
+        return 'Not admin - Role: ' . auth()->user()->role;
+    }
+    
+    return 'Admin access working! User: ' . auth()->user()->name . ' (Role: ' . auth()->user()->role . ')';
+})->middleware(['auth']);
+
+// Custom Admin routes (separate from Filament)
+Route::prefix('admin-panel')->middleware(['auth', 'admin'])->group(function () {
+    Route::get('/', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/orders', [AdminController::class, 'orders'])->name('admin.orders');
+    Route::get('/orders/{id}', [AdminController::class, 'orderShow'])->name('admin.orders.show');
+    Route::post('/orders/{id}/confirm-payment', [AdminController::class, 'confirmPayment'])->name('admin.orders.confirm-payment');
+    Route::post('/orders/{id}/update-status', [AdminController::class, 'updateOrderStatus'])->name('admin.orders.update-status');
+});
 
 // Product detail page
 Route::get('/product/{id}', [HomeController::class, 'productDetail'])->name('product.detail');
