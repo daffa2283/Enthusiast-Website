@@ -316,8 +316,9 @@ class OrderResource extends Resource
                             ->send();
                     })
                     ->visible(fn (Order $record): bool => 
-                        in_array($record->payment_status, ['pending', 'rejected']) && 
-                        !empty($record->payment_proof)
+                        $record->payment_status === 'pending' && 
+                        !empty($record->payment_proof) &&
+                        $record->status !== 'cancelled'
                     ),
                 
                 Action::make('reject_payment')
@@ -326,22 +327,24 @@ class OrderResource extends Resource
                     ->color('danger')
                     ->requiresConfirmation()
                     ->modalHeading('Reject Payment')
-                    ->modalDescription('Are you sure you want to reject this payment? This will mark the payment as failed and may require customer to resubmit payment proof.')
+                    ->modalDescription('Are you sure you want to reject this payment? This will mark the payment as rejected and cancel the order.')
                     ->modalSubmitActionLabel('Reject Payment')
                     ->action(function (Order $record) {
                         $record->update([
                             'payment_status' => 'rejected',
+                            'status' => 'cancelled',
                             // Keep the payment_proof - do not remove it
                         ]);
                         Notification::make()
-                            ->title('Payment rejected')
-                            ->body('Payment proof has been rejected. Customer can upload new payment proof.')
+                            ->title('Payment rejected and order cancelled')
+                            ->body('Payment proof has been rejected and the order has been cancelled.')
                             ->warning()
                             ->send();
                     })
                     ->visible(fn (Order $record): bool => 
-                        in_array($record->payment_status, ['pending', 'rejected']) && 
-                        !empty($record->payment_proof)
+                        $record->payment_status === 'pending' && 
+                        !empty($record->payment_proof) &&
+                        $record->status !== 'cancelled'
                     ),
                 
                 Action::make('view_payment_proof')
@@ -374,7 +377,7 @@ class OrderResource extends Resource
                         ->action(function ($records) {
                             $confirmedCount = 0;
                             foreach ($records as $record) {
-                                if (in_array($record->payment_status, ['pending', 'rejected']) && !empty($record->payment_proof)) {
+                                if ($record->payment_status === 'pending' && !empty($record->payment_proof) && $record->status !== 'cancelled') {
                                     $record->update([
                                         'payment_status' => 'paid',
                                         'status' => $record->status === 'pending' ? 'processing' : $record->status
@@ -396,14 +399,15 @@ class OrderResource extends Resource
                         ->color('danger')
                         ->requiresConfirmation()
                         ->modalHeading('Reject Multiple Payments')
-                        ->modalDescription('Are you sure you want to reject payment for all selected orders? This will mark them as rejected but keep payment proofs.')
+                        ->modalDescription('Are you sure you want to reject payment for all selected orders? This will mark them as rejected and cancel the orders.')
                         ->modalSubmitActionLabel('Reject All Payments')
                         ->action(function ($records) {
                             $rejectedCount = 0;
                             foreach ($records as $record) {
-                                if (in_array($record->payment_status, ['pending', 'rejected']) && !empty($record->payment_proof)) {
+                                if ($record->payment_status === 'pending' && !empty($record->payment_proof) && $record->status !== 'cancelled') {
                                     $record->update([
                                         'payment_status' => 'rejected',
+                                        'status' => 'cancelled',
                                         // Keep the payment_proof - do not remove it
                                     ]);
                                     $rejectedCount++;
@@ -412,7 +416,7 @@ class OrderResource extends Resource
                             
                             Notification::make()
                                 ->title("Rejected {$rejectedCount} payments")
-                                ->body("Successfully rejected payment for {$rejectedCount} orders.")
+                                ->body("Successfully rejected payment for {$rejectedCount} orders and cancelled them.")
                                 ->warning()
                                 ->send();
                         }),

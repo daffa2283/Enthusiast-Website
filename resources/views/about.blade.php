@@ -361,41 +361,46 @@
     font-weight: 600;
 }
 
-/* Features Grid */
+/* Features Grid - HORIZONTAL LAYOUT */
 .features-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1.5rem;
     margin-top: 3rem;
+    flex-wrap: wrap;
 }
 
 .feature-item {
     text-align: center;
-    padding: 2rem 1rem;
+    padding: 1.5rem 1rem;
+    flex: 1;
+    min-width: 200px;
+    max-width: 250px;
 }
 
 .feature-icon {
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     background: linear-gradient(135deg, #1a1a1a, #333);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 1.5rem;
+    margin: 0 auto 1rem;
     color: white;
 }
 
 .feature-item h4 {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     font-weight: 600;
     color: #1a1a1a;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
 }
 
 .feature-item p {
-    font-size: 1rem;
-    line-height: 1.6;
+    font-size: 0.9rem;
+    line-height: 1.5;
     color: #666;
 }
 
@@ -509,8 +514,14 @@
     }
     
     .features-grid {
-        grid-template-columns: 1fr;
+        flex-direction: column;
+        align-items: center;
         gap: 2rem;
+    }
+    
+    .feature-item {
+        max-width: 100%;
+        min-width: auto;
     }
     
     .about-cta {
@@ -557,6 +568,14 @@
     
     .about-cta h2 {
         font-size: 1.6rem;
+    }
+    
+    .features-grid {
+        gap: 1.5rem;
+    }
+    
+    .feature-item {
+        padding: 1rem;
     }
 }
 </style>
