@@ -276,6 +276,52 @@
     color: #999;
 }
 
+.refresh-indicator {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background: linear-gradient(135deg, #3B82F6, #2563EB);
+    color: white;
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(59, 130, 246, 0.3);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transform: translateX(-300px);
+    transition: all 0.3s ease;
+}
+
+.refresh-indicator.show {
+    transform: translateX(0);
+}
+
+.refresh-indicator .countdown {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    font-weight: 600;
+    min-width: 20px;
+    text-align: center;
+}
+
+.refresh-indicator .spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top: 2px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
 @media (max-width: 768px) {
     .admin-container {
         padding: 1rem 0.5rem;
@@ -320,6 +366,15 @@
 @endpush
 
 @section('content')
+<!-- Auto Refresh Indicator -->
+<div id="refreshIndicator" class="refresh-indicator">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+    </svg>
+    <span id="refreshText">Auto refresh in</span>
+    <span id="refreshCountdown" class="countdown">5</span>
+</div>
+
 <section class="admin-container">
     <div class="admin-wrapper">
         <div class="admin-header">
@@ -466,6 +521,55 @@
 
 @push('scripts')
 <script>
+// Auto refresh with countdown notification
+let refreshCountdown = 5;
+let countdownInterval;
+let refreshTimeout;
+
+function startRefreshCountdown() {
+    const indicator = document.getElementById('refreshIndicator');
+    const countdownElement = document.getElementById('refreshCountdown');
+    const refreshText = document.getElementById('refreshText');
+    
+    // Show indicator
+    indicator.classList.add('show');
+    
+    // Update countdown every second
+    countdownInterval = setInterval(() => {
+        refreshCountdown--;
+        countdownElement.textContent = refreshCountdown;
+        
+        if (refreshCountdown <= 0) {
+            clearInterval(countdownInterval);
+            
+            // Show refreshing state
+            refreshText.textContent = 'Refreshing...';
+            countdownElement.style.display = 'none';
+            
+            // Add spinner
+            const spinner = document.createElement('div');
+            spinner.className = 'spinner';
+            indicator.appendChild(spinner);
+            
+            // Refresh page after short delay
+            setTimeout(() => {
+                window.location.reload();
+            }, 500);
+        }
+    }, 1000);
+}
+
+// Start countdown when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    // Show initial notification
+    showToast('info', 'Auto Refresh Active', 'Page will refresh every 5 seconds to show latest orders');
+    
+    // Start countdown after 2 seconds
+    setTimeout(() => {
+        startRefreshCountdown();
+    }, 2000);
+});
+
 function confirmPayment(orderId) {
     if (!confirm('Are you sure you want to confirm this payment?')) {
         return;

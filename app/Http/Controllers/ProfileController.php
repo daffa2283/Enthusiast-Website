@@ -48,11 +48,12 @@ class ProfileController extends Controller
 
         $user = $request->user();
 
-        Auth::logout();
+        // Only logout from web guard, don't invalidate entire session
+        Auth::guard('web')->logout();
 
         $user->delete();
 
-        $request->session()->invalidate();
+        // Don't invalidate session to preserve admin login
         $request->session()->regenerateToken();
 
         return Redirect::to('/');

@@ -42,10 +42,11 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
+        // Only logout from web guard, don't invalidate entire session
         Auth::guard('web')->logout();
 
-        $request->session()->invalidate();
-
+        // Don't invalidate session to preserve admin login
+        // Only regenerate token for security
         $request->session()->regenerateToken();
 
         return redirect('/');

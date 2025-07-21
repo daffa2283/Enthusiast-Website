@@ -1196,6 +1196,28 @@
     border-color: #6B7280;
 }
 
+/* Out of Stock Button Styling */
+.add-to-cart-btn.out-of-stock-btn {
+    background: #6c757d !important;
+    color: white !important;
+    cursor: not-allowed !important;
+    opacity: 0.7 !important;
+    border: 2px solid #6c757d !important;
+}
+
+.add-to-cart-btn.out-of-stock-btn:hover {
+    background: #6c757d !important;
+    transform: none !important;
+    box-shadow: none !important;
+    border-color: #6c757d !important;
+}
+
+.add-to-cart-btn.out-of-stock-btn:disabled {
+    background: #6c757d !important;
+    color: white !important;
+    cursor: not-allowed !important;
+}
+
 .stock-info {
     color: #10b981;
     font-weight: 600;
@@ -2012,21 +2034,83 @@ document.addEventListener('DOMContentLoaded', function() {
         // Reset slider to first slide
         resetSlider();
         
-        // Update stock info
+        // Update stock info and button based on stock status
         const stockInfo = document.getElementById('modalStockInfo');
+        const stockIndicator = document.querySelector('.stock-indicator');
+        const modalButtonSpan = modalAddToCartBtn.querySelector('span');
+        const modalButtonSvg = modalAddToCartBtn.querySelector('svg');
+        
         if (product.stock > 0) {
+            // Product is in stock
             stockInfo.textContent = `${product.stock} in stock`;
-            stockInfo.classList.remove('out-of-stock');
+            stockIndicator.classList.remove('out-of-stock');
             modalAddToCartBtn.disabled = false;
+            modalAddToCartBtn.classList.remove('out-of-stock-btn');
+            
+            // Reset button text and icon for in-stock products
+            @auth
+                modalButtonSpan.textContent = 'Add to Cart';
+                modalButtonSvg.innerHTML = `
+                    <path d="M3 3h2l.4 2m0 0L6 13h11l1.5-8H5.4z"></path>
+                    <circle cx="9" cy="20" r="1"></circle>
+                    <circle cx="20" cy="20" r="1"></circle>
+                `;
+            @else
+                modalButtonSpan.textContent = 'LOGIN TO ADD TO CART';
+                modalButtonSvg.innerHTML = `
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                    <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                `;
+            @endauth
         } else {
+            // Product is out of stock
             stockInfo.textContent = 'Out of stock';
-            stockInfo.classList.add('out-of-stock');
+            stockIndicator.classList.add('out-of-stock');
             modalAddToCartBtn.disabled = true;
+            modalAddToCartBtn.classList.add('out-of-stock-btn');
+            
+            // Change button text and icon for out-of-stock products
+            modalButtonSpan.textContent = 'Out of Stock';
+            modalButtonSvg.innerHTML = `
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="15" y1="9" x2="9" y2="15"></line>
+                <line x1="9" y1="9" x2="15" y2="15"></line>
+            `;
         }
         
         // Update quantity input max value
-        quantityInput.max = Math.min(product.stock, 10);
+        quantityInput.max = Math.min(product.stock || 1, 10);
         quantityInput.value = 1;
+        
+        // Disable quantity controls for out-of-stock products
+        const quantityControls = document.querySelectorAll('.quantity-btn, #modalQuantity');
+        quantityControls.forEach(control => {
+            if (product.stock <= 0) {
+                control.disabled = true;
+                control.style.opacity = '0.5';
+                control.style.cursor = 'not-allowed';
+            } else {
+                control.disabled = false;
+                control.style.opacity = '1';
+                control.style.cursor = 'pointer';
+            }
+        });
+        
+        // Disable size and color options for out-of-stock products
+        const optionButtons = document.querySelectorAll('.size-buttons button, .color-buttons button');
+        optionButtons.forEach(button => {
+            if (product.stock <= 0) {
+                button.disabled = true;
+                button.style.opacity = '0.5';
+                button.style.cursor = 'not-allowed';
+            } else {
+                button.disabled = false;
+                button.style.opacity = '1';
+                button.style.cursor = 'pointer';
+            }
+        });
         
         // Populate size options
         const sizesContainer = document.getElementById('modalProductSizes');
