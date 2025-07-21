@@ -50,6 +50,55 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/script.js') }}"></script>
+    
+    <!-- CSRF Token Auto-Refresh Script -->
+    <script>
+        // Auto-refresh CSRF token to prevent page expired errors
+        function refreshCsrfToken() {
+            fetch('/csrf-token', {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.csrf_token) {
+                    // Update meta tag
+                    const metaTag = document.querySelector('meta[name="csrf-token"]');
+                    if (metaTag) {
+                        metaTag.setAttribute('content', data.csrf_token);
+                    }
+                    
+                    // Update all CSRF input fields
+                    document.querySelectorAll('input[name="_token"]').forEach(input => {
+                        input.value = data.csrf_token;
+                    });
+                }
+            })
+            .catch(error => {
+                console.log('CSRF token refresh failed:', error);
+            });
+        }
+        
+        // Refresh CSRF token every 30 seconds
+        setInterval(refreshCsrfToken, 30000);
+        
+        // Refresh CSRF token when page becomes visible (user switches back to tab)
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden) {
+                refreshCsrfToken();
+            }
+        });
+        
+        // Handle CSRF token mismatch errors globally
+        window.addEventListener('error', function(e) {
+            if (e.message && e.message.includes('419')) {
+                refreshCsrfToken();
+            }
+        });
+    </script>
+    
     @stack('scripts')
     
     <!-- Loading Screen Script -->

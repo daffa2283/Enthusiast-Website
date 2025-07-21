@@ -69,7 +69,7 @@
                             <a href="{{ route('dashboard') }}" class="dropdown-item">Dashboard</a>
                         @endif
                         <div class="dropdown-divider"></div>
-                        <form method="POST" action="{{ route('logout') }}" class="dropdown-form">
+                        <form method="POST" action="{{ route('logout') }}" class="dropdown-form" id="logoutForm">
                             @csrf
                             <button type="submit" class="dropdown-item logout-btn">Logout</button>
                         </form>
@@ -115,7 +115,7 @@
                     @else
                         <a href="{{ route('dashboard') }}" class="mobile-auth-link">Dashboard</a>
                     @endif
-                    <form method="POST" action="{{ route('logout') }}" class="mobile-logout-form">
+                    <form method="POST" action="{{ route('logout') }}" class="mobile-logout-form" id="mobileLogoutForm">
                         @csrf
                         <button type="submit" class="mobile-auth-link logout-btn">Logout</button>
                     </form>

@@ -369,5 +369,93 @@ document.addEventListener('DOMContentLoaded', function() {
     `;
     document.head.appendChild(style);
 
+    // Enhanced logout functionality with multiple fallback approaches
+    const logoutForms = document.querySelectorAll('#logoutForm, #mobileLogoutForm');
+    
+    logoutForms.forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Method 1: Try with fresh CSRF token
+            fetch('/csrf-token', {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Update CSRF token in form
+                const csrfInput = form.querySelector('input[name="_token"]');
+                if (csrfInput && data.csrf_token) {
+                    csrfInput.value = data.csrf_token;
+                }
+                
+                // Update meta tag
+                const metaTag = document.querySelector('meta[name="csrf-token"]');
+                if (metaTag && data.csrf_token) {
+                    metaTag.setAttribute('content', data.csrf_token);
+                }
+                
+                // Submit form
+                submitLogoutForm(form);
+            })
+            .catch(error => {
+                console.log('CSRF refresh failed, trying alternative logout methods:', error);
+                // Method 2: Try direct AJAX logout
+                performAjaxLogout();
+            });
+        });
+    });
+    
+    function submitLogoutForm(form) {
+        // Create a temporary form to avoid any event listeners
+        const tempForm = document.createElement('form');
+        tempForm.method = 'POST';
+        tempForm.action = form.action;
+        tempForm.style.display = 'none';
+        
+        // Copy CSRF token
+        const csrfInput = form.querySelector('input[name="_token"]');
+        if (csrfInput) {
+            const newCsrfInput = document.createElement('input');
+            newCsrfInput.type = 'hidden';
+            newCsrfInput.name = '_token';
+            newCsrfInput.value = csrfInput.value;
+            tempForm.appendChild(newCsrfInput);
+        }
+        
+        document.body.appendChild(tempForm);
+        tempForm.submit();
+    }
+    
+    function performAjaxLogout() {
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+        
+        fetch('/logout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken,
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify({})
+        })
+        .then(response => {
+            if (response.ok || response.redirected) {
+                // Logout successful, redirect to home
+                window.location.href = '/';
+            } else {
+                // If AJAX fails, try simple redirect
+                window.location.href = '/logout';
+            }
+        })
+        .catch(error => {
+            console.log('AJAX logout failed, redirecting manually:', error);
+            // Last resort: simple redirect
+            window.location.href = '/';
+        });
+    }
+
     console.log('EnthusiastVerse website loaded successfully! 🚀');
 });

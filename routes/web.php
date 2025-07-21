@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ProfileController;
@@ -36,6 +37,22 @@ Route::get('/search/suggestions', [HomeController::class, 'searchSuggestions'])-
 
 // Cart count (available to all users)
 Route::get('/cart/count', [HomeController::class, 'getCartCount'])->name('cart.count');
+
+// CSRF token refresh endpoint
+Route::get('/csrf-token', function () {
+    return response()->json(['csrf_token' => csrf_token()]);
+})->name('csrf.token');
+
+// Session isolation test endpoints
+Route::get('/test-session-isolation', function () {
+    return response()->json([
+        'web_user' => Auth::guard('web')->check() ? Auth::guard('web')->user()->only(['id', 'name', 'email']) : null,
+        'admin_user' => Auth::guard('admin')->check() ? Auth::guard('admin')->user()->only(['id', 'name', 'email']) : null,
+        'session_id' => session()->getId(),
+        'csrf_token' => csrf_token(),
+        'timestamp' => now()
+    ]);
+})->name('test.session.isolation');
 
 // Cart test page (for debugging)
 Route::get('/cart/test', function () {

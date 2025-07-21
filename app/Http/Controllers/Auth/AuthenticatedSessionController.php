@@ -45,10 +45,12 @@ class AuthenticatedSessionController extends Controller
         // Only logout from web guard, don't invalidate entire session
         Auth::guard('web')->logout();
 
-        // Don't invalidate session to preserve admin login
-        // Only regenerate token for security
-        $request->session()->regenerateToken();
+        // Only regenerate token if admin is not logged in
+        // This prevents "page expired" errors in admin panel
+        if (!Auth::guard('admin')->check()) {
+            $request->session()->regenerateToken();
+        }
 
-        return redirect('/');
+        return redirect('/')->with('success', 'You have been logged out successfully.');
     }
 }
