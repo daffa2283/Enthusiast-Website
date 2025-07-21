@@ -1332,6 +1332,40 @@
         padding: 0.6rem 1.2rem;
         font-size: 0.85rem;
     }
+    
+    /* Mobile Quick View Button - Touch activated */
+    .product-card.mobile-touched .product-hover {
+        opacity: 1 !important;
+        background: linear-gradient(135deg, rgba(0,0,0,0.6), rgba(44,62,80,0.3)) !important;
+    }
+    
+    .product-card.mobile-touched .quick-view {
+        background: rgba(255, 255, 255, 0.95) !important;
+        backdrop-filter: blur(10px);
+        padding: 10px 24px !important;
+        font-size: 0.85rem !important;
+        border-radius: 25px;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15) !important;
+        position: relative;
+        z-index: 10;
+    }
+    
+    .product-card.mobile-touched .quick-view:hover {
+        background: var(--accent-color) !important;
+        color: white !important;
+        transform: translateY(-1px) !important;
+        box-shadow: 0 4px 15px rgba(44, 62, 80, 0.3) !important;
+    }
+    
+    .modal-body {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 20px;
+    }
+    
+    .image-slider {
+        height: 300px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -2293,6 +2327,77 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
+});
+
+// Mobile touch handling for quick view button
+function initMobileTouchHandling() {
+    // Check if device is mobile
+    const isMobile = window.innerWidth <= 768;
+    
+    if (isMobile) {
+        const productCards = document.querySelectorAll('.product-card');
+        
+        productCards.forEach(card => {
+            let touchTimeout;
+            
+            // Touch start event
+            card.addEventListener('touchstart', function(e) {
+                // Clear any existing timeout
+                clearTimeout(touchTimeout);
+                
+                // Add touched class immediately
+                this.classList.add('mobile-touched');
+                
+                // Set timeout to remove class if touch is held too long
+                touchTimeout = setTimeout(() => {
+                    this.classList.remove('mobile-touched');
+                }, 3000); // Remove after 3 seconds
+            }, { passive: true });
+            
+            // Touch end event
+            card.addEventListener('touchend', function(e) {
+                // Clear timeout
+                clearTimeout(touchTimeout);
+                
+                // Remove touched class after a short delay
+                setTimeout(() => {
+                    this.classList.remove('mobile-touched');
+                }, 2000); // Keep visible for 2 seconds after touch end
+            }, { passive: true });
+            
+            // Touch cancel event (when touch is interrupted)
+            card.addEventListener('touchcancel', function(e) {
+                clearTimeout(touchTimeout);
+                this.classList.remove('mobile-touched');
+            }, { passive: true });
+            
+            // Remove touched class when scrolling
+            let isScrolling = false;
+            window.addEventListener('scroll', function() {
+                if (!isScrolling) {
+                    isScrolling = true;
+                    card.classList.remove('mobile-touched');
+                    setTimeout(() => {
+                        isScrolling = false;
+                    }, 100);
+                }
+            }, { passive: true });
+        });
+    }
+}
+
+// Initialize mobile touch handling when DOM is loaded
+document.addEventListener('DOMContentLoaded', initMobileTouchHandling);
+
+// Re-initialize on window resize
+window.addEventListener('resize', function() {
+    // Remove all mobile-touched classes first
+    document.querySelectorAll('.product-card.mobile-touched').forEach(card => {
+        card.classList.remove('mobile-touched');
+    });
+    
+    // Re-initialize if now mobile
+    initMobileTouchHandling();
 });
 </script>
 @endpush

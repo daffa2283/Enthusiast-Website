@@ -1210,7 +1210,8 @@
     }
     
     .success-title {
-        font-size: 2rem;
+        font-size: 1.4rem;
+        line-height: 1.3;
     }
     
     .order-header {
@@ -1225,6 +1226,21 @@
     
     .action-buttons {
         flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    
+    .action-buttons .btn {
+        width: 100%;
+        max-width: 280px;
+        justify-content: center;
+        text-align: center;
+        padding: 1rem 1.5rem;
+        font-size: 0.95rem;
+        margin: 0 auto;
     }
     
     .order-item {
@@ -1388,12 +1404,12 @@
         flex-direction: row;
         align-items: flex-start;
         text-align: left;
-        gap: 1rem;
+        gap: 0.75rem;
         margin-bottom: 1.5rem;
         padding: 1rem;
         background: rgba(251, 191, 36, 0.05);
         border-radius: 10px;
-        border-left: 3px solid #fbbf24;
+        border: 2px solid rgba(251, 191, 36, 0.2);
     }
     
     .payment-step:last-child {
@@ -1401,23 +1417,23 @@
     }
     
     .step-number {
-        margin: 0;
+        margin-right: 1rem;
         flex-shrink: 0;
-        width: 28px;
-        height: 28px;
-        font-size: 0.85rem;
+        width: 32px;
+        height: 32px;
+        font-size: 0.9rem;
         font-weight: 700;
         box-shadow: 0 2px 6px rgba(251, 191, 36, 0.3);
     }
     
     .step-text {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         text-align: left;
         line-height: 1.4;
         color: #856404;
         font-weight: 500;
-        flex: 1;
-        margin-top: 2px;
+        width: 100%;
+        margin-top: 0;
     }
     
     /* Upload section mobile adjustments */
@@ -1447,20 +1463,22 @@
     }
     
     .status-step {
-        flex-direction: column;
-        text-align: center;
-        margin-bottom: 2.5rem;
+        flex-direction: row;
+        align-items: flex-start;
+        text-align: left;
+        margin-bottom: 2rem;
     }
     
     .step-icon {
-        margin: 0 auto 1rem;
-        width: 45px;
-        height: 45px;
+        margin-right: 1rem;
+        width: 40px;
+        height: 40px;
     }
     
     .step-content {
-        padding-top: 0;
-        text-align: center;
+        padding-top: 0.5rem;
+        text-align: left;
+        flex: 1;
     }
     
     .step-title {
@@ -2036,7 +2054,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initFileUpload();
     
     // Initialize auto-refresh for pending orders with payment proof
-    @if(($order->payment_status === 'pending' || $order->payment_status === 'rejected') && $order->payment_proof)
+    @if($order->payment_status === 'pending' && $order->payment_proof)
         initAutoRefresh();
     @endif
 });
@@ -2045,10 +2063,10 @@ document.addEventListener('DOMContentLoaded', function() {
 function initAutoRefresh() {
     createRefreshIndicator();
     
-    // Check for payment confirmation every 30 seconds
+    // Check for payment confirmation every 1 second
     autoRefreshInterval = setInterval(() => {
         checkPaymentStatus();
-    }, 30000);
+    }, 1000);
     
     // Show initial refresh indicator
     showRefreshIndicator();

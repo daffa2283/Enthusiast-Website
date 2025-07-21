@@ -105,6 +105,7 @@
     font-size: 1.3rem;
     font-weight: 700;
     color: #1a1a1a;
+    white-space: nowrap;
 }
 
 .order-status {
