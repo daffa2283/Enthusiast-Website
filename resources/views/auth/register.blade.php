@@ -401,7 +401,7 @@ function togglePassword(inputId) {
     }
 }
 
-// Auto-focus first input
+// Auto-hide navbar functionality for auth pages
 document.addEventListener('DOMContentLoaded', function() {
     const nameInput = document.getElementById('name');
     if (nameInput && !nameInput.value) {
@@ -422,6 +422,142 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
+    
+    // Auto-hide navbar functionality
+    const header = document.querySelector('.header');
+    let hoverTrigger;
+    let hideTimeout;
+    let isNavbarVisible = false;
+    
+    // Create hover trigger area
+    function createHoverTrigger() {
+        hoverTrigger = document.createElement('div');
+        hoverTrigger.className = 'auth-hover-trigger active';
+        document.body.appendChild(hoverTrigger);
+    }
+    
+    // Hide navbar initially
+    function hideNavbar() {
+        if (header) {
+            header.classList.add('auth-hidden');
+            header.classList.remove('auth-visible');
+            isNavbarVisible = false;
+        }
+    }
+    
+    // Show navbar
+    function showNavbar() {
+        if (header) {
+            header.classList.remove('auth-hidden');
+            header.classList.add('auth-visible');
+            isNavbarVisible = true;
+            
+            // Clear any existing hide timeout
+            if (hideTimeout) {
+                clearTimeout(hideTimeout);
+            }
+        }
+    }
+    
+    // Auto-hide navbar after delay
+    function autoHideNavbar() {
+        hideTimeout = setTimeout(() => {
+            hideNavbar();
+        }, 3000); // Hide after 3 seconds
+    }
+    
+    // Initialize auto-hide functionality
+    function initAutoHide() {
+        createHoverTrigger();
+        
+        // Hide navbar initially after a short delay
+        setTimeout(hideNavbar, 1000);
+        
+        // Mouse enter trigger area - show navbar
+        hoverTrigger.addEventListener('mouseenter', function() {
+            showNavbar();
+        });
+        
+        // Mouse leave header - start auto-hide timer
+        header.addEventListener('mouseleave', function(e) {
+            // Check if mouse is moving to trigger area
+            const rect = hoverTrigger.getBoundingClientRect();
+            if (e.clientY > rect.bottom) {
+                autoHideNavbar();
+            }
+        });
+        
+        // Mouse enter header - cancel auto-hide
+        header.addEventListener('mouseenter', function() {
+            if (hideTimeout) {
+                clearTimeout(hideTimeout);
+            }
+        });
+        
+        // Enhanced touch events for mobile
+        let touchStartY = 0;
+        let lastTouchY = 0;
+        let touchMoveCount = 0;
+        let isScrollingDown = false;
+        
+        document.addEventListener('touchstart', function(e) {
+            touchStartY = e.touches[0].clientY;
+            lastTouchY = touchStartY;
+            touchMoveCount = 0;
+            isScrollingDown = false;
+        });
+        
+        document.addEventListener('touchmove', function(e) {
+            const touchY = e.touches[0].clientY;
+            const deltaY = touchY - touchStartY;
+            const currentDelta = touchY - lastTouchY;
+            touchMoveCount++;
+            
+            // Detect scrolling direction
+            if (currentDelta > 0) {
+                isScrollingDown = true;
+            }
+            
+            // If swiping down from top of screen, show navbar
+            if (touchStartY < 50 && deltaY > 30 && !isNavbarVisible) {
+                showNavbar();
+                autoHideNavbar();
+            }
+            
+            // If finger moves away from navbar area (going down), auto-hide
+            if (isNavbarVisible && touchY > 100 && isScrollingDown && touchMoveCount > 3) {
+                autoHideNavbar();
+            }
+            
+            lastTouchY = touchY;
+        });
+        
+        document.addEventListener('touchend', function(e) {
+            // If touch ends below navbar area and navbar is visible, start auto-hide
+            if (isNavbarVisible && lastTouchY > 100) {
+                autoHideNavbar();
+            }
+        });
+        
+        // Additional mobile-specific trigger area
+        hoverTrigger.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            if (!isNavbarVisible) {
+                showNavbar();
+                autoHideNavbar();
+            }
+        });
+        
+        // Hide navbar when clicking outside
+        document.addEventListener('click', function(e) {
+            if (isNavbarVisible && !header.contains(e.target) && !hoverTrigger.contains(e.target)) {
+                autoHideNavbar();
+            }
+        });
+    }
+    
+    // Initialize the auto-hide functionality
+    initAutoHide();
 });
 </script>
 @endpush

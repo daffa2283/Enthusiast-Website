@@ -497,55 +497,19 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
-        // Enhanced touch events for mobile
+        // Touch events for mobile
         let touchStartY = 0;
-        let lastTouchY = 0;
-        let touchMoveCount = 0;
-        let isScrollingDown = false;
         
         document.addEventListener('touchstart', function(e) {
             touchStartY = e.touches[0].clientY;
-            lastTouchY = touchStartY;
-            touchMoveCount = 0;
-            isScrollingDown = false;
         });
         
         document.addEventListener('touchmove', function(e) {
             const touchY = e.touches[0].clientY;
             const deltaY = touchY - touchStartY;
-            const currentDelta = touchY - lastTouchY;
-            touchMoveCount++;
-            
-            // Detect scrolling direction
-            if (currentDelta > 0) {
-                isScrollingDown = true;
-            }
             
             // If swiping down from top of screen, show navbar
             if (touchStartY < 50 && deltaY > 30 && !isNavbarVisible) {
-                showNavbar();
-                autoHideNavbar();
-            }
-            
-            // If finger moves away from navbar area (going down), auto-hide
-            if (isNavbarVisible && touchY > 100 && isScrollingDown && touchMoveCount > 3) {
-                autoHideNavbar();
-            }
-            
-            lastTouchY = touchY;
-        });
-        
-        document.addEventListener('touchend', function(e) {
-            // If touch ends below navbar area and navbar is visible, start auto-hide
-            if (isNavbarVisible && lastTouchY > 100) {
-                autoHideNavbar();
-            }
-        });
-        
-        // Additional mobile-specific trigger area
-        hoverTrigger.addEventListener('touchstart', function(e) {
-            e.preventDefault();
-            if (!isNavbarVisible) {
                 showNavbar();
                 autoHideNavbar();
             }

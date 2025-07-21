@@ -54,6 +54,7 @@
     font-weight: 700;
     color: #1a1a1a;
     margin-bottom: 1rem;
+    line-height: 1.2;
 }
 
 .success-subtitle {
@@ -1252,6 +1253,422 @@
     
     .items-title {
         font-size: 1.1rem;
+    }
+    
+    /* Mobile responsive adjustments for file upload and images */
+    .file-upload-area {
+        padding: 1.5rem 1rem;
+    }
+    
+    .upload-placeholder svg {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .upload-text {
+        font-size: 0.9rem;
+    }
+    
+    .upload-hint {
+        font-size: 0.75rem;
+    }
+    
+    .file-preview {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .file-preview img {
+        width: 120px;
+        height: 120px;
+        margin: 0 auto;
+    }
+    
+    .file-info {
+        text-align: center;
+    }
+    
+    .file-name {
+        font-size: 0.9rem;
+        word-break: break-all;
+        margin-bottom: 1rem;
+        line-height: 1.3;
+    }
+    
+    .remove-file {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.9rem;
+        margin: 0 auto;
+        min-width: 120px;
+        justify-content: center;
+    }
+    
+    .remove-file svg {
+        width: 18px;
+        height: 18px;
+    }
+    
+    /* Payment proof uploaded section mobile adjustments */
+    .payment-proof-uploaded {
+        padding: 1.5rem 1rem;
+    }
+    
+    .uploaded-title {
+        font-size: 1.1rem;
+    }
+    
+    .uploaded-text {
+        font-size: 0.85rem;
+        line-height: 1.4;
+    }
+    
+    .uploaded-image img {
+        max-width: 150px;
+        border-radius: 12px;
+    }
+    
+    /* Image modal mobile adjustments */
+    .image-modal {
+        padding: 10px;
+    }
+    
+    .image-modal-content {
+        max-width: 95%;
+        max-height: 85%;
+    }
+    
+    .image-modal-close {
+        top: -35px;
+        right: -5px;
+        width: 35px;
+        height: 35px;
+    }
+    
+    .image-modal-close svg {
+        width: 18px;
+        height: 18px;
+    }
+    
+    /* Payment confirmation card mobile adjustments */
+    .payment-confirmation-card {
+        padding: 1.5rem 1rem;
+        margin: 1.5rem 0;
+        border-radius: 16px;
+    }
+    
+    .payment-confirmation-title {
+        font-size: 1.1rem;
+        flex-direction: column;
+        gap: 0.75rem;
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+    
+    .payment-confirmation-title svg {
+        margin: 0 auto;
+    }
+    
+    .payment-confirmation-text {
+        font-size: 0.9rem;
+        text-align: center;
+        margin-bottom: 2rem;
+        line-height: 1.5;
+    }
+    
+    .payment-steps {
+        padding: 1.25rem;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid rgba(251, 191, 36, 0.2);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+    
+    .payment-step {
+        flex-direction: row;
+        align-items: flex-start;
+        text-align: left;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+        padding: 1rem;
+        background: rgba(251, 191, 36, 0.05);
+        border-radius: 10px;
+        border-left: 3px solid #fbbf24;
+    }
+    
+    .payment-step:last-child {
+        margin-bottom: 0;
+    }
+    
+    .step-number {
+        margin: 0;
+        flex-shrink: 0;
+        width: 28px;
+        height: 28px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        box-shadow: 0 2px 6px rgba(251, 191, 36, 0.3);
+    }
+    
+    .step-text {
+        font-size: 0.9rem;
+        text-align: left;
+        line-height: 1.4;
+        color: #856404;
+        font-weight: 500;
+        flex: 1;
+        margin-top: 2px;
+    }
+    
+    /* Upload section mobile adjustments */
+    .upload-section {
+        padding: 1.5rem 1rem;
+    }
+    
+    .upload-title {
+        font-size: 1.1rem;
+        justify-content: center;
+        text-align: center;
+    }
+    
+    .upload-description {
+        font-size: 0.85rem;
+        text-align: center;
+    }
+    
+    .upload-btn {
+        padding: 1rem 1.5rem;
+        font-size: 0.9rem;
+    }
+    
+    /* Status tracker mobile adjustments */
+    .payment-status-tracker {
+        padding: 1.5rem 1rem;
+    }
+    
+    .status-step {
+        flex-direction: column;
+        text-align: center;
+        margin-bottom: 2.5rem;
+    }
+    
+    .step-icon {
+        margin: 0 auto 1rem;
+        width: 45px;
+        height: 45px;
+    }
+    
+    .step-content {
+        padding-top: 0;
+        text-align: center;
+    }
+    
+    .step-title {
+        font-size: 1rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .step-description {
+        font-size: 0.85rem;
+        line-height: 1.4;
+    }
+    
+    /* Order totals mobile adjustments */
+    .order-totals {
+        padding: 1.5rem 1rem;
+    }
+    
+    .totals-title {
+        font-size: 1rem;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .total-row {
+        padding: 1rem 0;
+    }
+    
+    .total-row:last-child {
+        margin: 1rem -1rem -1.5rem;
+        padding: 1.5rem 1rem;
+    }
+    
+    .total-label,
+    .total-value {
+        font-size: 0.9rem;
+    }
+    
+    .grand-total {
+        font-size: 1.2rem;
+    }
+    
+    .grand-total-label {
+        font-size: 1rem;
+    }
+}
+
+/* Additional mobile adjustments for very small screens */
+@media (max-width: 480px) {
+    .success-container {
+        padding: 1rem 0.5rem;
+    }
+    
+    .success-card {
+        padding: 1.5rem 0.75rem;
+    }
+    
+    .success-title {
+        font-size: 1.75rem;
+    }
+    
+    .success-subtitle {
+        font-size: 1rem;
+    }
+    
+    /* File upload adjustments for very small screens */
+    .file-upload-area {
+        padding: 1rem 0.75rem;
+    }
+    
+    .file-preview img {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .file-name {
+        font-size: 0.8rem;
+    }
+    
+    .remove-file {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.8rem;
+        min-width: 100px;
+    }
+    
+    .remove-file svg {
+        width: 16px;
+        height: 16px;
+    }
+    
+    /* Uploaded image adjustments */
+    .uploaded-image img {
+        max-width: 120px;
+    }
+    
+    .uploaded-title {
+        font-size: 1rem;
+    }
+    
+    .uploaded-text {
+        font-size: 0.8rem;
+    }
+    
+    /* Payment confirmation adjustments */
+    .payment-confirmation-card {
+        padding: 1rem 0.75rem;
+    }
+    
+    .payment-confirmation-title {
+        font-size: 1rem;
+    }
+    
+    .payment-confirmation-text {
+        font-size: 0.85rem;
+    }
+    
+    .payment-steps {
+        padding: 0.75rem;
+    }
+    
+    .step-text {
+        font-size: 0.8rem;
+    }
+    
+    /* Upload section adjustments */
+    .upload-section {
+        padding: 1rem 0.75rem;
+    }
+    
+    .upload-title {
+        font-size: 1rem;
+    }
+    
+    .upload-description {
+        font-size: 0.8rem;
+    }
+    
+    .upload-btn {
+        padding: 0.9rem 1.2rem;
+        font-size: 0.85rem;
+    }
+    
+    /* Status tracker adjustments */
+    .payment-status-tracker {
+        padding: 1rem 0.75rem;
+    }
+    
+    .step-icon {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .step-title {
+        font-size: 0.9rem;
+    }
+    
+    .step-description {
+        font-size: 0.8rem;
+    }
+    
+    /* Order item adjustments */
+    .order-item {
+        padding: 0.75rem;
+    }
+    
+    .item-image {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .item-name {
+        font-size: 0.9rem;
+    }
+    
+    .item-price {
+        font-size: 1rem;
+    }
+    
+    .item-unit-price {
+        font-size: 0.75rem;
+    }
+    
+    /* Button adjustments */
+    .btn {
+        padding: 0.9rem 1.5rem;
+        font-size: 0.9rem;
+    }
+    
+    .confirm-payment-btn,
+    .btn-whatsapp {
+        padding: 0.9rem 1.5rem;
+        font-size: 0.9rem;
+    }
+    
+    /* Copy button adjustments */
+    .copy-btn {
+        width: 32px;
+        height: 32px;
+        padding: 0.4rem;
+    }
+    
+    .copy-btn svg {
+        width: 14px;
+        height: 14px;
+    }
+    
+    .copy-tooltip {
+        font-size: 0.7rem;
+        padding: 0.4rem 0.6rem;
     }
 }
 </style>

@@ -91,43 +91,7 @@
     </nav>
 
     <div class="mobile-menu" id="mobileMenu">
-        <ul class="mobile-nav-links">
-            <li><a href="{{ route('home') }}">Home</a></li>
-            <li><a href="{{ route('products') }}">Products</a></li>
-            <li><a href="{{ route('about') }}">About</a></li>
-        </ul>
-
-        @auth
-            <div class="mobile-user-section">
-                <div class="mobile-user-info">
-                    <div class="mobile-user-avatar">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="12" cy="7" r="4"></circle>
-                        </svg>
-                    </div>
-                    <span class="mobile-user-name">{{ auth()->user()->name }}</span>
-                </div>
-                <div class="mobile-user-links">
-                    <a href="{{ route('profile.edit') }}" class="mobile-auth-link">Profile</a>
-                    @if(auth()->user()->isAdmin())
-                        <a href="/admin-panel" class="mobile-auth-link">Admin Panel</a>
-                    @else
-                        <a href="{{ route('dashboard') }}" class="mobile-auth-link">Dashboard</a>
-                    @endif
-                    <form method="POST" action="{{ route('logout') }}" class="mobile-logout-form" id="mobileLogoutForm">
-                        @csrf
-                        <button type="submit" class="mobile-auth-link logout-btn">Logout</button>
-                    </form>
-                </div>
-            </div>
-        @else
-            <div class="mobile-auth-section">
-                <a href="{{ route('login') }}" class="mobile-auth-link">Login</a>
-                <a href="{{ route('register') }}" class="mobile-auth-link">Register</a>
-            </div>
-        @endauth
-
+        <!-- Search moved to top -->
         <div class="mobile-search-container">
             <form action="{{ route('search') }}" method="GET" class="mobile-search-form">
                 <div class="mobile-search-wrapper">
@@ -145,5 +109,18 @@
                 </div>
             </form>
         </div>
+
+        <ul class="mobile-nav-links">
+            <li><a href="{{ route('home') }}">Home</a></li>
+            <li><a href="{{ route('products') }}">Products</a></li>
+            <li><a href="{{ route('about') }}">About</a></li>
+        </ul>
+
+        @guest
+            <div class="mobile-auth-section">
+                <a href="{{ route('login') }}" class="mobile-auth-link">Login</a>
+                <a href="{{ route('register') }}" class="mobile-auth-link">Register</a>
+            </div>
+        @endguest
     </div>
 </header>

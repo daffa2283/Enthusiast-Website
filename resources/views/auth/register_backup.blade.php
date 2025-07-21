@@ -1,40 +1,35 @@
 @extends('layouts.app')
 
-@section('title', 'Login - EnthusiastVerse')
+@section('title', 'Register - EnthusiastVerse')
 
 @section('content')
 <div class="auth-container">
     <div class="auth-wrapper">
         <div class="auth-card">
             <div class="auth-header">
-                <h1>Welcome Back</h1>
-                <p>Sign in to your EnthusiastVerse account</p>
+                <h1>Join EnthusiastVerse</h1>
+                <p>Create your account and start your fashion journey</p>
             </div>
 
-            <!-- Session Status -->
-            @if (session('status'))
-                <div class="alert alert-success">
-                    {{ session('status') }}
-                </div>
-            @endif
-
-            <!-- Info Messages -->
-            @if (session('info'))
-                <div class="alert alert-info">
-                    {{ session('info') }}
-                </div>
-            @endif
-
-            <!-- Error Messages -->
-            @if (session('error'))
-                <div class="alert alert-error">
-                    {{ session('error') }}
-                </div>
-            @endif
-
-            
-            <form method="POST" action="{{ route('login') }}" class="auth-form">
+            <form method="POST" action="{{ route('register') }}" class="auth-form">
                 @csrf
+
+                <!-- Name -->
+                <div class="form-group">
+                    <label for="name" class="form-label">Full Name</label>
+                    <input id="name" 
+                           type="text" 
+                           name="name" 
+                           value="{{ old('name') }}" 
+                           required 
+                           autofocus 
+                           autocomplete="name"
+                           class="form-input @error('name') error @enderror"
+                           placeholder="Enter your full name">
+                    @error('name')
+                        <span class="error-message">{{ $message }}</span>
+                    @enderror
+                </div>
 
                 <!-- Email Address -->
                 <div class="form-group">
@@ -44,10 +39,9 @@
                            name="email" 
                            value="{{ old('email') }}" 
                            required 
-                           autofocus 
                            autocomplete="username"
                            class="form-input @error('email') error @enderror"
-                           placeholder="Enter your email">
+                           placeholder="Enter your email address">
                     @error('email')
                         <span class="error-message">{{ $message }}</span>
                     @enderror
@@ -61,10 +55,10 @@
                                type="password" 
                                name="password" 
                                required 
-                               autocomplete="current-password"
+                               autocomplete="new-password"
                                class="form-input @error('password') error @enderror"
-                               placeholder="Enter your password">
-                        <button type="button" class="password-toggle" onclick="togglePassword()">
+                               placeholder="Create a strong password">
+                        <button type="button" class="password-toggle" onclick="togglePassword('password')">
                             <svg class="eye-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                                 <circle cx="12" cy="12" r="3"></circle>
@@ -76,38 +70,57 @@
                     @enderror
                 </div>
 
-                <!-- Remember Me -->
+                <!-- Confirm Password -->
+                <div class="form-group">
+                    <label for="password_confirmation" class="form-label">Confirm Password</label>
+                    <div class="password-wrapper">
+                        <input id="password_confirmation" 
+                               type="password" 
+                               name="password_confirmation" 
+                               required 
+                               autocomplete="new-password"
+                               class="form-input @error('password_confirmation') error @enderror"
+                               placeholder="Confirm your password">
+                        <button type="button" class="password-toggle" onclick="togglePassword('password_confirmation')">
+                            <svg class="eye-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                        </button>
+                    </div>
+                    @error('password_confirmation')
+                        <span class="error-message">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <!-- Terms and Conditions -->
                 <div class="form-group checkbox-group">
                     <label class="checkbox-label">
-                        <input type="checkbox" name="remember" id="remember_me" class="checkbox-input">
+                        <input type="checkbox" name="terms" id="terms" class="checkbox-input" required>
                         <span class="checkbox-custom"></span>
-                        <span class="checkbox-text">Remember me</span>
+                        <span class="checkbox-text">
+                            I agree to the <a href="#" class="terms-link">Terms of Service</a> and 
+                            <a href="#" class="terms-link">Privacy Policy</a>
+                        </span>
                     </label>
                 </div>
 
                 <div class="form-actions">
                     <button type="submit" class="btn-primary">
-                        <span>Sign In</span>
+                        <span>Create Account</span>
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
-                            <polyline points="10,17 15,12 10,7"></polyline>
-                            <line x1="15" y1="12" x2="3" y2="12"></line>
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                         </svg>
                     </button>
-                </div>
-
-                <div class="auth-links">
-                    @if (Route::has('password.request'))
-                        <a href="{{ route('password.request') }}" class="forgot-password">
-                            Forgot your password?
-                        </a>
-                    @endif
                 </div>
             </form>
 
             <div class="auth-footer">
-                <p>Don't have an account? 
-                    <a href="{{ route('register') }}" class="register-link">Create one here</a>
+                <p>Already have an account? 
+                    <a href="{{ route('login') }}" class="login-link">Sign in here</a>
                 </p>
             </div>
         </div>
@@ -157,32 +170,6 @@
     color: #6c757d;
     font-size: 0.95rem;
 }
-
-.alert {
-    padding: 0.875rem 1rem;
-    border-radius: 8px;
-    margin-bottom: 1.5rem;
-    font-size: 0.9rem;
-}
-
-.alert-success {
-    background: #d1edff;
-    color: #0c4a6e;
-    border: 1px solid #7dd3fc;
-}
-
-.alert-info {
-    background: #e0f2fe;
-    color: #0c4a6e;
-    border: 1px solid #7dd3fc;
-}
-
-.alert-error {
-    background: #fef2f2;
-    color: #dc2626;
-    border: 1px solid #fca5a5;
-}
-
 
 .auth-form {
     display: flex;
@@ -252,15 +239,16 @@
 
 .checkbox-group {
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
 }
 
 .checkbox-label {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     cursor: pointer;
     font-size: 0.9rem;
     color: #6b7280;
+    line-height: 1.5;
 }
 
 .checkbox-input {
@@ -273,9 +261,11 @@
     border: 1px solid #d1d5db;
     border-radius: 4px;
     margin-right: 0.75rem;
+    margin-top: 2px;
     position: relative;
     transition: all 0.2s ease;
     background: white;
+    flex-shrink: 0;
 }
 
 .checkbox-input:checked + .checkbox-custom {
@@ -293,6 +283,17 @@
     border: solid white;
     border-width: 0 2px 2px 0;
     transform: rotate(45deg);
+}
+
+.terms-link {
+    color: #3b82f6;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.terms-link:hover {
+    color: #2563eb;
+    text-decoration: underline;
 }
 
 .form-actions {
@@ -322,23 +323,6 @@
     box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
-.auth-links {
-    text-align: center;
-    margin-top: 1.25rem;
-}
-
-.forgot-password {
-    color: #3b82f6;
-    text-decoration: none;
-    font-size: 0.9rem;
-    transition: color 0.2s ease;
-}
-
-.forgot-password:hover {
-    color: #2563eb;
-    text-decoration: underline;
-}
-
 .auth-footer {
     text-align: center;
     margin-top: 1.5rem;
@@ -352,18 +336,16 @@
     font-size: 0.9rem;
 }
 
-.register-link {
+.login-link {
     color: #3b82f6;
     text-decoration: none;
     font-weight: 500;
     transition: color 0.2s ease;
-    background: none;
 }
 
-.register-link:hover {
+.login-link:hover {
     color: #2563eb;
     text-decoration: underline;
-    background: none;
 }
 
 /* Responsive Design */
@@ -400,9 +382,9 @@
 
 @push('scripts')
 <script>
-function togglePassword() {
-    const passwordInput = document.getElementById('password');
-    const eyeIcon = document.querySelector('.eye-icon');
+function togglePassword(inputId) {
+    const passwordInput = document.getElementById(inputId);
+    const eyeIcon = passwordInput.parentElement.querySelector('.eye-icon');
     
     if (passwordInput.type === 'password') {
         passwordInput.type = 'text';
@@ -421,10 +403,25 @@ function togglePassword() {
 
 // Auto-hide navbar functionality for auth pages
 document.addEventListener('DOMContentLoaded', function() {
-    const emailInput = document.getElementById('email');
-    if (emailInput && !emailInput.value) {
-        emailInput.focus();
+    const nameInput = document.getElementById('name');
+    if (nameInput && !nameInput.value) {
+        nameInput.focus();
     }
+    
+    // Password strength indicator
+    const passwordInput = document.getElementById('password');
+    const confirmPasswordInput = document.getElementById('password_confirmation');
+    
+    // Real-time password confirmation validation
+    confirmPasswordInput.addEventListener('input', function() {
+        if (passwordInput.value && confirmPasswordInput.value) {
+            if (passwordInput.value === confirmPasswordInput.value) {
+                confirmPasswordInput.classList.remove('error');
+            } else {
+                confirmPasswordInput.classList.add('error');
+            }
+        }
+    });
     
     // Auto-hide navbar functionality
     const header = document.querySelector('.header');
@@ -497,55 +494,19 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
-        // Enhanced touch events for mobile
+        // Touch events for mobile
         let touchStartY = 0;
-        let lastTouchY = 0;
-        let touchMoveCount = 0;
-        let isScrollingDown = false;
         
         document.addEventListener('touchstart', function(e) {
             touchStartY = e.touches[0].clientY;
-            lastTouchY = touchStartY;
-            touchMoveCount = 0;
-            isScrollingDown = false;
         });
         
         document.addEventListener('touchmove', function(e) {
             const touchY = e.touches[0].clientY;
             const deltaY = touchY - touchStartY;
-            const currentDelta = touchY - lastTouchY;
-            touchMoveCount++;
-            
-            // Detect scrolling direction
-            if (currentDelta > 0) {
-                isScrollingDown = true;
-            }
             
             // If swiping down from top of screen, show navbar
             if (touchStartY < 50 && deltaY > 30 && !isNavbarVisible) {
-                showNavbar();
-                autoHideNavbar();
-            }
-            
-            // If finger moves away from navbar area (going down), auto-hide
-            if (isNavbarVisible && touchY > 100 && isScrollingDown && touchMoveCount > 3) {
-                autoHideNavbar();
-            }
-            
-            lastTouchY = touchY;
-        });
-        
-        document.addEventListener('touchend', function(e) {
-            // If touch ends below navbar area and navbar is visible, start auto-hide
-            if (isNavbarVisible && lastTouchY > 100) {
-                autoHideNavbar();
-            }
-        });
-        
-        // Additional mobile-specific trigger area
-        hoverTrigger.addEventListener('touchstart', function(e) {
-            e.preventDefault();
-            if (!isNavbarVisible) {
                 showNavbar();
                 autoHideNavbar();
             }

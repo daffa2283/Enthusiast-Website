@@ -514,6 +514,23 @@
     .checkout-form,
     .order-summary {
         padding: 1.5rem;
+        margin: 0 auto;
+        max-width: 100%;
+    }
+    
+    .checkout-form {
+        text-align: center;
+    }
+    
+    .checkout-form .form-section {
+        text-align: left;
+        margin: 0 auto;
+        max-width: 400px;
+    }
+    
+    .checkout-form .section-title {
+        text-align: center;
+        margin-bottom: 1.5rem;
     }
     
     .payment-methods {
@@ -522,6 +539,134 @@
     
     .checkout-title {
         font-size: 2rem;
+    }
+    
+    /* Mobile responsive adjustments for payment details */
+    .payment-info-card {
+        padding: 1rem;
+        margin: 0 auto;
+        max-width: 100%;
+    }
+    
+    .payment-info-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+        margin-bottom: 0.75rem;
+        padding-bottom: 0.5rem;
+    }
+    
+    .payment-info-header h4 {
+        font-size: 0.9rem;
+        line-height: 1.3;
+    }
+    
+    .account-detail {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+        padding: 0.5rem 0;
+    }
+    
+    .detail-label {
+        font-size: 0.8rem;
+        min-width: auto;
+        margin-bottom: 0.25rem;
+    }
+    
+    .detail-value {
+        font-size: 0.85rem;
+        text-align: left;
+        margin-right: 0;
+        word-break: break-all;
+    }
+    
+    .account-number {
+        font-size: 0.9rem;
+        padding: 0.5rem;
+        word-break: break-all;
+        letter-spacing: 0.5px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    .copy-btn {
+        align-self: flex-end;
+        margin-top: 0.5rem;
+        min-width: 40px;
+        height: 40px;
+    }
+    
+    .payment-note {
+        padding: 0.75rem;
+        margin-top: 0.75rem;
+    }
+    
+    .payment-note p {
+        font-size: 0.8rem;
+        line-height: 1.3;
+    }
+    
+    /* Adjust account detail layout for better mobile experience */
+    .account-detail:has(.account-number) {
+        background: rgba(255, 59, 63, 0.02);
+        border-radius: 8px;
+        padding: 0.75rem;
+        border: 1px solid rgba(255, 59, 63, 0.1);
+    }
+    
+    .account-detail:has(.copy-btn) {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+    
+    .account-detail:has(.copy-btn) .detail-value {
+        flex: 1;
+        margin-right: 0.5rem;
+    }
+}
+
+/* Additional mobile adjustments for very small screens */
+@media (max-width: 480px) {
+    .checkout-container {
+        padding: 1rem 0.5rem;
+    }
+    
+    .checkout-form,
+    .order-summary {
+        padding: 1rem;
+    }
+    
+    .payment-info-card {
+        padding: 0.75rem;
+    }
+    
+    .payment-info-header h4 {
+        font-size: 0.85rem;
+    }
+    
+    .detail-label {
+        font-size: 0.75rem;
+    }
+    
+    .detail-value {
+        font-size: 0.8rem;
+    }
+    
+    .account-number {
+        font-size: 0.85rem;
+        padding: 0.4rem;
+    }
+    
+    .payment-note p {
+        font-size: 0.75rem;
+    }
+    
+    .copy-btn {
+        min-width: 36px;
+        height: 36px;
     }
 }
 
