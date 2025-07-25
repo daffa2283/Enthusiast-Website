@@ -26,7 +26,7 @@
         @forelse($products as $product)
             <div class="product-card">
                 <div class="product-image">
-                    <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
+                    <img src="{{ \App\Helpers\ImageHelper::getProductImageUrl($product->image) }}" alt="{{ $product->name }}" onerror="this.src='{{ asset('images/MOCKUP DEPAN.jpeg.jpg') }}'">
                     <div class="product-hover">
                         <button class="quick-view" data-product-id="{{ $product->id }}">Quick View</button>
                     </div>

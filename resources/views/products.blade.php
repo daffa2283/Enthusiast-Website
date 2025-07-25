@@ -47,9 +47,9 @@
                 @foreach($products as $product)
                     <div class="product-card {{ $product->stock == 0 ? 'out-of-stock-card' : '' }}" data-category="{{ $product->category }}">
                         <div class="product-image">
-                            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="product-img-front">
+                            <img src="{{ \App\Helpers\ImageHelper::getProductImageUrl($product->image) }}" alt="{{ $product->name }}" class="product-img-front" onerror="this.src='{{ asset('images/MOCKUP DEPAN.jpeg.jpg') }}'">
                             @if($product->back_image)
-                                <img src="{{ asset('storage/' . $product->back_image) }}" alt="{{ $product->name }} - Back" class="product-img-back">
+                                <img src="{{ \App\Helpers\ImageHelper::getProductImageUrl($product->back_image) }}" alt="{{ $product->name }} - Back" class="product-img-back" onerror="this.src='{{ asset('images/MOCKUP BELAKANG.jpeg.jpg') }}'">
                             @endif
                             <div class="product-hover">
                                 <button class="quick-view" data-product-id="{{ $product->id }}">Quick View</button>

@@ -24,7 +24,7 @@
                         <div class="slider-container">
                             <div class="slider-track" id="productSliderTrack">
                                 <div class="slide active">
-                                    <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }} - Front" id="mainProductImage">
+                                    <img src="{{ \App\Helpers\ImageHelper::getProductImageUrl($product->image) }}" alt="{{ $product->name }} - Front" id="mainProductImage" onerror="this.src='{{ asset('images/MOCKUP DEPAN.jpeg.jpg') }}'">
                                 </div>
                                 @if($product->back_image)
                                     <div class="slide">

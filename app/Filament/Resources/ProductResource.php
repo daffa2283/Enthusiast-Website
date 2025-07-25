@@ -138,7 +138,9 @@ class ProductResource extends Resource
                     ->size(60)
                     ->square()
                     ->disk('public')
-                    ->defaultImageUrl(asset('images/MOCKUP DEPAN.jpeg.jpg')),
+                    ->url(fn ($record) => \App\Helpers\ImageHelper::getProductImageUrl($record->image))
+                    ->defaultImageUrl(asset('images/MOCKUP DEPAN.jpeg.jpg'))
+                    ->extraImgAttributes(['loading' => 'lazy', 'onerror' => "this.src='" . asset('images/MOCKUP DEPAN.jpeg.jpg') . "'"]),
 
                 TextColumn::make('name')
                     ->searchable()

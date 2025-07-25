@@ -185,8 +185,10 @@ class OrderResource extends Resource
                     ->disk('public')
                     ->height(50)
                     ->width(50)
-                    ->defaultImageUrl(url('/images/no-payment-proof.svg'))
+                    ->url(fn ($record) => \App\Helpers\ImageHelper::getPaymentProofUrl($record->payment_proof))
+                    ->defaultImageUrl(asset('images/no-payment-proof.svg'))
                     ->tooltip('Click to view full size')
+                    ->extraImgAttributes(['loading' => 'lazy', 'onerror' => "this.src='" . asset('images/no-payment-proof.svg') . "'"])
                     ->toggleable(),
                 
                 TextColumn::make('total')

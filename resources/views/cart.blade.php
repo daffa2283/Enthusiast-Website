@@ -501,8 +501,9 @@
                 <div class="cart-items">
                     @foreach(session('cart') as $id => $details)
                         <div class="cart-item" data-item-id="{{ $id }}">
-                            <img src="{{ isset($details['image']) && $details['image'] ? asset('storage/' . $details['image']) : asset('images/MOCKUP DEPAN.jpeg.jpg') }}" 
-                                 alt="{{ $details['name'] }}" 
+                            <img src="{{ isset($details['image']) && $details['image'] ? \App\Helpers\ImageHelper::getProductImageUrl($details['image']) : asset('images/MOCKUP DEPAN.jpeg.jpg') }}"
+                            alt="{{ $details['name'] }}"
+                            onerror="this.src='{{ asset('images/MOCKUP DEPAN.jpeg.jpg') }}'"
                                  class="item-image">
                             
                             <div class="item-details">

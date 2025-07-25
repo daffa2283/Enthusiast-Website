@@ -905,8 +905,9 @@
                 <div class="order-items">
                     @foreach($cart as $id => $details)
                         <div class="order-item">
-                            <img src="{{ isset($details['image']) && $details['image'] ? asset('storage/' . $details['image']) : asset('images/MOCKUP DEPAN.jpeg.jpg') }}" 
-                                 alt="{{ $details['name'] }}" 
+                            <img src="{{ isset($details['image']) && $details['image'] ? \App\Helpers\ImageHelper::getProductImageUrl($details['image']) : asset('images/MOCKUP DEPAN.jpeg.jpg') }}"
+                            alt="{{ $details['name'] }}"
+                            onerror="this.src='{{ asset('images/MOCKUP DEPAN.jpeg.jpg') }}'"
                                  class="item-image">
                             <div class="item-details">
                                 <div class="item-name">{{ $details['name'] }}</div>

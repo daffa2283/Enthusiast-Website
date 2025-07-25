@@ -1902,7 +1902,7 @@
                             <div class="uploaded-title">Payment Proof Uploaded</div>
                             <div class="uploaded-text">Your payment proof has been uploaded successfully. Please wait for admin confirmation.</div>
                             <div class="uploaded-image">
-                                <img src="{{ asset('storage/' . $order->payment_proof) }}" alt="Payment Proof" onclick="openImageModal(this.src)">
+                                <img src="{{ \App\Helpers\ImageHelper::getPaymentProofUrl($order->payment_proof) }}" alt="Payment Proof" onclick="openImageModal(this.src)" onerror="this.src='{{ asset('images/no-payment-proof.svg') }}'">
                             </div>
                         </div>
                     @endif

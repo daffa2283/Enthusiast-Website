@@ -686,8 +686,9 @@
                     </div>
                     @foreach($order->orderItems as $item)
                         <div class="order-item">
-                            <img src="{{ $item->product && $item->product->image ? asset('storage/' . $item->product->image) : asset('images/MOCKUP DEPAN.jpeg.jpg') }}" 
-                                 alt="{{ $item->product_name }}" 
+                            <img src="{{ $item->product && $item->product->image ? \App\Helpers\ImageHelper::getProductImageUrl($item->product->image) : asset('images/MOCKUP DEPAN.jpeg.jpg') }}"
+                            alt="{{ $item->product_name }}"
+                            onerror="this.src='{{ asset('images/MOCKUP DEPAN.jpeg.jpg') }}'"
                                  class="item-image">
                             <div class="item-details">
                                 <div class="item-name">{{ $item->product_name }}</div>

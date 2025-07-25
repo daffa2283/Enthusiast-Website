@@ -572,7 +572,7 @@
             @if($order->payment_proof)
                 <div class="payment-proof-container">
                     <div class="payment-proof-image">
-                        <img src="{{ asset('storage/' . $order->payment_proof) }}" alt="Payment Proof" onclick="openImageModal(this.src)">
+                        <img src="{{ \App\Helpers\ImageHelper::getPaymentProofUrl($order->payment_proof) }}" alt="Payment Proof" onclick="openImageModal(this.src)" onerror="this.src='{{ asset('images/no-payment-proof.svg') }}'">
                     </div>
                     <div class="payment-proof-actions">
                         <div class="info-section">
@@ -657,9 +657,10 @@
             
             @foreach($order->orderItems as $item)
                 <div class="order-item">
-                    <img src="{{ $item->product && $item->product->image ? asset('storage/' . $item->product->image) : asset('images/MOCKUP DEPAN.jpeg.jpg') }}" 
+                    <img src="{{ $item->product && $item->product->image ? \App\Helpers\ImageHelper::getProductImageUrl($item->product->image) : asset('images/MOCKUP DEPAN.jpeg.jpg') }}" 
                          alt="{{ $item->product_name }}" 
-                         class="item-image">
+                         class="item-image"
+                         onerror="this.src='{{ asset('images/MOCKUP DEPAN.jpeg.jpg') }}'">
                     <div class="item-details">
                         <div class="item-name">{{ $item->product_name }}</div>
                         @if($item->size || $item->color)

@@ -1510,7 +1510,7 @@
                 @foreach($products as $product)
                     <div class="product-card {{ $product->stock == 0 ? 'out-of-stock-card' : '' }}">
                         <div class="product-image">
-                            <img src="{{ $product->image ? asset('storage/' . $product->image) : asset('images/MOCKUP DEPAN.jpeg.jpg') }}" alt="{{ $product->name }}">
+                            <img src="{{ $product->image ? \App\Helpers\ImageHelper::getProductImageUrl($product->image) : asset('images/MOCKUP DEPAN.jpeg.jpg') }}" alt="{{ $product->name }}" onerror="this.src='{{ asset('images/MOCKUP DEPAN.jpeg.jpg') }}'">
                             <div class="product-hover">
                                 <button class="quick-view" data-product-id="{{ $product->id }}">Quick View</button>
                             </div>

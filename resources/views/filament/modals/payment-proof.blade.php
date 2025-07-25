@@ -1,10 +1,11 @@
 <div class="payment-proof-modal">
     <div class="text-center">
         <div class="mb-4">
-            <img src="{{ asset('storage/' . $paymentProof) }}" 
+            <img src="{{ \App\Helpers\ImageHelper::getPaymentProofUrl($paymentProof) }}" 
                  alt="Payment Proof" 
                  class="max-w-full h-auto rounded-lg shadow-lg mx-auto"
-                 style="max-height: 500px;">
+                 style="max-height: 500px;"
+                 onerror="this.src='{{ asset('images/no-payment-proof.svg') }}'">
         </div>
         <p class="text-sm text-gray-600 mt-2">
             Click and drag to move the image. Use mouse wheel to zoom.
