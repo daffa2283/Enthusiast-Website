@@ -17,3 +17,33 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Backup files
+*.backup
+*.bak
+*.orig
+
+# IDE files
+*.swp
+*.swo
+*~
+
+# Local development
+/storage/app/public/*
+!/storage/app/public/.gitkeep
+/public/storage/*
+!/public/storage/.gitkeep
