@@ -16,7 +16,7 @@
     </div>
 </section>
 
-<!-- Products Grid --<section class="products" id="products">
+<section class="products" id="products">
     <h2 class="section-title">Our Collection</h2>
     <div class="products-grid">
         @forelse($products as $product)
