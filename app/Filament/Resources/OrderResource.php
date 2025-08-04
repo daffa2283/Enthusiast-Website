@@ -22,6 +22,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Actions\Action;
 use Filament\Notifications\Notification;
 use Filament\Forms\Components\FileUpload;
+use Illuminate\Support\HtmlString;
 
 class OrderResource extends Resource
 {
@@ -180,15 +181,26 @@ class OrderResource extends Resource
                     ])
                     ->sortable(),
                 
-                ImageColumn::make('payment_proof')
+                TextColumn::make('payment_proof')
                     ->label('Payment Proof')
-                    ->disk('public')
-                    ->height(50)
-                    ->width(50)
-                    ->url(fn ($record) => \App\Helpers\ImageHelper::getPaymentProofUrl($record->payment_proof))
-                    ->defaultImageUrl(asset('images/no-payment-proof.svg'))
-                    ->tooltip('Click to view full size')
-                    ->extraImgAttributes(['loading' => 'lazy', 'onerror' => "this.src='" . asset('images/no-payment-proof.svg') . "'"])
+                    ->formatStateUsing(function ($state, $record) {
+                        if (!$state) {
+                            return new HtmlString('<div style="text-align: center; color: #999;">No Proof</div>');
+                        }
+                        
+                        $imageUrl = asset('storage/' . $state);
+                        
+                        return new HtmlString('
+                            <div style="text-align: center;">
+                                <img src="' . $imageUrl . '" 
+                                     alt="Payment Proof" 
+                                     style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px; cursor: pointer; border: 1px solid #ddd;"
+                                     onclick="window.open(\'' . $imageUrl . '\', \'_blank\')"
+                                     onerror="this.src=\'' . asset('images/no-payment-proof.svg') . '\'; this.style.width=\'50px\'; this.style.height=\'50px\';">
+                            </div>
+                        ');
+                    })
+                    ->html()
                     ->toggleable(),
                 
                 TextColumn::make('total')

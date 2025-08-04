@@ -23,6 +23,7 @@ use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\BooleanColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
+use Illuminate\Support\HtmlString;
 
 class ProductResource extends Resource
 {
@@ -133,14 +134,26 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
-                ImageColumn::make('image')
+                TextColumn::make('image')
                     ->label('Image')
-                    ->size(60)
-                    ->square()
-                    ->disk('public')
-                    ->url(fn ($record) => \App\Helpers\ImageHelper::getProductImageUrl($record->image))
-                    ->defaultImageUrl(asset('images/MOCKUP DEPAN.jpeg.jpg'))
-                    ->extraImgAttributes(['loading' => 'lazy', 'onerror' => "this.src='" . asset('images/MOCKUP DEPAN.jpeg.jpg') . "'"]),
+                    ->formatStateUsing(function ($state, $record) {
+                        if (!$state) {
+                            return new HtmlString('<div style="text-align: center; color: #999;">No Image</div>');
+                        }
+                        
+                        $imageUrl = asset('storage/' . $state);
+                        
+                        return new HtmlString('
+                            <div style="text-align: center;">
+                                <img src="' . $imageUrl . '" 
+                                     alt="Product Image" 
+                                     style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px; cursor: pointer; border: 1px solid #ddd;"
+                                     onclick="window.open(\'' . $imageUrl . '\', \'_blank\')"
+                                     onerror="this.src=\'' . asset('images/MOCKUP DEPAN.jpeg.jpg') . '\'; this.style.width=\'60px\'; this.style.height=\'60px\';">
+                            </div>
+                        ');
+                    })
+                    ->html(),
 
                 TextColumn::make('name')
                     ->searchable()

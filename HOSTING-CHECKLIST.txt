@@ -1,0 +1,43 @@
+=== HOSTING DEPLOYMENT CHECKLIST ===
+
+BEFORE UPLOADING:
+□ Update APP_URL in .env to your domain (e.g., https://yourdomain.com)
+□ Set APP_ENV=production in .env
+□ Set APP_DEBUG=false in .env
+□ Generate new APP_KEY if needed: php artisan key:generate
+
+FILES TO UPLOAD:
+□ All files in storage/app/public/products/ (30 files)
+□ All files in storage/app/public/payment_proofs/ (32 files)
+□ All files in public/images/ (13 files)
+□ hosting-setup.sh script
+□ .htaccess-images file
+
+AFTER UPLOADING:
+□ Run: chmod +x hosting-setup.sh
+□ Run: ./hosting-setup.sh
+□ Test image URLs:
+  - Product images: https://yourdomain.com/storage/products/[filename]
+  - Payment proofs: https://yourdomain.com/storage/payment_proofs/[filename]
+  - Default images: https://yourdomain.com/images/[filename]
+
+TESTING:
+□ Visit admin panel: https://yourdomain.com/admin
+□ Check product images in admin/products
+□ Check payment proof images in admin/orders
+□ Test image uploads
+□ Test frontend product display
+
+TROUBLESHOOTING:
+If images don't show:
+1. Check storage link: ls -la public/storage
+2. Check permissions: ls -la storage/app/public/
+3. Check .env APP_URL setting
+4. Clear cache: php artisan config:clear
+5. Recreate storage link: php artisan storage:link
+
+PERFORMANCE OPTIMIZATION:
+□ Copy .htaccess-images content to main .htaccess
+□ Enable gzip compression for images
+□ Consider using CDN for images
+□ Optimize image sizes if needed

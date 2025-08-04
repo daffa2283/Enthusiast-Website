@@ -3,30 +3,26 @@
 @section('title', 'EnthusiastVerse - Home')
 
 @section('content')
-<!-- Hero Section dengan video jumbotron -->
+<!-- Hero Section dengan gambar jumbotron -->
 <section class="hero" id="home">
-    <div class="hero-video">
-        <video autoplay muted loop playsinline class="jumbotron-video">
-            <source src="{{ asset('videos/hero-video.mp4') }}" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
+    <div class="hero-image">
+        <img src="{{ asset('images/FOTOHOME.jpg') }}" alt="EnthusiastVerse Hero" class="jumbotron-image">
         <div class="hero-overlay"></div>
     </div>
     <div class="hero-content">
-        <h1><br><br></h1>
-        <p class="hero-quote"></p>
+        <h1>ENTHUSIASTVERSE</h1>
+        <p class="hero-quote">Wear Your Passion, Express Your Story</p>
         <a href="#products" class="hero-cta">Explore Collection</a>
     </div>
 </section>
 
-<!-- Products Grid -->
-<section class="products" id="products">
+<!-- Products Grid --<section class="products" id="products">
     <h2 class="section-title">Our Collection</h2>
     <div class="products-grid">
         @forelse($products as $product)
             <div class="product-card">
                 <div class="product-image">
-                    <img src="{{ \App\Helpers\ImageHelper::getProductImageUrl($product->image) }}" alt="{{ $product->name }}" onerror="this.src='{{ asset('images/MOCKUP DEPAN.jpeg.jpg') }}'">
+                    <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" onerror="this.src='{{ asset('images/MOCKUP DEPAN.jpeg.jpg') }}'">
                     <div class="product-hover">
                         <button class="quick-view" data-product-id="{{ $product->id }}">Quick View</button>
                     </div>
@@ -48,53 +44,9 @@
                 </div>
             </div>
         @empty
-            <!-- Default products when no data from database -->
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="{{ asset('images/MOCKUP DEPAN.jpeg.jpg') }}" alt="Enthusias Tee">
-                    <div class="product-hover">
-                        <button class="quick-view" data-product-id="1">Quick View</button>
-                    </div>
-                </div>
-                <div class="product-details">
-                    <h3 class="product-name">Essential Crewneck</h3>
-                    <p class="product-price">Rp. 399.000</p>
-                    @auth
-                        <button class="add-to-cart" data-product-id="1">
-                            <span>Add to Cart</span>
-                            <svg viewBox="0 0 12 12"><path d="M10.7 3.3c-.4-.4-1-.4-1.4 0L5 7.6 1.7 4.3c-.4-.4-1-.4-1.4 0s-.4 1 0 1.4l4 4c.2.2.5.3.7.3s.5-.1.7-.3l5-5c.4-.4.4-1 0-1.4z"/></svg>
-                        </button>
-                    @else
-                        <button class="add-to-cart guest-add-to-cart login-required" data-product-id="1">
-                            <span>LOGIN TO PURCHASE</span>
-                            <svg viewBox="0 0 12 12"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 7a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>
-                        </button>
-                    @endauth
-                </div>
-            </div>
-
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="{{ asset('images/MOCKUP DEPAN11.jpeg.jpg') }}" alt="Enthusias Hoodie">
-                    <div class="product-hover">
-                        <button class="quick-view" data-product-id="2">Quick View</button>
-                    </div>
-                </div>
-                <div class="product-details">
-                    <h3 class="product-name">Premium Hoodie</h3>
-                    <p class="product-price">Rp. 599.000</p>
-                    @auth
-                        <button class="add-to-cart" data-product-id="2">
-                            <span>Add to Cart</span>
-                            <svg viewBox="0 0 12 12"><path d="M10.7 3.3c-.4-.4-1-.4-1.4 0L5 7.6 1.7 4.3c-.4-.4-1-.4-1.4 0s-.4 1 0 1.4l4 4c.2.2.5.3.7.3s.5-.1.7-.3l5-5c.4-.4.4-1 0-1.4z"/></svg>
-                        </button>
-                    @else
-                        <button class="add-to-cart guest-add-to-cart login-required" data-product-id="2">
-                            <span>LOGIN TO PURCHASE</span>
-                            <svg viewBox="0 0 12 12"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 7a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>
-                        </button>
-                    @endauth
-                </div>
+            <!-- No products available message -->
+            <div class="no-products-message">
+                <p>No products available at the moment.</p>
             </div>
         @endforelse
     </div>
@@ -270,7 +222,7 @@
     justify-content: center;
 }
 
-.hero-video {
+.hero-image {
     position: absolute;
     top: 0;
     left: 0;
@@ -279,10 +231,11 @@
     z-index: 0;
 }
 
-.jumbotron-video {
+.jumbotron-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
 }
 
 .hero-overlay {
@@ -342,6 +295,23 @@
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(44, 62, 80, 0.4);
     background: linear-gradient(135deg, #507191, #2c3e50);
+}
+
+/* No products message styling */
+.no-products-message {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
+    color: #666;
+    font-size: 1.2rem;
+    background: #f8f9fa;
+    border-radius: 12px;
+    border: 2px dashed #ddd;
+}
+
+.no-products-message p {
+    margin: 0;
+    font-weight: 500;
 }
 
 /* Toast Notification Styles */
@@ -1156,6 +1126,11 @@
     
     .product-info-section h2 {
         font-size: 1.5rem;
+    }
+    
+    .no-products-message {
+        padding: 40px 20px;
+        font-size: 1.1rem;
     }
 }
 </style>

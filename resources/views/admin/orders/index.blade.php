@@ -122,7 +122,7 @@
 .orders-table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 800px;
+    min-width: 1000px;
 }
 
 .orders-table th,
@@ -198,6 +198,42 @@
     color: white;
 }
 
+.payment-proof-cell {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.payment-proof-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    object-fit: cover;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid #e9ecef;
+}
+
+.payment-proof-image:hover {
+    transform: scale(1.1);
+    border-color: var(--accent-color);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.no-proof-placeholder {
+    width: 80px;
+    height: 80px;
+    background: #f8f9fa;
+    border: 2px dashed #ddd;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+    font-size: 0.8rem;
+    text-align: center;
+    line-height: 1.2;
+}
+
 .payment-proof-indicator {
     display: inline-flex;
     align-items: center;
@@ -206,6 +242,7 @@
     border-radius: 15px;
     font-size: 0.8rem;
     font-weight: 500;
+    margin-top: 0.5rem;
 }
 
 .proof-uploaded {
@@ -224,6 +261,7 @@
     display: flex;
     gap: 0.5rem;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .btn-sm {
@@ -317,6 +355,56 @@
     animation: spin 1s linear infinite;
 }
 
+/* Image Modal */
+.image-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 10000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.image-modal.show {
+    display: flex;
+}
+
+.image-modal-content {
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+}
+
+.image-modal img {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 12px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+}
+
+.image-modal-close {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    background: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+}
+
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
@@ -357,6 +445,17 @@
         font-size: 0.9rem;
     }
     
+    .payment-proof-image {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .no-proof-placeholder {
+        width: 60px;
+        height: 60px;
+        font-size: 0.7rem;
+    }
+    
     .action-buttons {
         flex-direction: column;
         gap: 0.25rem;
@@ -373,6 +472,14 @@
     </svg>
     <span id="refreshText">Auto refresh in</span>
     <span id="refreshCountdown" class="countdown">5</span>
+</div>
+
+<!-- Image Modal -->
+<div id="imageModal" class="image-modal">
+    <div class="image-modal-content">
+        <button class="image-modal-close" onclick="closeImageModal()">&times;</button>
+        <img id="modalImage" src="" alt="Payment Proof">
+    </div>
 </div>
 
 <section class="admin-container">
@@ -454,26 +561,57 @@
                                     </div>
                                 </td>
                                 <td>{{ $order->formatted_total }}</td>
-                                <td>
-                                    <span class="order-status status-{{ $order->payment_status }}">
+                                <td<span class="order-status status-{{ $order->payment_status }}">
                                         {{ ucfirst($order->payment_status) }}
                                     </span>
                                 </td>
-                                <td>
+                                <td class="payment-proof-cell">
                                     @if($order->payment_proof)
-                                        <span class="payment-proof-indicator proof-uploaded">
-                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-                                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-                                            </svg>
-                                            Uploaded
-                                        </span>
+                                        <div>
+                                            @php
+                                                // Multiple path attempts
+                                                $paths = [
+                                                    asset('storage/payment_proofs/' . basename($order->payment_proof)),
+                                                    asset('storage/' . $order->payment_proof),
+                                                    asset('storage/payment_proofs/' . $order->payment_proof),
+                                                    asset($order->payment_proof),
+                                                ];
+                                                $primaryPath = $paths[0];
+                                            @endphp
+                                            
+                                            <img src="{{ $primaryPath }}" 
+                                                 alt="Payment Proof" 
+                                                 class="payment-proof-image"
+                                                 onclick="openImageModal(this.src)"
+                                                 onerror="tryNextPath(this, {{ json_encode($paths) }}, 0)">
+                                            
+                                            <div class="payment-proof-indicator proof-uploaded">
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                                                </svg>
+                                                Uploaded
+                                            </div>
+                                            
+                                            <!-- Debug info -->
+                                            <div style="font-size: 10px; color: #999; margin-top: 5px; background: #f0f0f0; padding: 5px; border-radius: 3px;">
+                                                <strong>DB Path:</strong> {{ $order->payment_proof }}<br>
+                                                <strong>Trying:</strong> {{ $primaryPath }}<br>
+                                                <strong>File exists:</strong> {{ file_exists(public_path('storage/payment_proofs/' . basename($order->payment_proof))) ? 'YES' : 'NO' }}<br>
+                                                <strong>Storage exists:</strong> {{ \Storage::disk('public')->exists('payment_proofs/' . basename($order->payment_proof)) ? 'YES' : 'NO' }}
+                                            </div>
+                                        </div>
                                     @else
-                                        <span class="payment-proof-indicator proof-not-uploaded">
-                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-                                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                                            </svg>
-                                            Not Uploaded
-                                        </span>
+                                        <div>
+                                            <div class="no-proof-placeholder">
+                                                <span>No Proof</span>
+                                            </div>
+                                            <div class="payment-proof-indicator proof-not-uploaded">
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                                </svg>
+                                                Not Uploaded
+                                            </div>
+                                        </div>
                                     @endif
                                 </td>
                                 <td>{{ $order->created_at->format('M d, Y H:i') }}</td>
@@ -598,6 +736,40 @@ function confirmPayment(orderId) {
         showToast('error', 'Error!', 'Something went wrong. Please try again.');
     });
 }
+
+// Image Modal Functions
+function openImageModal(imageSrc) {
+    const modal = document.getElementById('imageModal');
+    const modalImage = document.getElementById('modalImage');
+    
+    modalImage.src = imageSrc;
+    modal.classList.add('show');
+    
+    // Prevent body scroll
+    document.body.style.overflow = 'hidden';
+}
+
+function closeImageModal() {
+    const modal = document.getElementById('imageModal');
+    modal.classList.remove('show');
+    
+    // Restore body scroll
+    document.body.style.overflow = '';
+}
+
+// Close modal when clicking outside the image
+document.getElementById('imageModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeImageModal();
+    }
+});
+
+// Close modal with ESC key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeImageModal();
+    }
+});
 
 function showToast(type, title, message) {
     // Remove existing toasts
